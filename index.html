@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>今天的复习</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #1c1917;
+      --muted: #57534e;
+      --line: #e7e5e4;
+      --paper: #fafaf9;
+      --card: #ffffff;
+      --accent: #1d4ed8;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Iowan Old Style", "Songti SC", "Source Han Serif SC", Palatino, serif;
+      background: var(--paper);
+      color: var(--ink);
+      line-height: 1.55;
+    }
+    main {
+      max-width: 38rem;
+      margin: 0 auto;
+      padding: 1.25rem 1.1rem 3rem;
+    }
+    p { margin: 0.4rem 0; }
+    .kicker {
+      font-family: "Avenir Next", "PingFang SC", sans-serif;
+      font-size: 0.78rem;
+      letter-spacing: 0.04em;
+      color: var(--muted);
+    }
+    h1 {
+      font-size: 1.7rem;
+      font-weight: 650;
+      margin: 0.2rem 0 0.6rem;
+    }
+    .note {
+      font-family: "Avenir Next", "PingFang SC", sans-serif;
+      font-size: 0.95rem;
+      color: var(--muted);
+    }
+    ol { padding-left: 1.2rem; }
+    li { margin: 0.55rem 0; }
+    code {
+      font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      font-size: 0.92em;
+    }
+    button {
+      font-family: "Avenir Next", "PingFang SC", sans-serif;
+      margin-top: 1rem;
+      border: 0;
+      background: var(--accent);
+      color: white;
+      border-radius: 999px;
+      padding: 0.7rem 1.1rem;
+      font-size: 1rem;
+    }
+    #answers {
+      display: none;
+      margin-top: 1.2rem;
+      padding-top: 0.8rem;
+      border-top: 1px solid var(--line);
+    }
+    #answers.show { display: block; }
+  </style>
+</head>
+<body>
+  <main>
+    <p class="kicker">a01-d01 · 布尔与比较</p>
+    <h1>先答，再对</h1>
+    <p class="note">每次 3 到 5 分钟。这一页不需要开 AI。写代码回到电脑，新开对话，只发：先读 主文件.md，从书签继续。</p>
+    <ol>
+      <li><code>=</code> 和 <code>==</code> 各做什么？</li>
+      <li><code>3 &gt; 2</code></li>
+      <li><code>3 == "3"</code></li>
+      <li><code>3 != 4</code></li>
+      <li><code>5 &gt;= 5</code></li>
+      <li><code>2 &lt; 1</code></li>
+      <li><code>True and False</code></li>
+      <li><code>False or True</code></li>
+      <li><code>not True</code></li>
+      <li><code>bool(0)</code> 和 <code>bool("0")</code> 是否相同？为什么？</li>
+    </ol>
+    <p>成绩至少 60、成绩在 0 到 100 之间、字符串不是空的：这三句怎么写？</p>
+    <button type="button" id="show">对答案</button>
+    <section id="answers">
+      <ol>
+        <li><code>=</code> 赋值，<code>==</code> 比较。</li>
+        <li>True</li>
+        <li>False。整数和字符串不是同一个值。</li>
+        <li>True</li>
+        <li>True</li>
+        <li>False</li>
+        <li>False</li>
+        <li>True</li>
+        <li>False</li>
+        <li>不相同。<code>0</code> 是假；<code>"0"</code> 不是空字符串，是真。</li>
+      </ol>
+      <p><code>score &gt;= 60</code>；<code>0 &lt;= score &lt;= 100</code>；<code>text != ""</code>。</p>
+    </section>
+  </main>
+  <script>
+    document.getElementById("show").addEventListener("click", function () {
+      document.getElementById("answers").classList.add("show");
+      this.hidden = true;
+    });
+  </script>
+</body>
+</html>

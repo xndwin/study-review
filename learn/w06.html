@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>原课文 · 文档问答项目</title>
+<style>
+:root { color-scheme: light; --ink:#1c1917; --muted:#57534e; --line:#e7e5e4; --paper:#fafaf9; --accent:#1d4ed8; --code:#f5f5f4; }
+* { box-sizing: border-box; }
+body { margin:0; font-family:"Iowan Old Style","Songti SC",Palatino,serif; background:var(--paper); color:var(--ink); line-height:1.6; }
+header, main, footer { max-width:42rem; margin:0 auto; padding:0 1.1rem; }
+header { padding-top:1rem; }
+nav, .jump, footer, .kicker, .muted { font-family:"Avenir Next","PingFang SC",sans-serif; }
+nav { display:flex; gap:.7rem; flex-wrap:wrap; font-size:.92rem; }
+a { color:var(--accent); }
+h1 { font-size:1.55rem; line-height:1.3; margin:.35rem 0 .5rem; }
+h2 { font-size:1.2rem; margin:1.5rem 0 .35rem; }
+h3 { font-size:1.05rem; margin:1.15rem 0 .3rem; }
+h4 { font-size:1rem; margin:1rem 0 .25rem; }
+p, li { margin:.35rem 0; }
+.muted, .kicker { color:var(--muted); }
+.kicker { font-size:.78rem; letter-spacing:.04em; }
+code { font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace; font-size:.9em; }
+pre { background:var(--code); border:1px solid var(--line); padding:.75rem .8rem; overflow:auto; line-height:1.45; }
+pre code { font-size:.82rem; }
+table { width:100%; border-collapse:collapse; font-size:.92rem; margin:.5rem 0 1rem; }
+th, td { text-align:left; vertical-align:top; padding:.35rem .3rem; border-top:1px solid var(--line); }
+blockquote { margin:.6rem 0; padding-left:.8rem; border-left:3px solid var(--line); color:var(--muted); }
+hr { border:0; border-top:1px solid var(--line); margin:1.2rem 0; }
+.card { display:block; padding:.7rem 0; border-top:1px solid var(--line); text-decoration:none; color:inherit; }
+.card strong { color:var(--accent); font-family:"Avenir Next","PingFang SC",sans-serif; }
+footer { padding:1.4rem 1.1rem 2rem; color:var(--muted); font-size:.92rem; }
+</style>
+</head>
+<body>
+<header>
+<p class="kicker">手机读课文 · 代码回电脑写</p>
+<p class="jump"><a href="../index.html">目录</a></p>
+</header>
+<main>
+<h1>第 6 周：作品 1 · 文档问答（全量）</h1>
+<p>对应 <code>w06-1</code> … <code>w06-6</code>。本周任务是作品，不是再压缩原理。第 5 周没写过的概念全部仍在 <code>w05</code> 课文里，不删。</p>
+<pre class="lang-bash"><code>python projects/rag-qa/ask.py &quot;切块为什么要 overlap？&quot;
+python projects/rag-qa/eval.py</code></pre>
+<hr>
+<h2>w06-1 多文件加载</h2>
+<p><code>ask.py</code> 会扫描 <code>projects/rag-qa/data/</code> 下全部 <code>.md</code> / <code>.txt</code>，分别切块并带上 <code>source=文件名</code>。  至少 2 个文件、合计建议 1500 字以上，否则检索没有区分度。</p>
+<p>不要放：密钥、未公开数据、别人的付费课。</p>
+<hr>
+<h2>w06-2 问答与来源</h2>
+<p>输出必须包括：命中的块编号、来源文件、分数、模型回答。回答里应有 [编号]。空命中要能看出「无」。</p>
+<p>复用 <code>code/w05/rag_core.py</code>。若你改用 <code>retrieve_cosine</code>，在 <code>ask.py</code> 里换函数即可，生成 prompt 不用动。</p>
+<hr>
+<h2>w06-3 README（写清楚为止，不限句数）</h2>
+<p>别人只看 README 要能：安装、配 <code>.env</code>、如何提问、如何评测、架构、已知问题。</p>
+<p>架构至少覆盖：加载 → 切块 → 检索（写明当前是词重叠还是余弦）→ 生成 → 拒答策略 → 你负责哪几层。</p>
+<p>模板在 <code>projects/rag-qa/README.md</code>，改成你的话，不要留空白填空。</p>
+<hr>
+<h2>w06-4 评测 10 条</h2>
+<p>建议构成：</p>
+<ul><li>5 条资料里有明确答案</li><li>3 条资料没有（应出现「没有」或等价拒答）</li><li>2 条易混（两个文件里相近概念）</li></ul>
+<p>把 <code>eval.py</code> 的 <code>CASES</code> 扩到 10。通过率写入第 6 周笔记。</p>
+<hr>
+<h2>w06-5 已知问题</h2>
+<p>至少 2 条真实失败（专有名词被切碎、同义句打分低等），写进 README。面试会问失败，没有失败记录反而不像做过。</p>
+<hr>
+<h2>w06-6 换成自己的资料（建议）</h2>
+<p>用课程公开大纲、自己的总结、开源文档。改完必须重跑评测。</p>
+<p>加分（不砍主线，有时间再做）：embedding API、第 8 周 FastAPI。</p>
+</main>
+<footer>
+<p>写程序仍在电脑上。新开对话只发：先读 主文件.md，从书签继续。</p>
+</footer>
+</body>
+</html>

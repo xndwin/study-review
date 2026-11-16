@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>第 12 周 提取服务、缓存、用量</title>
+<style>
+:root { color-scheme: light; --ink:#1c1917; --muted:#57534e; --line:#e7e5e4; --paper:#fafaf9; --accent:#1d4ed8; --code:#f5f5f4; }
+* { box-sizing: border-box; }
+body { margin:0; font-family:"Iowan Old Style","Songti SC",Palatino,serif; background:var(--paper); color:var(--ink); line-height:1.6; }
+header, main, footer { max-width:42rem; margin:0 auto; padding:0 1.1rem; }
+header { padding-top:1rem; }
+nav, .jump, footer, .kicker, .muted { font-family:"Avenir Next","PingFang SC",sans-serif; }
+nav { display:flex; gap:.7rem; flex-wrap:wrap; font-size:.92rem; }
+a { color:var(--accent); }
+h1 { font-size:1.55rem; line-height:1.3; margin:.35rem 0 .5rem; }
+h2 { font-size:1.2rem; margin:1.5rem 0 .35rem; }
+h3 { font-size:1.05rem; margin:1.15rem 0 .3rem; }
+h4 { font-size:1rem; margin:1rem 0 .25rem; }
+p, li { margin:.35rem 0; }
+.muted, .kicker { color:var(--muted); }
+.kicker { font-size:.78rem; letter-spacing:.04em; }
+code { font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace; font-size:.9em; }
+pre { background:var(--code); border:1px solid var(--line); padding:.75rem .8rem; overflow:auto; line-height:1.45; }
+pre code { font-size:.82rem; }
+table { width:100%; border-collapse:collapse; font-size:.92rem; margin:.5rem 0 1rem; }
+th, td { text-align:left; vertical-align:top; padding:.35rem .3rem; border-top:1px solid var(--line); }
+blockquote { margin:.6rem 0; padding-left:.8rem; border-left:3px solid var(--line); color:var(--muted); }
+hr { border:0; border-top:1px solid var(--line); margin:1.2rem 0; }
+.card { display:block; padding:.7rem 0; border-top:1px solid var(--line); text-decoration:none; color:inherit; }
+.card strong { color:var(--accent); font-family:"Avenir Next","PingFang SC",sans-serif; }
+footer { padding:1.4rem 1.1rem 2rem; color:var(--muted); font-size:.92rem; }
+</style>
+</head>
+<body>
+<header>
+<p class="kicker">手机读课文 · 代码回电脑写</p>
+<p class="jump"><a href="../index.html">目录</a> · <a href="a11.html">上一篇</a> · <a href="a13.html">下一篇</a></p>
+</header>
+<main>
+<h1>第 12 周：提取服务、缓存、用量</h1>
+<p>计划日期：2027-02-01 到 2027-02-07。</p>
+<p>把提取接到工单服务上。同一批样本能再跑一遍。报告里有正确数、总数、错误类别、耗时和用量。缓存要把模型、供应商和提示版本分开。</p>
+<h2>请求怎么走</h2>
+<p>一条反馈进来：写入参 → 拼提示 → 调模型 → 校验字段 → 合格才写入数据库，不合格记为转人工或错误。</p>
+<p>单元测试用假的模型响应，不花钱。真实 API 另开一个命令，跑完把费用记下来。</p>
+<p>每个请求生成一个 <code>request_id</code>，写进日志。失败时你能用这个编号把输入、供应商、提示版本和错误对上，而不是在一堆输出里猜。</p>
+<h2>缓存键</h2>
+<p>相同输入不必重复付费。键至少包括：</p>
+<ul><li>供应商</li><li>模型名</li><li>提示文件的版本或内容摘要</li><li>用户输入</li></ul>
+<p>只按用户输入缓存，换了提示还会返回旧提取。缓存内容是已经通过字段校验的结果，或者明确的失败原因。不要把密钥放进键。</p>
+<pre class="lang-python"><code>def cache_key(vendor: str, model: str, prompt_version: str, text: str) -&gt; str:
+    return &quot;|&quot;.join([vendor, model, prompt_version, text.strip()])</code></pre>
+<h2>比较两个提示</h2>
+<p>提示 A 和提示 B 用开发集跑。表格列：版本、格式正确、内容正确、平均耗时、<code>prompt_tokens</code> 合计、<code>completion_tokens</code> 合计。保留集只在你选定一个版本之后跑一次。</p>
+<p>限流沿用第 9 周的重试上限。另外给这一次批量设一个总 token 预算，超过就停，避免循环把额度打完。</p>
+<h2>失败时沿着链路看</h2>
+<p>拿一条失败输入，按顺序问：</p>
+<ol><li>数据库里的原始输入是不是这句话？</li><li>发出去的提示是哪一版？</li><li>模型原始响应是什么？</li><li>是 JSON 坏了、字段不合格，还是类别和标注不一致？</li><li>有没有写进错误表，而不是悄悄丢了？</li></ol>
+<p>改提示只能处理「模型看懂了但选错类别」这一类。字段缺失、超时、写错数据库，改提示没用。</p>
+<h2>这一周自己写</h2>
+<p>工单上增加「从描述提取类别」。同一条描述调用两次，第二次命中缓存，不再增加用量。换提示版本后，同一条描述会重新调用。</p>
+<p>验收：一份报告包含两家供应商或两个提示版本；数字是计数，不是「效果很好」。你能拿一条失败样本走完上面五步。</p>
+</main>
+<footer>
+<p>写程序仍在电脑上。新开对话只发：先读 主文件.md，从书签继续。</p>
+</footer>
+</body>
+</html>

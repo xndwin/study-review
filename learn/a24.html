@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>第 24 周 简历和 5 分钟讲解</title>
+<style>
+:root { color-scheme: light; --ink:#1c1917; --muted:#57534e; --line:#e7e5e4; --paper:#fafaf9; --accent:#1d4ed8; --code:#f5f5f4; }
+* { box-sizing: border-box; }
+body { margin:0; font-family:"Iowan Old Style","Songti SC",Palatino,serif; background:var(--paper); color:var(--ink); line-height:1.6; }
+header, main, footer { max-width:42rem; margin:0 auto; padding:0 1.1rem; }
+header { padding-top:1rem; }
+nav, .jump, footer, .kicker, .muted { font-family:"Avenir Next","PingFang SC",sans-serif; }
+nav { display:flex; gap:.7rem; flex-wrap:wrap; font-size:.92rem; }
+a { color:var(--accent); }
+h1 { font-size:1.55rem; line-height:1.3; margin:.35rem 0 .5rem; }
+h2 { font-size:1.2rem; margin:1.5rem 0 .35rem; }
+h3 { font-size:1.05rem; margin:1.15rem 0 .3rem; }
+h4 { font-size:1rem; margin:1rem 0 .25rem; }
+p, li { margin:.35rem 0; }
+.muted, .kicker { color:var(--muted); }
+.kicker { font-size:.78rem; letter-spacing:.04em; }
+code { font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace; font-size:.9em; }
+pre { background:var(--code); border:1px solid var(--line); padding:.75rem .8rem; overflow:auto; line-height:1.45; }
+pre code { font-size:.82rem; }
+table { width:100%; border-collapse:collapse; font-size:.92rem; margin:.5rem 0 1rem; }
+th, td { text-align:left; vertical-align:top; padding:.35rem .3rem; border-top:1px solid var(--line); }
+blockquote { margin:.6rem 0; padding-left:.8rem; border-left:3px solid var(--line); color:var(--muted); }
+hr { border:0; border-top:1px solid var(--line); margin:1.2rem 0; }
+.card { display:block; padding:.7rem 0; border-top:1px solid var(--line); text-decoration:none; color:inherit; }
+.card strong { color:var(--accent); font-family:"Avenir Next","PingFang SC",sans-serif; }
+footer { padding:1.4rem 1.1rem 2rem; color:var(--muted); font-size:.92rem; }
+</style>
+</head>
+<body>
+<header>
+<p class="kicker">手机读课文 · 代码回电脑写</p>
+<p class="jump"><a href="../index.html">目录</a> · <a href="a23.html">上一篇</a> · <a href="a25.html">下一篇</a></p>
+</header>
+<main>
+<h1>第 24 周：简历和 5 分钟讲解</h1>
+<p>计划日期：2027-04-26 到 2027-05-02。</p>
+<p>做出一页简历、两个项目说明，并讲两次。一次讲给同学或对着录音。听的人要能复述：你做了什么、你放弃了什么、一次失败、一个真实数字。</p>
+<h2>简历只写你能当场解释的</h2>
+<p>一页。教育背景、技能、两个项目。技能栏里的每一项，都要能在项目里指出来。没做的不写。MCP、微调、Kubernetes 没做就不出现。</p>
+<p>项目用这个顺序写，括号里换成你的实测：</p>
+<p>面向一份公开的产品手册，做了带引用的问答。检索同时用词匹配和 FAISS，向量模型是当时文档里的名字。保留测试集 40 题里，单文档证据命中写你的计数，回答是否被引用支撑另写一个计数。有一次切块重叠从 0 改成 80 个字符之后，跨片段少召回的题从几题变成几题。本人负责导入、切块、检索、接口和评测。</p>
+<p>第二个项目同样写：模拟工单、哪些工具、确认之前不写库、保留任务集的完成计数。写明是模拟数据。</p>
+<p>没有测过的百分比不写。本地 10 次并发不写成高并发。</p>
+<h2>5 分钟怎么分配</h2>
+<ol><li>半分钟：谁用，输入和输出是什么。</li><li>一分半：请求经过哪些模块。只画五个框。</li><li>一分半：你选 FAISS 而不是再部署一套向量库的原因，或你选择先词匹配再加向量的原因。</li><li>一分钟：一个失败例子和你改了什么。</li><li>半分钟：现在仍会失败的一种输入。</li></ol>
+<p>听完的人问一个小改动，例如换 top-k，或增加一个筛选字段。你要能指出改哪一层，并说测试要补什么。</p>
+<h2>这一周自己写</h2>
+<p>简历一页，项目说明各一页。录音或找人听两次，把对方没听懂的句子改短。</p>
+<p>验收：讲解里有一次取舍、一次失败、一项带分母的数字，以及一个你主动说出的限制。</p>
+</main>
+<footer>
+<p>写程序仍在电脑上。新开对话只发：先读 主文件.md，从书签继续。</p>
+</footer>
+</body>
+</html>

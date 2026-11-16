@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>第 7 周 分层、归属校验、接口测试</title>
+<style>
+:root { color-scheme: light; --ink:#1c1917; --muted:#57534e; --line:#e7e5e4; --paper:#fafaf9; --accent:#1d4ed8; --code:#f5f5f4; }
+* { box-sizing: border-box; }
+body { margin:0; font-family:"Iowan Old Style","Songti SC",Palatino,serif; background:var(--paper); color:var(--ink); line-height:1.6; }
+header, main, footer { max-width:42rem; margin:0 auto; padding:0 1.1rem; }
+header { padding-top:1rem; }
+nav, .jump, footer, .kicker, .muted { font-family:"Avenir Next","PingFang SC",sans-serif; }
+nav { display:flex; gap:.7rem; flex-wrap:wrap; font-size:.92rem; }
+a { color:var(--accent); }
+h1 { font-size:1.55rem; line-height:1.3; margin:.35rem 0 .5rem; }
+h2 { font-size:1.2rem; margin:1.5rem 0 .35rem; }
+h3 { font-size:1.05rem; margin:1.15rem 0 .3rem; }
+h4 { font-size:1rem; margin:1rem 0 .25rem; }
+p, li { margin:.35rem 0; }
+.muted, .kicker { color:var(--muted); }
+.kicker { font-size:.78rem; letter-spacing:.04em; }
+code { font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace; font-size:.9em; }
+pre { background:var(--code); border:1px solid var(--line); padding:.75rem .8rem; overflow:auto; line-height:1.45; }
+pre code { font-size:.82rem; }
+table { width:100%; border-collapse:collapse; font-size:.92rem; margin:.5rem 0 1rem; }
+th, td { text-align:left; vertical-align:top; padding:.35rem .3rem; border-top:1px solid var(--line); }
+blockquote { margin:.6rem 0; padding-left:.8rem; border-left:3px solid var(--line); color:var(--muted); }
+hr { border:0; border-top:1px solid var(--line); margin:1.2rem 0; }
+.card { display:block; padding:.7rem 0; border-top:1px solid var(--line); text-decoration:none; color:inherit; }
+.card strong { color:var(--accent); font-family:"Avenir Next","PingFang SC",sans-serif; }
+footer { padding:1.4rem 1.1rem 2rem; color:var(--muted); font-size:.92rem; }
+</style>
+</head>
+<body>
+<header>
+<p class="kicker">手机读课文 · 代码回电脑写</p>
+<p class="jump"><a href="../index.html">目录</a> · <a href="a06.html">上一篇</a> · <a href="a08.html">下一篇</a></p>
+</header>
+<main>
+<h1>第 7 周：分层、归属校验、接口测试</h1>
+<p>计划日期：2026-12-28 到 2027-01-03。</p>
+<p>这一周把「路由、数据库、规则」分开，并证明用户 A 读不到用户 B 的工单。外部输入仍然不能拼进 SQL。</p>
+<h2>三层</h2>
+<ul><li>路由：解析 HTTP，调用下面的函数，把结果或错误码送回去。不在这里写 SQL。</li><li>服务：决定能不能改状态、这张工单是不是这个人的。</li><li>数据：只执行带来参数的 SQL，返回行。</li></ul>
+<p>请求从接口进来，经过服务，到数据库，再原路返回。你要能对着一个 <code>GET /tickets/3</code> 把这三步指出来。</p>
+<h2>归属</h2>
+<p>练习阶段用一个请求头模拟登录用户，例如 <code>X-User-Id: 2</code>。这不是正式登录，只用来把「当前是谁」送进服务。没有这个头，回 401。</p>
+<pre class="lang-python"><code>def get_owned_ticket(conn, ticket_id: int, user_id: int):
+    row = conn.execute(
+        &quot;SELECT id, user_id, title, status FROM tickets WHERE id = ?&quot;,
+        (ticket_id,),
+    ).fetchone()
+    if row is None:
+        return None, 404
+    if row[&quot;user_id&quot;] != user_id:
+        return None, 403
+    return row, 200</code></pre>
+<p>404 表示没有这张工单。403 表示有，但不属于你。两种都不要把对方的标题回出去。</p>
+<p>先查「存在吗」再查「是不是你的」，调用方就能知道编号是否被人占用。练习里可以都回 404，避免透露别人的编号。两种做法选一种，在 README 写明，测试按你写的来。</p>
+<h2>测试不要碰开发库</h2>
+<p><code>TestClient</code> 在进程里调用接口，不需要先手动启动 uvicorn。测试用另一个数据库文件，或者内存库 <code>sqlite:///:memory:</code> 这一周先用临时文件，测完删除。</p>
+<pre class="lang-python"><code>from fastapi.testclient import TestClient
+
+def test_cannot_read_others(client: TestClient):
+    created = client.post(
+        &quot;/tickets&quot;,
+        headers={&quot;X-User-Id&quot;: &quot;1&quot;},
+        json={&quot;title&quot;: &quot;我的工单&quot;, &quot;user_id&quot;: 1},
+    )
+    ticket_id = created.json()[&quot;id&quot;]
+    stolen = client.get(f&quot;/tickets/{ticket_id}&quot;, headers={&quot;X-User-Id&quot;: &quot;2&quot;})
+    assert stolen.status_code in (403, 404)
+    assert &quot;我的工单&quot; not in stolen.text</code></pre>
+<p>还要有：正常创建后能查到；缺标题是 422；编号不存在是 404；不带用户头是 401。</p>
+<p>开发时你自己点的 <code>app.db</code> 和测试库分开。测试开头建表，不要往练习数据里插入「测试工单」。</p>
+<h2>同步和异步</h2>
+<p>FastAPI 路径函数写成普通 <code>def</code>，阻塞的 SQL 可以放在里面，框架会把它放到线程池。写成 <code>async def</code> 之后，里面如果直接调用会卡住的数据库驱动，就会堵住整个事件循环，别的请求一起等。</p>
+<p>这一周用同步的 <code>sqlite3</code> 加普通 <code>def</code>。不要为了看起来现代，把阻塞调用塞进 <code>async def</code> 又不 <code>await</code> 一个真正的异步驱动。</p>
+<h2>这一周自己写</h2>
+<p>给工单服务补上用户头、归属检查和 pytest。</p>
+<p>验收：</p>
+<ul><li>用户 2 的响应里看不到用户 1 的标题。</li><li>测试库和你手工试用的 <code>app.db</code> 不是同一个文件。</li><li>抽一条 SQL，确认值是通过参数传的。</li></ul>
+</main>
+<footer>
+<p>写程序仍在电脑上。新开对话只发：先读 主文件.md，从书签继续。</p>
+</footer>
+</body>
+</html>

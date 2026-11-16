@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>第 16 周 分层评测与可启动版本</title>
+<style>
+:root { color-scheme: light; --ink:#1c1917; --muted:#57534e; --line:#e7e5e4; --paper:#fafaf9; --accent:#1d4ed8; --code:#f5f5f4; }
+* { box-sizing: border-box; }
+body { margin:0; font-family:"Iowan Old Style","Songti SC",Palatino,serif; background:var(--paper); color:var(--ink); line-height:1.6; }
+header, main, footer { max-width:42rem; margin:0 auto; padding:0 1.1rem; }
+header { padding-top:1rem; }
+nav, .jump, footer, .kicker, .muted { font-family:"Avenir Next","PingFang SC",sans-serif; }
+nav { display:flex; gap:.7rem; flex-wrap:wrap; font-size:.92rem; }
+a { color:var(--accent); }
+h1 { font-size:1.55rem; line-height:1.3; margin:.35rem 0 .5rem; }
+h2 { font-size:1.2rem; margin:1.5rem 0 .35rem; }
+h3 { font-size:1.05rem; margin:1.15rem 0 .3rem; }
+h4 { font-size:1rem; margin:1rem 0 .25rem; }
+p, li { margin:.35rem 0; }
+.muted, .kicker { color:var(--muted); }
+.kicker { font-size:.78rem; letter-spacing:.04em; }
+code { font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace; font-size:.9em; }
+pre { background:var(--code); border:1px solid var(--line); padding:.75rem .8rem; overflow:auto; line-height:1.45; }
+pre code { font-size:.82rem; }
+table { width:100%; border-collapse:collapse; font-size:.92rem; margin:.5rem 0 1rem; }
+th, td { text-align:left; vertical-align:top; padding:.35rem .3rem; border-top:1px solid var(--line); }
+blockquote { margin:.6rem 0; padding-left:.8rem; border-left:3px solid var(--line); color:var(--muted); }
+hr { border:0; border-top:1px solid var(--line); margin:1.2rem 0; }
+.card { display:block; padding:.7rem 0; border-top:1px solid var(--line); text-decoration:none; color:inherit; }
+.card strong { color:var(--accent); font-family:"Avenir Next","PingFang SC",sans-serif; }
+footer { padding:1.4rem 1.1rem 2rem; color:var(--muted); font-size:.92rem; }
+</style>
+</head>
+<body>
+<header>
+<p class="kicker">手机读课文 · 代码回电脑写</p>
+<p class="jump"><a href="../index.html">目录</a> · <a href="a15.html">上一篇</a> · <a href="a17.html">下一篇</a></p>
+</header>
+<main>
+<h1>第 16 周：分层评测与可启动版本</h1>
+<p>计划日期：2027-03-01 到 2027-03-07。</p>
+<p>冻结测试集，写出评测报告，交出别人能启动的版本。通过之后可以开始投实习。对照 Dify 或 RAGFlow 最多 4 小时，用来看一家可视化产品怎样展示来源，不把项目改成那家的配置。</p>
+<h2>两列分数</h2>
+<p>每道题分开记：</p>
+<ul><li>检索：前 5 个块里有没有标好的证据。这叫 Hit@5。</li><li>回答：回答里的事实是不是都被引用块支持。这由你逐题看。</li></ul>
+<p>无答案的题只统计该不该拒答。跨片段的题还要看：需要的证据是不是都在，少一块也算没找齐。</p>
+<p>不要把这些合成一个总分。报告写原始计数，例如「单文档证据 8/10」。</p>
+<p>题目大约 100 条：单文档 50、跨片段 20、无答案 20、对抗或权限 10。开发集 60，保留集 40。保留集不拿来反复改提示和参数。</p>
+<p>练习目标是保留集上：单文档 Hit@5 尝试达到 80%，回答被引用支撑尝试达到 85%，无答案拒答尝试达到 80%。这是本计划的练习线，不是招聘统一标准。没达到就写清是解析、召回、生成还是标注的问题，不改测试题去凑数。</p>
+<h2>报告里有什么</h2>
+<ul><li>资料从哪来，多少份。</li><li>切块长度、重叠、embedding 模型名、两路各取多少。</li><li>开发集和保留集各多少，划分日期。</li><li>两列计数、拒答计数、跨片段是否找齐。</li><li>至少 3 个失败例子：问题、召回了什么、模型说了什么、你认为错在哪一步。</li></ul>
+<h2>可启动</h2>
+<p>README 写：Python 版本、环境变量示例、怎样放入示例文档、怎样建索引、怎样启动接口、怎样跑不花钱的测试。路径用项目内的相对路径。</p>
+<p>提交前在一个新终端按 README 走一遍。</p>
+<h2>这一周自己写</h2>
+<p>跑保留集，把两列数字和三个失败例子写进 <code>eval/report.md</code>。再用不超过 4 小时，把同一道题在 Dify 或 RAGFlow 里问一次，只记录它展示来源的方式，以及你的项目差在哪。</p>
+<p>验收：报告不是一个笼统的百分比；别人按 README 能启动；失败例子能对应到解析、召回或生成。</p>
+</main>
+<footer>
+<p>写程序仍在电脑上。新开对话只发：先读 主文件.md，从书签继续。</p>
+</footer>
+</body>
+</html>

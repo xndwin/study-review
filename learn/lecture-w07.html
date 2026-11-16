@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>对照讲解 · 工具调用</title>
+<style>
+:root { color-scheme: light; --ink:#1c1917; --muted:#57534e; --line:#e7e5e4; --paper:#fafaf9; --accent:#1d4ed8; --code:#f5f5f4; }
+* { box-sizing: border-box; }
+body { margin:0; font-family:"Iowan Old Style","Songti SC",Palatino,serif; background:var(--paper); color:var(--ink); line-height:1.6; }
+header, main, footer { max-width:42rem; margin:0 auto; padding:0 1.1rem; }
+header { padding-top:1rem; }
+nav, .jump, footer, .kicker, .muted { font-family:"Avenir Next","PingFang SC",sans-serif; }
+nav { display:flex; gap:.7rem; flex-wrap:wrap; font-size:.92rem; }
+a { color:var(--accent); }
+h1 { font-size:1.55rem; line-height:1.3; margin:.35rem 0 .5rem; }
+h2 { font-size:1.2rem; margin:1.5rem 0 .35rem; }
+h3 { font-size:1.05rem; margin:1.15rem 0 .3rem; }
+h4 { font-size:1rem; margin:1rem 0 .25rem; }
+p, li { margin:.35rem 0; }
+.muted, .kicker { color:var(--muted); }
+.kicker { font-size:.78rem; letter-spacing:.04em; }
+code { font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace; font-size:.9em; }
+pre { background:var(--code); border:1px solid var(--line); padding:.75rem .8rem; overflow:auto; line-height:1.45; }
+pre code { font-size:.82rem; }
+table { width:100%; border-collapse:collapse; font-size:.92rem; margin:.5rem 0 1rem; }
+th, td { text-align:left; vertical-align:top; padding:.35rem .3rem; border-top:1px solid var(--line); }
+blockquote { margin:.6rem 0; padding-left:.8rem; border-left:3px solid var(--line); color:var(--muted); }
+hr { border:0; border-top:1px solid var(--line); margin:1.2rem 0; }
+.card { display:block; padding:.7rem 0; border-top:1px solid var(--line); text-decoration:none; color:inherit; }
+.card strong { color:var(--accent); font-family:"Avenir Next","PingFang SC",sans-serif; }
+footer { padding:1.4rem 1.1rem 2rem; color:var(--muted); font-size:.92rem; }
+</style>
+</head>
+<body>
+<header>
+<p class="kicker">手机读课文 · 代码回电脑写</p>
+<p class="jump"><a href="../index.html">目录</a></p>
+</header>
+<main>
+<h1>第 7 周：Agent 与工具调用</h1>
+<p>课文：<code>lessons/w07-Agent与工具.md</code>。</p>
+<pre class="lang-bash"><code>python3 code/test/agent-tools/run.py &quot;计算 2**10，并总结 memo.txt&quot;
+python3 code/test/agent-tools/run.py &quot;现在几点&quot;
+python3 code/test/agent-tools/run.py &quot;读取 missing.txt&quot;
+python3 code/test/agent-tools/run.py &quot;读取 ../rag-qa/data/notes.md&quot;</code></pre>
+<h2>w07-1 三种系统</h2>
+<table><thead><tr><th></th><th>普通聊天</th><th>RAG</th><th>Agent</th></tr></thead><tbody><tr><td>知识从哪来</td><td>模型参数</td><td>你的文档检索</td><td>工具返回 + 可选文档</td></tr><tr><td>会不会改外界</td><td>不会</td><td>不会</td><td>会（算数、读文件、以后可查库）</td></tr><tr><td>典型问题</td><td>解释概念</td><td>「手册第 3 条怎么写」</td><td>「先读 memo 再算 2**10」</td></tr><tr><td>成本</td><td>一次生成</td><td>检索 + 生成</td><td>多轮模型 + 工具，最贵也最难测</td></tr></tbody></table>
+<p>能一步 prompt 解决的不要上 Agent。只要问文档，先 RAG。</p>
+<h2>w07-2 tool calling 协议（逐步）</h2>
+<ol><li>你提供 <code>tools</code>：name、description、parameters（JSON Schema）</li><li><code>create(..., tools=TOOLS)</code></li><li>若 <code>message.tool_calls</code> 非空：还不是最终对用户的话</li><li>对每个 call：<code>json.loads(arguments)</code> → 在<strong>你的 Python</strong>里执行</li><li>append 模型那条，再 append <code>role=tool, tool_call_id=..., content=结果</code></li><li>再 <code>create</code>，直到没有 tool_calls 或达到 <code>max_steps</code></li></ol>
+<p>模型<strong>不会</strong>真的进你电脑。它只输出「我想调 calculator，参数 expr=2**10」。执行权在你。实现：<code>code/test/lib/agent_local.py</code>（范文 <code>code/w07/agent.py</code>）。</p>
+<h2>w07-3 计算器</h2>
+<p>禁止 <code>eval</code> 任意字符串（可以变成删文件的代码）。用 <code>ast</code> 只允许数字和 <code>+ - * / **</code>。非法表达式返回错误字符串，继续循环让模型看到失败原因。</p>
+<h2>w07-4 读文件与路径逃逸</h2>
+<p>模型可能被教成 <code>path=../../.env</code>。必须：</p>
+<pre class="lang-python"><code>target = (root / path).resolve()
+if not str(target).startswith(str(root.resolve())):
+    return &quot;错误：不允许读取目录外的文件&quot;</code></pre>
+<p>不存在则友好错误，不要崩进程。限制长度（示例 2000 字）。</p>
+<h2>w07-5 停止条件与报错回传</h2>
+<ul><li><code>max_steps</code>：防止来回调工具死循环（本课 6 步）</li><li>工具失败：把错误当 tool content 回去，不要吞掉</li><li>可选：连续两次相同 tool+参数则打断（本课先用步数上限）</li></ul>
+<p>流式 + 工具更复杂，本课先非流式。</p>
+<h2>练习与作品（已在沙箱里）</h2>
+<ol><li>工具 <code>now</code>：上海时区当前时间。</li><li>读不存在的文件：返回「不存在」，不崩。</li><li><code>run.py</code> 演示「计算 + 读 memo」：<code>2**10</code> → 1024，memo 提到周五 14:00。</li><li><code>../</code> 路径返回「不允许读取目录外的文件」。</li></ol>
+<p>没有 Key 时用规则路由，仍执行计算器、读文件和路径拦截。Agentic RAG（检索也做成 tool）先理解即可，不必本周上 LangGraph。</p>
+<p>口头：工具谁执行；为什么不能 eval、为什么限制路径；死循环怎么停；什么时候不该用 Agent。</p>
+</main>
+<footer>
+<p>写程序仍在电脑上。新开对话只发：先读 主文件.md，从书签继续。</p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>第 23 周 回归测试与故障复盘</title>
+<style>
+:root { color-scheme: light; --ink:#1c1917; --muted:#57534e; --line:#e7e5e4; --paper:#fafaf9; --accent:#1d4ed8; --code:#f5f5f4; }
+* { box-sizing: border-box; }
+body { margin:0; font-family:"Iowan Old Style","Songti SC",Palatino,serif; background:var(--paper); color:var(--ink); line-height:1.6; }
+header, main, footer { max-width:42rem; margin:0 auto; padding:0 1.1rem; }
+header { padding-top:1rem; }
+nav, .jump, footer, .kicker, .muted { font-family:"Avenir Next","PingFang SC",sans-serif; }
+nav { display:flex; gap:.7rem; flex-wrap:wrap; font-size:.92rem; }
+a { color:var(--accent); }
+h1 { font-size:1.55rem; line-height:1.3; margin:.35rem 0 .5rem; }
+h2 { font-size:1.2rem; margin:1.5rem 0 .35rem; }
+h3 { font-size:1.05rem; margin:1.15rem 0 .3rem; }
+h4 { font-size:1rem; margin:1rem 0 .25rem; }
+p, li { margin:.35rem 0; }
+.muted, .kicker { color:var(--muted); }
+.kicker { font-size:.78rem; letter-spacing:.04em; }
+code { font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace; font-size:.9em; }
+pre { background:var(--code); border:1px solid var(--line); padding:.75rem .8rem; overflow:auto; line-height:1.45; }
+pre code { font-size:.82rem; }
+table { width:100%; border-collapse:collapse; font-size:.92rem; margin:.5rem 0 1rem; }
+th, td { text-align:left; vertical-align:top; padding:.35rem .3rem; border-top:1px solid var(--line); }
+blockquote { margin:.6rem 0; padding-left:.8rem; border-left:3px solid var(--line); color:var(--muted); }
+hr { border:0; border-top:1px solid var(--line); margin:1.2rem 0; }
+.card { display:block; padding:.7rem 0; border-top:1px solid var(--line); text-decoration:none; color:inherit; }
+.card strong { color:var(--accent); font-family:"Avenir Next","PingFang SC",sans-serif; }
+footer { padding:1.4rem 1.1rem 2rem; color:var(--muted); font-size:.92rem; }
+</style>
+</head>
+<body>
+<header>
+<p class="kicker">手机读课文 · 代码回电脑写</p>
+<p class="jump"><a href="../index.html">目录</a> · <a href="a22.html">上一篇</a> · <a href="a24.html">下一篇</a></p>
+</header>
+<main>
+<h1>第 23 周：回归测试与故障复盘</h1>
+<p>计划日期：2027-04-19 到 2027-04-25。</p>
+<p>每次改代码，先跑一批不调用付费 API 的检查。两个项目各写 3 个故障案例。案例里有怎样复现、怎样发现、怎样修复。</p>
+<h2>哪些测试进自动检查</h2>
+<p>放进自动检查的：</p>
+<ul><li>字段校验、状态机、权限、幂等。</li><li>用假的模型响应走工具循环。</li><li>检索在一份小的本地样本上能找回标好的那一块。</li></ul>
+<p>不放进去的：</p>
+<ul><li>真实供应商调用。</li><li>需要密钥才能过的测试。</li></ul>
+<p>本地命令仍然是 <code>python -m pytest</code>。如果要接一个托管的持续集成，就用仓库里的配置，在推送时跑上面这一组。密钥用仓库的加密变量，示例配置里不放真密钥。没有托管账号时，这一周先把命令写进 README，每次修改前在本地跑，也算数。笔记里写你实际怎么跑的。</p>
+<h2>故障案例的格式</h2>
+<p>每个案例六行：</p>
+<ol><li>日期和项目。</li><li>你看到的现象。</li><li>复现步骤。</li><li>原因，具体到文件和判断。</li><li>修复。</li><li>哪一个测试能防止它再出现。</li></ol>
+<p>例如：确认接口被调用两次，工单状态被改了两次。原因是更新前没有看幂等标记。修复是第 18 周的那次检查。测试是连续发送同一确认编号，第二次状态不再变化。</p>
+<p>三个案例来自你真实遇到的问题。还没有三起时，就在测试环境里故意制造：删掉环境变量、把一块文档标成删除仍留在索引里、工具返回错误。制造的也要写明是演练。</p>
+<h2>这一周自己写</h2>
+<p>两个项目各自有一条命令可以跑完免费测试。六个案例落在 <code>docs/incidents.md</code>，可以两个项目分开文件。</p>
+<p>验收：你改坏幂等或权限时，测试会失败。真实 API 的脚本要手动另跑，不会在这条自动命令里被触发。</p>
+</main>
+<footer>
+<p>写程序仍在电脑上。新开对话只发：先读 主文件.md，从书签继续。</p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>对照讲解 · 接口与求职</title>
+<style>
+:root { color-scheme: light; --ink:#1c1917; --muted:#57534e; --line:#e7e5e4; --paper:#fafaf9; --accent:#1d4ed8; --code:#f5f5f4; }
+* { box-sizing: border-box; }
+body { margin:0; font-family:"Iowan Old Style","Songti SC",Palatino,serif; background:var(--paper); color:var(--ink); line-height:1.6; }
+header, main, footer { max-width:42rem; margin:0 auto; padding:0 1.1rem; }
+header { padding-top:1rem; }
+nav, .jump, footer, .kicker, .muted { font-family:"Avenir Next","PingFang SC",sans-serif; }
+nav { display:flex; gap:.7rem; flex-wrap:wrap; font-size:.92rem; }
+a { color:var(--accent); }
+h1 { font-size:1.55rem; line-height:1.3; margin:.35rem 0 .5rem; }
+h2 { font-size:1.2rem; margin:1.5rem 0 .35rem; }
+h3 { font-size:1.05rem; margin:1.15rem 0 .3rem; }
+h4 { font-size:1rem; margin:1rem 0 .25rem; }
+p, li { margin:.35rem 0; }
+.muted, .kicker { color:var(--muted); }
+.kicker { font-size:.78rem; letter-spacing:.04em; }
+code { font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace; font-size:.9em; }
+pre { background:var(--code); border:1px solid var(--line); padding:.75rem .8rem; overflow:auto; line-height:1.45; }
+pre code { font-size:.82rem; }
+table { width:100%; border-collapse:collapse; font-size:.92rem; margin:.5rem 0 1rem; }
+th, td { text-align:left; vertical-align:top; padding:.35rem .3rem; border-top:1px solid var(--line); }
+blockquote { margin:.6rem 0; padding-left:.8rem; border-left:3px solid var(--line); color:var(--muted); }
+hr { border:0; border-top:1px solid var(--line); margin:1.2rem 0; }
+.card { display:block; padding:.7rem 0; border-top:1px solid var(--line); text-decoration:none; color:inherit; }
+.card strong { color:var(--accent); font-family:"Avenir Next","PingFang SC",sans-serif; }
+footer { padding:1.4rem 1.1rem 2rem; color:var(--muted); font-size:.92rem; }
+</style>
+</head>
+<body>
+<header>
+<p class="kicker">手机读课文 · 代码回电脑写</p>
+<p class="jump"><a href="../index.html">目录</a></p>
+</header>
+<main>
+<h1>第 8 周：接口、工程习惯、求职</h1>
+<p>课文：<code>lessons/w08-部署与求职.md</code>。第 1–7 周知识点不删。</p>
+<h2>w08-1 FastAPI</h2>
+<p>脚本是给你自己跑的；HTTP 接口是给前端、评测脚本、同事用的。</p>
+<pre class="lang-bash"><code>cd 仓库根目录/code/test
+source ../../.venv/bin/activate
+uvicorn api:app --reload</code></pre>
+<p>打开 http://127.0.0.1:8000/docs</p>
+<ul><li><code>GET /health</code> 探活</li><li><code>POST /rag</code> 请求体 <code>{&quot;question&quot;: &quot;...&quot;}</code>，Pydantic 校验；缺字段自动 422</li><li><code>POST /agent</code> 同样结构，走工具循环</li></ul>
+<p>内部仍调用 <code>ask()</code> / <code>run_agent()</code>。概念：路由、JSON、OpenAPI 文档、校验。本周不要求鉴权、上云，但要知道还差：HTTPS、Key、限流、日志。</p>
+<p>自检（不启服务）：<code>python3 code/test/run_all.py</code> 里已用 TestClient 打过三个接口。</p>
+<h2>w08-2 环境变量与仓库卫生</h2>
+<ul><li>密钥只在 <code>.env</code>，模板是 <code>.env.example</code>（无真实 Key）</li><li><code>.gitignore</code> 已忽略 <code>.env</code>、<code>.venv</code>、<code>__pycache__</code></li><li>日志最多打印 Key 前四位</li><li>README 写：Python 版本、venv、如何填 Key、如何跑 ask / eval / uvicorn</li></ul>
+<pre class="lang-bash"><code>python3 code/test/w08_2_env.py</code></pre>
+<h2>w08-3 简历项目描述</h2>
+<p>两段已写满，按你的领域改数字后贴进简历：<code>code/test/resume.md</code>。</p>
+<ul><li>RAG：切块 180/40、Jaccard、10 条评测、空检索拒答</li><li>Agent：AST 计算器、路径限制、<code>now</code>、最大 6 步</li></ul>
+<h2>w08-4 面试口头（15 题）</h2>
+<p>合上电脑答。提纲在 <code>code/test/w08_interview.md</code>，对照 <code>docs/知识点总表.md</code>。答不出就回到对应周课文，不要跳过。</p>
+<ol><li>网页产品和自己调 API 差在哪？记忆存在哪？</li><li>system / user / assistant / tool 各自谁产生？</li><li>token 是什么？和字数？usage 两项？</li><li>为什么不能把整本手册塞进一次 prompt？</li><li>画 RAG 五框：文档、切块、索引、检索、生成。</li><li>chunk 太大、太小、没有 overlap 会怎样？</li><li>词重叠和余弦各自怎么打分？embedding 换在哪一层？</li><li>检索为空为什么不能当普通聊天？</li><li>RAG 和微调分别解决什么？</li><li>评测集为什么要有拒答题和注入题？</li><li>JSON 输出脏了怎么降级？</li><li>Agent 的工具到底谁在执行？</li><li>为什么不用 eval？路径逃逸是什么？</li><li>如何降低幻觉、费用、延迟？（各举两条）</li><li>FastAPI 比直接跑脚本多了什么？</li></ol>
+<h2>w08-5 别人能跑</h2>
+<p>两个 README 已含：安装、环境变量、最小命令、评测命令、本机示例。合格线：两个能演示的项目 + 上表能讲。不是证书。</p>
+<p>后续（不替代本课）：Chroma/Qdrant、LangGraph、更细的忠实度评测。</p>
+</main>
+<footer>
+<p>写程序仍在电脑上。新开对话只发：先读 主文件.md，从书签继续。</p>
+</footer>
+</body>
+</html>

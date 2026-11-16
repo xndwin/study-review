@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>原课文 · 调用大模型</title>
+<style>
+:root { color-scheme: light; --ink:#1c1917; --muted:#57534e; --line:#e7e5e4; --paper:#fafaf9; --accent:#1d4ed8; --code:#f5f5f4; }
+* { box-sizing: border-box; }
+body { margin:0; font-family:"Iowan Old Style","Songti SC",Palatino,serif; background:var(--paper); color:var(--ink); line-height:1.6; }
+header, main, footer { max-width:42rem; margin:0 auto; padding:0 1.1rem; }
+header { padding-top:1rem; }
+nav, .jump, footer, .kicker, .muted { font-family:"Avenir Next","PingFang SC",sans-serif; }
+nav { display:flex; gap:.7rem; flex-wrap:wrap; font-size:.92rem; }
+a { color:var(--accent); }
+h1 { font-size:1.55rem; line-height:1.3; margin:.35rem 0 .5rem; }
+h2 { font-size:1.2rem; margin:1.5rem 0 .35rem; }
+h3 { font-size:1.05rem; margin:1.15rem 0 .3rem; }
+h4 { font-size:1rem; margin:1rem 0 .25rem; }
+p, li { margin:.35rem 0; }
+.muted, .kicker { color:var(--muted); }
+.kicker { font-size:.78rem; letter-spacing:.04em; }
+code { font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace; font-size:.9em; }
+pre { background:var(--code); border:1px solid var(--line); padding:.75rem .8rem; overflow:auto; line-height:1.45; }
+pre code { font-size:.82rem; }
+table { width:100%; border-collapse:collapse; font-size:.92rem; margin:.5rem 0 1rem; }
+th, td { text-align:left; vertical-align:top; padding:.35rem .3rem; border-top:1px solid var(--line); }
+blockquote { margin:.6rem 0; padding-left:.8rem; border-left:3px solid var(--line); color:var(--muted); }
+hr { border:0; border-top:1px solid var(--line); margin:1.2rem 0; }
+.card { display:block; padding:.7rem 0; border-top:1px solid var(--line); text-decoration:none; color:inherit; }
+.card strong { color:var(--accent); font-family:"Avenir Next","PingFang SC",sans-serif; }
+footer { padding:1.4rem 1.1rem 2rem; color:var(--muted); font-size:.92rem; }
+</style>
+</head>
+<body>
+<header>
+<p class="kicker">手机读课文 · 代码回电脑写</p>
+<p class="jump"><a href="../index.html">目录</a></p>
+</header>
+<main>
+<h1>第 3 周：调用大模型（全量）</h1>
+<p>对应 <code>w03-1</code> … <code>w03-7</code>。没有 Key 时先读完 w03-1～w03-3 的概念，申请到 Key 再跑代码。</p>
+<p>2026-11-16 补充：调用形状以 <a href="method.html">现行学法</a> 为准。兼容供应商继续用 Chat Completions。不要学已替换掉的 <code>function_call</code> 字段。OpenAI 自家新项目推荐 Responses API，流式事件不同，不作为这里的第一套代码。</p>
+<hr>
+<h2>w03-1 网页产品和 API 的差别</h2>
+<p>网页 ChatGPT：厂商帮你存历史、画界面、限流、安全过滤。  应用岗写的是：<strong>你的服务器用 HTTP 调模型，再把结果接到业务</strong>（知识库、表单、内部系统）。</p>
+<p>国内很多模型提供 <strong>OpenAI 兼容</strong> 接口：路径、字段和官方 SDK 一样，只换 <code>base_url</code> 和 <code>api_key</code>。本仓库默认 DeepSeek。换通义/Kimi/本地 vLLM，通常只改 <code>.env</code> 三行。</p>
+<p>SDK（<code>openai</code> 包）替你做：拼 JSON、带 Header、解析响应、流式迭代。第 2 周 <code>06_http_local.py</code> 里的 payload 就是它发出去的东西。</p>
+<hr>
+<h2>w03-2 messages 与一次请求</h2>
+<pre class="lang-python"><code>messages = [
+    {&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: &quot;你是简洁的助手，用中文回答。&quot;},
+    {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;用一句话解释什么是 RAG。&quot;},
+]</code></pre>
+<table><thead><tr><th>role</th><th>谁写的</th><th>作用</th></tr></thead><tbody><tr><td>system</td><td>你（开发者）</td><td>长期规矩：人设、格式、禁止事项。用户通常看不到</td></tr><tr><td>user</td><td>终端用户或你的代码</td><td>这一轮问题</td></tr><tr><td>assistant</td><td>模型上一轮的话</td><td>多轮时你必须原样带回去</td></tr><tr><td>tool</td><td>你的函数返回</td><td>第 7 周才用</td></tr></tbody></table>
+<p>一次调用：<code>chat.completions.create(model=..., messages=..., temperature=..., max_tokens=...)</code>  常用返回：<code>choices[0].message.content</code>，以及 <code>usage</code>。</p>
+<p>公共封装：<code>code/w03/llm.py</code>。  跑：<code>python code/w03/01_chat.py</code></p>
+<hr>
+<h2>w03-3 token、窗口、费用</h2>
+<p>token 是模型计费和长度的单位，<strong>不是汉字个数</strong>。英文常 1 token≈0.75 词；中文常见 1 字≈1–2 token（随模型而变）。</p>
+<ul><li><code>prompt_tokens</code>：你发进去的（system + 历史 + 资料）</li><li><code>completion_tokens</code>：模型新写的</li><li>账单两者都算</li></ul>
+<p>上下文窗口：一次请求里 messages 总长不能超过模型上限。RAG 把整本手册塞进去会爆窗口、又贵、又稀释重点——这就是为什么要检索。</p>
+<p>粗算费用：看服务商单价 × token / 1000 或 / 百万。应用里要对长文档做截断或检索，而不是「全塞」。</p>
+<p><code>01_chat.py</code> 会打印 <code>usage</code>。</p>
+<hr>
+<h2>w03-4 多轮</h2>
+<p><strong>无状态：</strong> 每次 HTTP 彼此独立。网页能「记住」是因为前端/服务器把历史再次发给模型。</p>
+<p>你要做的：</p>
+<ol><li>准备 <code>history</code> 列表，先放 system</li><li>用户一句 → append user</li><li>调接口 → append assistant（content 原样）</li><li>下一轮把整个 history 发出去</li></ol>
+<p>历史太长时要截断（留 system + 最近 N 轮），否则超窗口。本周先不截，但要知道这件事。</p>
+<p>跑：<code>python code/w03/02_multi_turn.py</code>（输入 quit 结束）</p>
+<hr>
+<h2>w03-5 流式</h2>
+<p>非流式：等模型全部生成完才返回，用户干等。  流式：<code>stream=True</code>，每次拿到一小段 <code>delta.content</code> 就打印或推给前端。</p>
+<p>跑：<code>python code/w03/03_stream.py</code></p>
+<p>注意：流式时 <code>usage</code> 有的供应商只在最后一块给，有的要另开非流式统计。</p>
+<hr>
+<h2>w03-6 常用参数</h2>
+<table><thead><tr><th>参数</th><th>含义</th></tr></thead><tbody><tr><td>temperature</td><td>0～0.3 稳、适合问答抽取；偏高更散、适合草稿</td></tr><tr><td>max_tokens</td><td>限制<strong>输出</strong>长度，也限制费用；太小会截断句子</td></tr><tr><td>model</td><td>换模型不换 messages 结构</td></tr><tr><td>tools</td><td>第 7 周；声明函数给模型选</td></tr></tbody></table>
+<p>同一问题，改 system 再跑一遍，对比长度和风格（练习）。</p>
+<hr>
+<h2>w03-7 失败与重试</h2>
+<table><thead><tr><th>情况</th><th>常见原因</th><th>应用里怎么做</th></tr></thead><tbody><tr><td>401</td><td>Key 错或没带</td><td>检查 <code>.env</code>，不要把 Key 打进日志</td></tr><tr><td>402/429</td><td>欠费或限流</td><td>退避重试；提示用户稍后</td></tr><tr><td>超时</td><td>网络或模型慢</td><td>设 timeout；流式可先出字</td></tr><tr><td>5xx</td><td>服务端</td><td>重试有限次</td></tr></tbody></table>
+<p><code>llm.py</code> 把 SDK 异常包成 <code>RuntimeError</code> 并保留因果。产品里还要返回给用户一句人话，而不是整段 Traceback。</p>
+<p><code>.env</code> 变量：<code>LLM_API_KEY</code> <code>LLM_BASE_URL</code> <code>LLM_MODEL</code>。<code>.env</code> 已在 gitignore。</p>
+<hr>
+<h2>练习</h2>
+<ol><li>改 system 为「最多三句话」和「写 200 字」，同一问题对比。</li><li><code>code/w03/ex_summarize.py</code>：读本地 txt，总结 5 条（先用几百字，避免超窗口）。</li><li>打印 <code>prompt_tokens</code> 与 <code>completion_tokens</code>。</li></ol>
+<h2>本周结束应能口头回答</h2>
+<ul><li>网页记忆和应用记忆差在哪</li><li>三角色各自谁写</li><li>token 和字数不是 1:1</li><li>401 / 429 分别意味着什么</li></ul>
+</main>
+<footer>
+<p>写程序仍在电脑上。新开对话只发：先读 主文件.md，从书签继续。</p>
+</footer>
+</body>
+</html>

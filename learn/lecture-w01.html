@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>对照讲解 · Python 基础</title>
+<style>
+:root { color-scheme: light; --ink:#1c1917; --muted:#57534e; --line:#e7e5e4; --paper:#fafaf9; --accent:#1d4ed8; --code:#f5f5f4; }
+* { box-sizing: border-box; }
+body { margin:0; font-family:"Iowan Old Style","Songti SC",Palatino,serif; background:var(--paper); color:var(--ink); line-height:1.6; }
+header, main, footer { max-width:42rem; margin:0 auto; padding:0 1.1rem; }
+header { padding-top:1rem; }
+nav, .jump, footer, .kicker, .muted { font-family:"Avenir Next","PingFang SC",sans-serif; }
+nav { display:flex; gap:.7rem; flex-wrap:wrap; font-size:.92rem; }
+a { color:var(--accent); }
+h1 { font-size:1.55rem; line-height:1.3; margin:.35rem 0 .5rem; }
+h2 { font-size:1.2rem; margin:1.5rem 0 .35rem; }
+h3 { font-size:1.05rem; margin:1.15rem 0 .3rem; }
+h4 { font-size:1rem; margin:1rem 0 .25rem; }
+p, li { margin:.35rem 0; }
+.muted, .kicker { color:var(--muted); }
+.kicker { font-size:.78rem; letter-spacing:.04em; }
+code { font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace; font-size:.9em; }
+pre { background:var(--code); border:1px solid var(--line); padding:.75rem .8rem; overflow:auto; line-height:1.45; }
+pre code { font-size:.82rem; }
+table { width:100%; border-collapse:collapse; font-size:.92rem; margin:.5rem 0 1rem; }
+th, td { text-align:left; vertical-align:top; padding:.35rem .3rem; border-top:1px solid var(--line); }
+blockquote { margin:.6rem 0; padding-left:.8rem; border-left:3px solid var(--line); color:var(--muted); }
+hr { border:0; border-top:1px solid var(--line); margin:1.2rem 0; }
+.card { display:block; padding:.7rem 0; border-top:1px solid var(--line); text-decoration:none; color:inherit; }
+.card strong { color:var(--accent); font-family:"Avenir Next","PingFang SC",sans-serif; }
+footer { padding:1.4rem 1.1rem 2rem; color:var(--muted); font-size:.92rem; }
+</style>
+</head>
+<body>
+<header>
+<p class="kicker">手机读课文 · 代码回电脑写</p>
+<p class="jump"><a href="../index.html">目录</a></p>
+</header>
+<main>
+<h1>第 1 周：Python 基础</h1>
+<p>课文：<code>lessons/w01-python基础.md</code>。范文在 <code>code/w01/</code>，不要改。每天：读一节 → 跑脚本 → 改几个数字再跑。</p>
+<h2>w01-1 程序怎么运行、print、注释</h2>
+<p>Python 从上到下执行。<code>print(...)</code> 把结果打到屏幕。<code>#</code> 后面是注释，不执行。</p>
+<pre class="lang-bash"><code>python3 code/test/w01_1_hello.py</code></pre>
+<h2>w01-2 变量、命名、类型、转换、运算</h2>
+<p>变量是贴在对象上的名字。常用：<code>int</code> <code>float</code> <code>str</code> <code>bool</code>。命名：字母/数字/下划线，不能以数字开头；不要用 <code>list</code> <code>str</code> <code>type</code> 当名字。习惯 <code>max_tokens</code>。</p>
+<p><code>int(&quot;10&quot;)</code> → 10；<code>int(3.9)</code> → 3（截断，不是四舍五入）；<code>int(&quot;hi&quot;)</code> → ValueError。   <code>/</code> 永远得到小数；<code>//</code> 整数除；<code>%</code> 余数；<code>**</code> 幂。<code>n += 1</code> 等于 <code>n = n + 1</code>。  </p>
+<p><strong><code>=</code> 赋值，<code>==</code> 比较。</strong></p>
+<pre class="lang-bash"><code>python3 code/test/w01_2_types.py</code></pre>
+<h2>w01-3 布尔、比较、逻辑、真值</h2>
+<p>比较：<code>== != &gt; &lt; &gt;= &lt;=</code>。和 <code>None</code> 用 <code>is</code>。<code>and</code> / <code>or</code> 短路。   if 里相当于假：<code>0</code> <code>0.0</code> <code>&quot;&quot;</code> <code>[]</code> <code>{}</code> <code>None</code> <code>False</code>。   <code>0 or 5</code> 得到 <code>5</code>，<code>3 and 7</code> 得到 <code>7</code>。空列表 <code>if not items</code> 会走进去；改成 <code>[1, 2]</code> 就不进。</p>
+<pre class="lang-bash"><code>python3 code/test/w01_3_bool.py</code></pre>
+<h2>w01-4 输入与字符串</h2>
+<p><code>input()</code> 永远是 str，当数字必须 <code>int(...)</code>。字符串不可变：<code>s[0:2]</code> 含头不含尾，不能 <code>s[0] = &quot;p&quot;</code>。  方法返回新串：<code>strip</code> <code>lower</code> <code>split</code> <code>join</code> <code>replace</code> <code>endswith</code> <code>find</code>（找不到 -1）。   f-string：<code>f&quot;分数是 {score}&quot;</code>。<code>\n</code> 换行。</p>
+<pre class="lang-bash"><code>python3 code/test/w01_4_string.py</code></pre>
+<h2>w01-5 条件</h2>
+<p><code>if</code> / <code>elif</code> / <code>else</code> 从上到下只走第一条为真的分支。缩进 4 空格是语法。嵌套别超过两层。  三元：<code>&quot;及格&quot; if score &gt;= 60 else &quot;不及格&quot;</code>。<code>if xs:</code> 表示列表非空。</p>
+<pre class="lang-bash"><code>python3 code/test/w01_5_if.py</code></pre>
+<h2>w01-6 循环</h2>
+<p><code>range(start, stop, step)</code> 不含 stop。<code>enumerate</code> 带编号，<code>zip</code> 并排。   <code>continue</code> 跳过本轮；<code>break</code> 离开循环；<code>for</code>/<code>while</code> 的 <code>else</code> 只在<strong>没有 break</strong> 时执行。  不要在 <code>for x in xs</code> 里增删 <code>xs</code>，用 <code>xs[:]</code> 或建新列表。</p>
+<pre class="lang-bash"><code>python3 code/test/w01_6_loop.py</code></pre>
+<h2>w01-7 列表、元组</h2>
+<p>列表可变：<code>append</code> <code>insert</code> <code>pop</code> <code>remove</code>。<code>sorted(xs)</code> 新列表；<code>xs.sort()</code> 原地。切片含头不含尾。  元组不可变：<code>t = (1, 2)</code>，单元素 <code>(1,)</code>。拆包：<code>a, b = t</code>。可套列表：<code>matrix[1][0]</code>。</p>
+<pre class="lang-bash"><code>python3 code/test/w01_7_list.py</code></pre>
+<h2>w01-8 字典、集合、嵌套</h2>
+<p>键必须不可变。<code>person.get(&quot;email&quot;, &quot;(无)&quot;)</code> 避免 KeyError。  集合去重、无序；交 <code>&amp;</code> 并 <code>|</code>。空集合 <code>set()</code>，<code>{}</code> 是空字典。   LLM 响应：<code>resp[&quot;choices&quot;][0][&quot;message&quot;][&quot;content&quot;]</code>。</p>
+<pre class="lang-bash"><code>python3 code/test/w01_8_dict.py</code></pre>
+<h2>w01-9 函数、返回值、作用域、文档字符串</h2>
+<p><code>return</code> 给下一行代码用，<code>print</code> 给人看。不要用 <code>[]</code>/<code>{}</code> 当默认值，用 <code>None</code> 再新建。  多个返回值是元组。函数内赋值是局部的。<code>&quot;&quot;&quot;...&quot;&quot;&quot;</code> 是文档字符串。</p>
+<pre class="lang-bash"><code>python3 code/test/w01_9_func.py</code></pre>
+<h2>w01-10 推导式</h2>
+<p><code>[n * n for n in range(5)]</code>、<code>[n for n in range(10) if n % 2 == 0]</code>、<code>{n: n * n for n in range(3)}</code>。  能读懂、会写简单过滤即可。太长仍写普通 for。</p>
+<pre class="lang-bash"><code>python3 code/test/w01_10_comprehension.py</code></pre>
+<h2>练习（单独勾选）</h2>
+<ol><li>猜数字：<code>python3 code/test/w01_ex_guess.py</code>（交互对照 <code>code/w01/02_guess.py</code>）</li><li>成绩统计：平均 / 最高 / 及格人数 — <code>python3 code/test/w01_ex_scores.py</code></li><li>词表过滤：长度 ≥ 2、去重、排序 — <code>python3 code/test/w01_ex_filter.py</code></li></ol>
+<h2>本周口头</h2>
+<ul><li><code>=</code> 和 <code>==</code>、<code>is</code> 和 <code>==</code>（和 None）</li><li>为什么 for 里不要直接删正在遍历的列表</li><li>为什么函数要用 return 而不是只 print</li><li><code>[]</code>、<code>{}</code>、<code>set()</code> 各是什么</li><li>从嵌套字典取出 <code>content</code> 怎么写</li></ul>
+</main>
+<footer>
+<p>写程序仍在电脑上。新开对话只发：先读 主文件.md，从书签继续。</p>
+</footer>
+</body>
+</html>

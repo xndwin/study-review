@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>第 13 周 切块、元数据、文档版本</title>
+<style>
+:root { color-scheme: light; --ink:#1c1917; --muted:#57534e; --line:#e7e5e4; --paper:#fafaf9; --accent:#1d4ed8; --code:#f5f5f4; }
+* { box-sizing: border-box; }
+body { margin:0; font-family:"Iowan Old Style","Songti SC",Palatino,serif; background:var(--paper); color:var(--ink); line-height:1.6; }
+header, main, footer { max-width:42rem; margin:0 auto; padding:0 1.1rem; }
+header { padding-top:1rem; }
+nav, .jump, footer, .kicker, .muted { font-family:"Avenir Next","PingFang SC",sans-serif; }
+nav { display:flex; gap:.7rem; flex-wrap:wrap; font-size:.92rem; }
+a { color:var(--accent); }
+h1 { font-size:1.55rem; line-height:1.3; margin:.35rem 0 .5rem; }
+h2 { font-size:1.2rem; margin:1.5rem 0 .35rem; }
+h3 { font-size:1.05rem; margin:1.15rem 0 .3rem; }
+h4 { font-size:1rem; margin:1rem 0 .25rem; }
+p, li { margin:.35rem 0; }
+.muted, .kicker { color:var(--muted); }
+.kicker { font-size:.78rem; letter-spacing:.04em; }
+code { font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace; font-size:.9em; }
+pre { background:var(--code); border:1px solid var(--line); padding:.75rem .8rem; overflow:auto; line-height:1.45; }
+pre code { font-size:.82rem; }
+table { width:100%; border-collapse:collapse; font-size:.92rem; margin:.5rem 0 1rem; }
+th, td { text-align:left; vertical-align:top; padding:.35rem .3rem; border-top:1px solid var(--line); }
+blockquote { margin:.6rem 0; padding-left:.8rem; border-left:3px solid var(--line); color:var(--muted); }
+hr { border:0; border-top:1px solid var(--line); margin:1.2rem 0; }
+.card { display:block; padding:.7rem 0; border-top:1px solid var(--line); text-decoration:none; color:inherit; }
+.card strong { color:var(--accent); font-family:"Avenir Next","PingFang SC",sans-serif; }
+footer { padding:1.4rem 1.1rem 2rem; color:var(--muted); font-size:.92rem; }
+</style>
+</head>
+<body>
+<header>
+<p class="kicker">手机读课文 · 代码回电脑写</p>
+<p class="jump"><a href="../index.html">目录</a> · <a href="a12.html">上一篇</a> · <a href="a14.html">下一篇</a></p>
+</header>
+<main>
+<h1>第 13 周：切块、元数据、文档版本</h1>
+<p>计划日期：2027-02-08 到 2027-02-14。</p>
+<p>项目一：用公开的产品手册、使用说明，或你自己写的售后政策，做知识库问答。先选一个范围小的场景，记下资料从哪来、能不能用。</p>
+<p>这一周只做到：文件能读进来，切成块，每块知道自己出自哪一页或哪一节。解析失败要报出来，不能变成一份空资料还继续问答。</p>
+<h2>先文本，再 PDF</h2>
+<p>Markdown 和纯文本用 <code>pathlib</code> 按 utf-8 读取。PDF 只处理能抽出文字的那种。扫描件没有文字层时，记录「这一份抽不出文字」，不要当成空字符串成功。</p>
+<p>每份文档有一个稳定的 <code>doc_id</code>。重新导入同一份时沿用这个编号，并增加版本号。删除是把这个 <code>doc_id</code> 标成不可用，或真的删掉它的块。问答不能再返回已删除版本的句子。</p>
+<p>一块要保存的元数据：</p>
+<ul><li><code>doc_id</code>、版本、文件名</li><li>块序号</li><li>原文位置：页码，或标题路径</li><li>这块的文字</li></ul>
+<h2>切块</h2>
+<p>检索的单位是块，不是整篇。块太大，一段里混进很多无关句子。块太小，一句话被切断。相邻块重叠一段，是为了答案正好落在切缝上时，至少有一块是完整的。</p>
+<pre class="lang-python"><code>def chunk_text(text: str, size: int = 400, overlap: int = 80) -&gt; list[str]:
+    if overlap &gt;= size:
+        raise ValueError(&quot;重叠必须小于块长&quot;)
+    chunks = []
+    start = 0
+    while start &lt; len(text):
+        piece = text[start:start + size].strip()
+        if piece:
+            chunks.append(piece)
+        if start + size &gt;= len(text):
+            break
+        start += size - overlap
+    return chunks</code></pre>
+<p>这里的长度先按字符数练习。真正接入模型前，再对照那家对上下文长度的说明。中文按字符切和按 token 切不是一回事，笔记里写明你用的是哪一种。</p>
+<p>抽查三块：每块都能指回文件和位置；重叠处的句子在相邻两块里都能看到。</p>
+<h2>这一周自己写</h2>
+<p>准备大约 20 份短资料，先全部是 Markdown。导入命令打印：成功几份、失败几份、共多少块。</p>
+<p>故意放进一个空文件和一个编码错误的文件。输出里要有文件名和原因，成功的那些仍然入库。</p>
+<p>验收：随机抽一块，能打开原文件找到这段话。删掉一个 <code>doc_id</code> 之后，按这个编号查块，结果是空的。</p>
+</main>
+<footer>
+<p>写程序仍在电脑上。新开对话只发：先读 主文件.md，从书签继续。</p>
+</footer>
+</body>
+</html>

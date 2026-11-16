@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>第 26 周 独立做一个小变更</title>
+<style>
+:root { color-scheme: light; --ink:#1c1917; --muted:#57534e; --line:#e7e5e4; --paper:#fafaf9; --accent:#1d4ed8; --code:#f5f5f4; }
+* { box-sizing: border-box; }
+body { margin:0; font-family:"Iowan Old Style","Songti SC",Palatino,serif; background:var(--paper); color:var(--ink); line-height:1.6; }
+header, main, footer { max-width:42rem; margin:0 auto; padding:0 1.1rem; }
+header { padding-top:1rem; }
+nav, .jump, footer, .kicker, .muted { font-family:"Avenir Next","PingFang SC",sans-serif; }
+nav { display:flex; gap:.7rem; flex-wrap:wrap; font-size:.92rem; }
+a { color:var(--accent); }
+h1 { font-size:1.55rem; line-height:1.3; margin:.35rem 0 .5rem; }
+h2 { font-size:1.2rem; margin:1.5rem 0 .35rem; }
+h3 { font-size:1.05rem; margin:1.15rem 0 .3rem; }
+h4 { font-size:1rem; margin:1rem 0 .25rem; }
+p, li { margin:.35rem 0; }
+.muted, .kicker { color:var(--muted); }
+.kicker { font-size:.78rem; letter-spacing:.04em; }
+code { font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace; font-size:.9em; }
+pre { background:var(--code); border:1px solid var(--line); padding:.75rem .8rem; overflow:auto; line-height:1.45; }
+pre code { font-size:.82rem; }
+table { width:100%; border-collapse:collapse; font-size:.92rem; margin:.5rem 0 1rem; }
+th, td { text-align:left; vertical-align:top; padding:.35rem .3rem; border-top:1px solid var(--line); }
+blockquote { margin:.6rem 0; padding-left:.8rem; border-left:3px solid var(--line); color:var(--muted); }
+hr { border:0; border-top:1px solid var(--line); margin:1.2rem 0; }
+.card { display:block; padding:.7rem 0; border-top:1px solid var(--line); text-decoration:none; color:inherit; }
+.card strong { color:var(--accent); font-family:"Avenir Next","PingFang SC",sans-serif; }
+footer { padding:1.4rem 1.1rem 2rem; color:var(--muted); font-size:.92rem; }
+</style>
+</head>
+<body>
+<header>
+<p class="kicker">手机读课文 · 代码回电脑写</p>
+<p class="jump"><a href="../index.html">目录</a> · <a href="a25.html">上一篇</a></p>
+</header>
+<main>
+<h1>第 26 周：独立做一个小变更</h1>
+<p>计划日期：2027-05-10 到 2027-05-16。</p>
+<p>给自己一个新需求，在半天里做完：实现、测试、按 README 启动，并讲给别人听。同时维持投递，跑一遍两个项目的免费回归。</p>
+<h2>需求要小到半天能做完</h2>
+<p>从下面选一个，或写一个同样大小的。开始前把范围写成五句话：谁用、输入、输出、拒绝什么、怎样算做完。</p>
+<ul><li>知识库：按文档版本过滤，旧版本默认不参与检索。</li><li>工单：增加一个「补充材料」状态，只有 open 能转到它，确认之前仍然不能变成 resolved。</li><li>提取：类别增加一个允许值，旧测试还要通过，缺字段仍然转人工。</li></ul>
+<p>半天之外的想法记下来，不在这天做。做不完就缩小范围，例如只做状态转换和测试，不改界面。</p>
+<h2>当天的顺序</h2>
+<ol><li>写出验收的三条测试，先看它们失败。</li><li>改最少的代码让它们通过。</li><li>跑这一个项目全部免费测试。</li><li>按 README 在本地启动，手动走一遍新路径。</li><li>用 5 分钟讲：改了哪一层，哪条测试拦住了旧行为被破坏。</li></ol>
+<p>讲的时候说明 AI 帮你看了哪一段、哪一段是你自己定的规则。规则和测试要是你能改的。</p>
+<h2>结束后的一页</h2>
+<p>写下还没掌握的三件事，每件对应后面要读的官方文档章节，不新开一条主线。Kubernetes、分布式训练、多 Agent 平台不放进这三件，除非已经拿到的录用通知把其中一项写成到岗前必须会。</p>
+<p>投递继续。项目指标没达到练习目标时，简历写实测计数和失败分析。核心路径跑不起来、权限或未经确认就能写入、自己讲不清核心代码，就先修再拿这个项目投。</p>
+<h2>这一周自己写</h2>
+<p>一个小变更的说明：需求五句话、diff 涉及的文件、测试名、手动检查的结果。</p>
+<p>验收：半天时间盒内能演示；回归命令通过；你能回答「如果再改一个相邻字段，测试要加在哪」。</p>
+</main>
+<footer>
+<p>写程序仍在电脑上。新开对话只发：先读 主文件.md，从书签继续。</p>
+</footer>
+</body>
+</html>

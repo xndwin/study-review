@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>第 4 周 测试、日志、反馈清洗</title>
+<style>
+:root { color-scheme: light; --ink:#1c1917; --muted:#57534e; --line:#e7e5e4; --paper:#fafaf9; --accent:#1d4ed8; --code:#f5f5f4; }
+* { box-sizing: border-box; }
+body { margin:0; font-family:"Iowan Old Style","Songti SC",Palatino,serif; background:var(--paper); color:var(--ink); line-height:1.6; }
+header, main, footer { max-width:42rem; margin:0 auto; padding:0 1.1rem; }
+header { padding-top:1rem; }
+nav, .jump, footer, .kicker, .muted { font-family:"Avenir Next","PingFang SC",sans-serif; }
+nav { display:flex; gap:.7rem; flex-wrap:wrap; font-size:.92rem; }
+a { color:var(--accent); }
+h1 { font-size:1.55rem; line-height:1.3; margin:.35rem 0 .5rem; }
+h2 { font-size:1.2rem; margin:1.5rem 0 .35rem; }
+h3 { font-size:1.05rem; margin:1.15rem 0 .3rem; }
+h4 { font-size:1rem; margin:1rem 0 .25rem; }
+p, li { margin:.35rem 0; }
+.muted, .kicker { color:var(--muted); }
+.kicker { font-size:.78rem; letter-spacing:.04em; }
+code { font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace; font-size:.9em; }
+pre { background:var(--code); border:1px solid var(--line); padding:.75rem .8rem; overflow:auto; line-height:1.45; }
+pre code { font-size:.82rem; }
+table { width:100%; border-collapse:collapse; font-size:.92rem; margin:.5rem 0 1rem; }
+th, td { text-align:left; vertical-align:top; padding:.35rem .3rem; border-top:1px solid var(--line); }
+blockquote { margin:.6rem 0; padding-left:.8rem; border-left:3px solid var(--line); color:var(--muted); }
+hr { border:0; border-top:1px solid var(--line); margin:1.2rem 0; }
+.card { display:block; padding:.7rem 0; border-top:1px solid var(--line); text-decoration:none; color:inherit; }
+.card strong { color:var(--accent); font-family:"Avenir Next","PingFang SC",sans-serif; }
+footer { padding:1.4rem 1.1rem 2rem; color:var(--muted); font-size:.92rem; }
+</style>
+</head>
+<body>
+<header>
+<p class="kicker">手机读课文 · 代码回电脑写</p>
+<p class="jump"><a href="../index.html">目录</a> · <a href="a03.html">上一篇</a> · <a href="a05.html">下一篇</a></p>
+</header>
+<main>
+<h1>第 4 周：测试、日志、反馈清洗</h1>
+<p>计划日期：2026-12-07 到 2026-12-13。</p>
+<p>这一周做训练项目「反馈清洗器」。从一段需求出发，你要能自己补一个功能，并为正常数据、空数据、坏数据写测试。</p>
+<h2>类型注解是给人看的</h2>
+<p>注解不自动挡掉错误输入，测试和校验才挡。它让函数签名说清输入和输出。</p>
+<pre class="lang-python"><code>def pass_rate(passed: int, total: int) -&gt; float | None:
+    if total == 0:
+        return None
+    return passed / total</code></pre>
+<p><code>float | None</code> 表示可能是小数，也可能没有结果。</p>
+<h2>日志</h2>
+<p>进行中的说明用 <code>logging</code>，不要全靠 <code>print</code>。<code>print</code> 留给真正要给用户看的结果。</p>
+<pre class="lang-python"><code>import logging
+
+logging.basicConfig(level=logging.INFO, format=&quot;%(levelname)s %(message)s&quot;)
+log = logging.getLogger(&quot;cleaner&quot;)
+
+log.info(&quot;读到 %s 行&quot;, 30)
+log.warning(&quot;跳过缺字段的第 %s 行&quot;, 4)</code></pre>
+<p>日志里不写密钥。等级从低到高常用 <code>DEBUG</code>、<code>INFO</code>、<code>WARNING</code>、<code>ERROR</code>。</p>
+<h2>pytest</h2>
+<p>测试文件名用 <code>test_*.py</code>，函数名用 <code>test_</code> 开头。断言失败时 pytest 会打出两边的值。</p>
+<pre class="lang-python"><code>def classify(score: int) -&gt; str:
+    if score &gt;= 90:
+        return &quot;优秀&quot;
+    if score &gt;= 60:
+        return &quot;及格&quot;
+    return &quot;不及格&quot;
+
+def test_boundary():
+    assert classify(59) == &quot;不及格&quot;
+    assert classify(60) == &quot;及格&quot;
+    assert classify(90) == &quot;优秀&quot;</code></pre>
+<p>运行：<code>python -m pytest</code>。一个测试只查一件事。正常、空、坏数据分成三个测试，失败时才知道是哪一种。</p>
+<h2>清洗器要做什么</h2>
+<p>数据是你自己编的 CSV 或 JSON，先几十条，再造大约 1000 条。字段至少有：编号、产品、类别、问题描述、联系方式。</p>
+<p>规则：</p>
+<ul><li>编号相同的只留第一条。</li><li>产品、类别、问题描述去掉首尾空白后不能是空。空的记入错误清单，不进入结果。</li><li>类别只允许固定的几个词，例如「故障」「咨询」「建议」。不认识的记入错误清单。</li><li>结果写到新文件：<code>clean.json</code> 和 <code>errors.json</code>。源文件只读。</li><li>错误清单里要有原行号和原因，方便你回头看。</li></ul>
+<p>配置放在一个小的 JSON 或 <code>.env.example</code> 里，例如允许的类别、输入路径、输出路径。README 写三步：建虚拟环境、准备一份样例、运行命令和测试命令。</p>
+<h2>一个最小函数长什么样</h2>
+<pre class="lang-python"><code>def validate(row: dict, allowed: set[str]) -&gt; str | None:
+    product = str(row.get(&quot;product&quot;, &quot;&quot;)).strip()
+    kind = str(row.get(&quot;kind&quot;, &quot;&quot;)).strip()
+    detail = str(row.get(&quot;detail&quot;, &quot;&quot;)).strip()
+    if not product or not kind or not detail:
+        return &quot;缺必填字段&quot;
+    if kind not in allowed:
+        return &quot;未知类别&quot;
+    return None</code></pre>
+<p>返回 <code>None</code> 表示这行可以用。返回字符串表示拒绝原因。去重用一个 <code>set</code> 记下见过的编号，放在循环外面。</p>
+<h2>这一周自己写</h2>
+<p>项目目录以后放在 <code>code/test/ai-app-26w/feedback-cleaner/</code>。现在按上面的规则实现读取、去重、校验、导出。</p>
+<p>测试至少三条：</p>
+<ul><li>两行编号相同，结果里只剩一行。</li><li>空文件或零行，结果是空列表，程序不崩。</li><li>一行缺问题描述，它出现在错误清单，不出现在清洗结果。</li></ul>
+<p>验收：别人只给你一句新需求，例如「问题描述短于 4 个字也算错误」，你能补上这个判断并加一个测试，旧的三个测试仍然通过。</p>
+</main>
+<footer>
+<p>写程序仍在电脑上。新开对话只发：先读 主文件.md，从书签继续。</p>
+</footer>
+</body>
+</html>

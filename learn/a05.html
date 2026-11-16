@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>第 5 周 HTTP 与 FastAPI</title>
+<style>
+:root { color-scheme: light; --ink:#1c1917; --muted:#57534e; --line:#e7e5e4; --paper:#fafaf9; --accent:#1d4ed8; --code:#f5f5f4; }
+* { box-sizing: border-box; }
+body { margin:0; font-family:"Iowan Old Style","Songti SC",Palatino,serif; background:var(--paper); color:var(--ink); line-height:1.6; }
+header, main, footer { max-width:42rem; margin:0 auto; padding:0 1.1rem; }
+header { padding-top:1rem; }
+nav, .jump, footer, .kicker, .muted { font-family:"Avenir Next","PingFang SC",sans-serif; }
+nav { display:flex; gap:.7rem; flex-wrap:wrap; font-size:.92rem; }
+a { color:var(--accent); }
+h1 { font-size:1.55rem; line-height:1.3; margin:.35rem 0 .5rem; }
+h2 { font-size:1.2rem; margin:1.5rem 0 .35rem; }
+h3 { font-size:1.05rem; margin:1.15rem 0 .3rem; }
+h4 { font-size:1rem; margin:1rem 0 .25rem; }
+p, li { margin:.35rem 0; }
+.muted, .kicker { color:var(--muted); }
+.kicker { font-size:.78rem; letter-spacing:.04em; }
+code { font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace; font-size:.9em; }
+pre { background:var(--code); border:1px solid var(--line); padding:.75rem .8rem; overflow:auto; line-height:1.45; }
+pre code { font-size:.82rem; }
+table { width:100%; border-collapse:collapse; font-size:.92rem; margin:.5rem 0 1rem; }
+th, td { text-align:left; vertical-align:top; padding:.35rem .3rem; border-top:1px solid var(--line); }
+blockquote { margin:.6rem 0; padding-left:.8rem; border-left:3px solid var(--line); color:var(--muted); }
+hr { border:0; border-top:1px solid var(--line); margin:1.2rem 0; }
+.card { display:block; padding:.7rem 0; border-top:1px solid var(--line); text-decoration:none; color:inherit; }
+.card strong { color:var(--accent); font-family:"Avenir Next","PingFang SC",sans-serif; }
+footer { padding:1.4rem 1.1rem 2rem; color:var(--muted); font-size:.92rem; }
+</style>
+</head>
+<body>
+<header>
+<p class="kicker">手机读课文 · 代码回电脑写</p>
+<p class="jump"><a href="../index.html">目录</a> · <a href="a04.html">上一篇</a> · <a href="a06.html">下一篇</a></p>
+</header>
+<main>
+<h1>第 5 周：HTTP 与 FastAPI</h1>
+<p>计划日期：2026-12-14 到 2026-12-20。</p>
+<p>这一周做一个工单服务的第一版，数据先放在内存里。你要能用 <code>/docs</code> 或 curl 调通创建、查询、列表、修改，并分清参数错误、找不到、服务自己出错。</p>
+<h2>一次请求里有什么</h2>
+<p>HTTP 请求有方法、路径、标头、正文。</p>
+<ul><li><code>GET</code> 读取，不改数据。</li><li><code>POST</code> 新建。</li><li><code>PATCH</code> 改一部分字段。</li><li>路径 <code>/tickets/3</code> 里的 <code>3</code> 是资源编号。</li><li>正文用 JSON，标头里写 <code>Content-Type: application/json</code>。</li></ul>
+<p>常见状态码：</p>
+<table><thead><tr><th>码</th><th>含义</th><th>例子</th></tr></thead><tbody><tr><td>200</td><td>成功并带回内容</td><td>查到一张工单</td></tr><tr><td>201</td><td>已创建</td><td>新建成功</td></tr><tr><td>404</td><td>没有这个资源</td><td>编号不存在</td></tr><tr><td>422</td><td>正文或参数不合格</td><td>标题是空的</td></tr><tr><td>500</td><td>服务自己出错</td><td>代码抛了未处理的异常</td></tr></tbody></table>
+<p>422 是调用方写错了。404 是编号对不上。500 是你的程序有 bug，不要把「找不到」写成 500。</p>
+<h2>一个最小服务</h2>
+<pre class="lang-python"><code>from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel, Field
+
+app = FastAPI()
+tickets: dict[int, dict] = {}
+next_id = 1
+
+class TicketIn(BaseModel):
+    title: str = Field(min_length=1, max_length=80)
+    user_id: int = Field(ge=1)
+
+@app.post(&quot;/tickets&quot;, status_code=201)
+def create_ticket(body: TicketIn):
+    global next_id
+    item = {&quot;id&quot;: next_id, &quot;title&quot;: body.title, &quot;user_id&quot;: body.user_id, &quot;status&quot;: &quot;open&quot;}
+    tickets[next_id] = item
+    next_id += 1
+    return item
+
+@app.get(&quot;/tickets/{ticket_id}&quot;)
+def get_ticket(ticket_id: int):
+    item = tickets.get(ticket_id)
+    if item is None:
+        raise HTTPException(status_code=404, detail=&quot;未找到&quot;)
+    return item</code></pre>
+<p><code>user_id</code> 从 <code>body.user_id</code> 取。写成一个不存在的名字，函数一跑就是 <code>NameError</code>，调用方看到的是 500，不是 422。</p>
+<p>Pydantic 在函数运行前检查类型和 <code>min_length</code>。标题是空字符串，FastAPI 直接回 422，函数体不会执行。</p>
+<p>启动：</p>
+<pre class="lang-bash"><code>uvicorn app:app --reload</code></pre>
+<p>浏览器打开 <code>http://127.0.0.1:8000/docs</code>。也可以：</p>
+<pre class="lang-bash"><code>curl -s -X POST http://127.0.0.1:8000/tickets \
+  -H &#x27;Content-Type: application/json&#x27; \
+  -d &#x27;{&quot;title&quot;:&quot;无法登录&quot;,&quot;user_id&quot;:1}&#x27;</code></pre>
+<p>列表用 <code>GET /tickets</code>，返回目前字典里的值。修改用 <code>PATCH /tickets/1</code>，只允许改 <code>title</code> 或 <code>status</code>，状态先限定 <code>open</code> 和 <code>closed</code>。未知状态回 422。</p>
+<p>内存字典在进程退出后就没了。这是这一周的预期，下一周才落盘。</p>
+<h2>这一周自己写</h2>
+<p>在 <code>ticket-service</code> 里实现创建、按编号查询、列表、修改标题或状态。准备四次调用并记下状态码：</p>
+<ul><li>合法创建，得到 201 和编号。</li><li>标题是空字符串，得到 422。</li><li>查询一个还没有的编号，得到 404。</li><li>把状态改成不允许的词，得到 422，原工单不变。</li></ul>
+<p>验收：你能指出哪一次是参数错、哪一次是资源不存在。不写网页前端。</p>
+</main>
+<footer>
+<p>写程序仍在电脑上。新开对话只发：先读 主文件.md，从书签继续。</p>
+</footer>
+</body>
+</html>

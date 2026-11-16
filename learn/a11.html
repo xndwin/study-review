@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>第 11 周 向量、评测集、三种改知识的办法</title>
+<style>
+:root { color-scheme: light; --ink:#1c1917; --muted:#57534e; --line:#e7e5e4; --paper:#fafaf9; --accent:#1d4ed8; --code:#f5f5f4; }
+* { box-sizing: border-box; }
+body { margin:0; font-family:"Iowan Old Style","Songti SC",Palatino,serif; background:var(--paper); color:var(--ink); line-height:1.6; }
+header, main, footer { max-width:42rem; margin:0 auto; padding:0 1.1rem; }
+header { padding-top:1rem; }
+nav, .jump, footer, .kicker, .muted { font-family:"Avenir Next","PingFang SC",sans-serif; }
+nav { display:flex; gap:.7rem; flex-wrap:wrap; font-size:.92rem; }
+a { color:var(--accent); }
+h1 { font-size:1.55rem; line-height:1.3; margin:.35rem 0 .5rem; }
+h2 { font-size:1.2rem; margin:1.5rem 0 .35rem; }
+h3 { font-size:1.05rem; margin:1.15rem 0 .3rem; }
+h4 { font-size:1rem; margin:1rem 0 .25rem; }
+p, li { margin:.35rem 0; }
+.muted, .kicker { color:var(--muted); }
+.kicker { font-size:.78rem; letter-spacing:.04em; }
+code { font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace; font-size:.9em; }
+pre { background:var(--code); border:1px solid var(--line); padding:.75rem .8rem; overflow:auto; line-height:1.45; }
+pre code { font-size:.82rem; }
+table { width:100%; border-collapse:collapse; font-size:.92rem; margin:.5rem 0 1rem; }
+th, td { text-align:left; vertical-align:top; padding:.35rem .3rem; border-top:1px solid var(--line); }
+blockquote { margin:.6rem 0; padding-left:.8rem; border-left:3px solid var(--line); color:var(--muted); }
+hr { border:0; border-top:1px solid var(--line); margin:1.2rem 0; }
+.card { display:block; padding:.7rem 0; border-top:1px solid var(--line); text-decoration:none; color:inherit; }
+.card strong { color:var(--accent); font-family:"Avenir Next","PingFang SC",sans-serif; }
+footer { padding:1.4rem 1.1rem 2rem; color:var(--muted); font-size:.92rem; }
+</style>
+</head>
+<body>
+<header>
+<p class="kicker">手机读课文 · 代码回电脑写</p>
+<p class="jump"><a href="../index.html">目录</a> · <a href="a10.html">上一篇</a> · <a href="a12.html">下一篇</a></p>
+</header>
+<main>
+<h1>第 11 周：向量、评测集、三种改知识的办法</h1>
+<p>计划日期：2027-01-25 到 2027-01-31。</p>
+<p>这一周把「调用 API」「检索」「微调」分开，并建立大约 50 条你亲自看过的提取样本。格式正确和内容正确要分开数。</p>
+<h2>三种改知识的办法</h2>
+<table><thead><tr><th>办法</th><th>改变什么</th><th>什么时候用</th></tr></thead><tbody><tr><td>把资料放进 prompt 或先检索</td><td>这一次请求看得到的文字</td><td>制度、手册会更新</td></tr><tr><td>微调</td><td>模型权重</td><td>要稳定的格式或语气，且有成对数据</td></tr><tr><td>只调 API</td><td>不增加新知识</td><td>翻译、归纳用户刚刚给的文字</td></tr></tbody></table>
+<p>提取用户刚刚贴来的反馈，属于第三次。模型不需要记住你的产品手册。知识库问答才需要检索。微调不是这半年的主线。</p>
+<h2>向量在比什么</h2>
+<p>一段文字可以变成一串数字，叫 embedding。两段话越接近，两个向量的夹角越小。余弦相似度看的是方向，不是向量有多长。</p>
+<pre class="lang-python"><code>def dot(a, b):
+    return sum(x * y for x, y in zip(a, b))
+
+def norm(a):
+    return dot(a, a) ** 0.5
+
+def cosine(a, b):
+    return dot(a, b) / (norm(a) * norm(b))</code></pre>
+<p><code>cosine([1, 0], [1, 0])</code> 是 1。<code>cosine([1, 0], [0, 1])</code> 是 0。真实 embedding 的长度由模型决定，不同模型的向量不能放在同一次比较里。</p>
+<p>词匹配是另一条路：问题里的词和段落里的词重叠多少。它不需要 API，能先当基线。向量换的是「怎样把文字变成可以比较的东西」，后面的「取前几名、拼进提示、生成」可以不变。</p>
+<p>tokenization 是把文字切成模型内部的片段。Attention 是模型在生成下一个片段时，给前文分配权重。这两个词能解释即可：token 不是字；模型不是在数据库里查找你的 PDF。</p>
+<h2>评测集怎么分</h2>
+<p>自己写大约 50 条反馈，每条标明类别、产品、问题描述。你要真的读过，不能让模型先生成再拿来当标准答案。</p>
+<p>分成两份：</p>
+<ul><li>开发集大约 30 条。改提示、改规则时只看这一份。</li><li>保留测试集约 20 条。定稿前只跑一次，不拿它调提示。</li></ul>
+<p>一条样本记两列：</p>
+<ul><li>格式：是不是合法 JSON，字段在不在，类别在不在允许列表。</li><li>内容：类别和产品是否与你标的一致。</li></ul>
+<p>格式对了、类别判错，算内容错，不要合成一个含糊的总分。报告写「内容 16/20」，分母一起写。</p>
+<p>数据泄漏是指测试题已经出现在提示的例子里，或你反复用测试集改提示。那样的分数不能当成第一次见面的成绩。</p>
+<h2>这一周自己写</h2>
+<ul><li>一个不调用模型的 <code>cosine</code>，用上面的两个向量核对 1 和 0。</li><li>50 条样本落到 <code>eval/dev.jsonl</code> 和 <code>eval/holdout.jsonl</code>。</li><li>脚本对一份假的模型输出计算格式正确数和内容正确数。</li></ul>
+<p>验收：你能口头说明 API 调用、检索、微调各解决什么；能指出某条是格式错还是内容错。</p>
+</main>
+<footer>
+<p>写程序仍在电脑上。新开对话只发：先读 主文件.md，从书签继续。</p>
+</footer>
+</body>
+</html>

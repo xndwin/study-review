@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>第 9 周 两家模型 API</title>
+<style>
+:root { color-scheme: light; --ink:#1c1917; --muted:#57534e; --line:#e7e5e4; --paper:#fafaf9; --accent:#1d4ed8; --code:#f5f5f4; }
+* { box-sizing: border-box; }
+body { margin:0; font-family:"Iowan Old Style","Songti SC",Palatino,serif; background:var(--paper); color:var(--ink); line-height:1.6; }
+header, main, footer { max-width:42rem; margin:0 auto; padding:0 1.1rem; }
+header { padding-top:1rem; }
+nav, .jump, footer, .kicker, .muted { font-family:"Avenir Next","PingFang SC",sans-serif; }
+nav { display:flex; gap:.7rem; flex-wrap:wrap; font-size:.92rem; }
+a { color:var(--accent); }
+h1 { font-size:1.55rem; line-height:1.3; margin:.35rem 0 .5rem; }
+h2 { font-size:1.2rem; margin:1.5rem 0 .35rem; }
+h3 { font-size:1.05rem; margin:1.15rem 0 .3rem; }
+h4 { font-size:1rem; margin:1rem 0 .25rem; }
+p, li { margin:.35rem 0; }
+.muted, .kicker { color:var(--muted); }
+.kicker { font-size:.78rem; letter-spacing:.04em; }
+code { font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace; font-size:.9em; }
+pre { background:var(--code); border:1px solid var(--line); padding:.75rem .8rem; overflow:auto; line-height:1.45; }
+pre code { font-size:.82rem; }
+table { width:100%; border-collapse:collapse; font-size:.92rem; margin:.5rem 0 1rem; }
+th, td { text-align:left; vertical-align:top; padding:.35rem .3rem; border-top:1px solid var(--line); }
+blockquote { margin:.6rem 0; padding-left:.8rem; border-left:3px solid var(--line); color:var(--muted); }
+hr { border:0; border-top:1px solid var(--line); margin:1.2rem 0; }
+.card { display:block; padding:.7rem 0; border-top:1px solid var(--line); text-decoration:none; color:inherit; }
+.card strong { color:var(--accent); font-family:"Avenir Next","PingFang SC",sans-serif; }
+footer { padding:1.4rem 1.1rem 2rem; color:var(--muted); font-size:.92rem; }
+</style>
+</head>
+<body>
+<header>
+<p class="kicker">手机读课文 · 代码回电脑写</p>
+<p class="jump"><a href="../index.html">目录</a> · <a href="a08.html">上一篇</a> · <a href="a10.html">下一篇</a></p>
+</header>
+<main>
+<h1>第 9 周：两家模型 API</h1>
+<p>计划日期：2027-01-11 到 2027-01-17。</p>
+<p>同一套代码分别接两家 OpenAI 兼容供应商，只改配置。对话历史由你保存。换供应商之后，已经说过的话还在。鉴权失败、超时、限流都有上限和中文说明。</p>
+<p>调用形状以 <a href="method.html">现行学法</a> 为准。国内兼容接口用 Chat Completions：<code>messages</code>、<code>tools</code>、<code>stream</code>、<code>response_format</code>。OpenAI 自家新项目文档推荐 Responses API，流式事件不一样，不作为这套代码的第一实现。</p>
+<h2>网页产品和 API</h2>
+<p>网页聊天的历史存在厂商那边。API 每次都是新请求，厂商不记得上一次。你要把之前的 <code>user</code> 和 <code>assistant</code> 消息放进下一次的 <code>messages</code>。</p>
+<table><thead><tr><th>role</th><th>谁写的</th></tr></thead><tbody><tr><td>system</td><td>你，规定人设和格式</td></tr><tr><td>user</td><td>用户这一轮</td></tr><tr><td>assistant</td><td>模型上一轮的原文</td></tr><tr><td>tool</td><td>你的函数返回，第 17 周再用</td></tr></tbody></table>
+<pre class="lang-python"><code>messages = [
+    {&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: &quot;用中文，回答不超过两句。&quot;},
+    {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;什么是外键？&quot;},
+]</code></pre>
+<p>一次非流式调用取正文：<code>response.choices[0].message.content</code>。用量在 <code>response.usage</code>，里面有 <code>prompt_tokens</code> 和 <code>completion_tokens</code>。两个都计费。token 不是汉字个数。</p>
+<p>配置只放三个值：<code>base_url</code>、<code>api_key</code>、<code>model</code>。密钥从环境变量读。日志最多打密钥前四位。<code>.env</code> 不提交，仓库里只留 <code>.env.example</code> 的占位符。</p>
+<p>两家例如 DeepSeek 和通义，或你账户里实际开通的两家。切换时改配置，不改对话循环。</p>
+<h2>历史要自己存</h2>
+<pre class="lang-python"><code>history = [{&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: &quot;用中文短答。&quot;}]
+
+def ask(user_text: str) -&gt; str:
+    history.append({&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: user_text})
+    reply = complete(history)
+    history.append({&quot;role&quot;: &quot;assistant&quot;, &quot;content&quot;: reply})
+    return reply</code></pre>
+<p><code>complete</code> 里面才是真正的 HTTP 调用。先问「我叫王敏」，再问「我刚才说我叫什么」。第二问的 <code>messages</code> 里必须有第一问和模型的回答，否则模型看不到名字。</p>
+<p>历史太长就丢掉最早的用户轮次，保留 system。窗口和费用在这里开始变得具体：每轮都会把旧消息再发一遍。</p>
+<h2>流式</h2>
+<p>流式时正文在增量里，不在最终的 <code>message.content</code>。Chat Completions 的增量是 <code>chunk.choices[0].delta.content</code>，有的块是空的，跳过再拼接。</p>
+<pre class="lang-python"><code>parts = []
+for chunk in stream:
+    delta = chunk.choices[0].delta.content
+    if delta:
+        parts.append(delta)
+text = &quot;&quot;.join(parts)</code></pre>
+<p>这段拼接结果也要写回 <code>history</code>，否则下一轮仍然没有模型刚才说的话。</p>
+<h2>失败</h2>
+<table><thead><tr><th>现象</th><th>含义</th><th>你怎么做</th></tr></thead><tbody><tr><td>401</td><td>密钥不对或没带</td><td>立刻失败，提示检查密钥，不要重试十几次</td></tr><tr><td>429</td><td>限流</td><td>最多重试 2 次，间隔拉开</td></tr><tr><td>超时</td><td>网络或模型太慢</td><td>最多重试 2 次，然后告诉用户稍后再试</td></tr><tr><td>5xx</td><td>对方服务故障</td><td>同样设上限</td></tr></tbody></table>
+<p>重试次数写在配置里。最后一次仍失败，抛出一个你自己的错误，消息是中文，里面没有密钥、没有整段 HTML 报错。</p>
+<h2>这一周自己写</h2>
+<p>一个命令行对话：</p>
+<ul><li>环境变量选择供应商 A 或 B。</li><li>连续两轮，第二轮能用到第一轮的内容。</li><li>把同一段历史换到另一家，回答可以不同，但历史不能丢。</li><li>故意写错密钥，看到中文提示，而不是把密钥打出来。</li><li>记录一次成功调用的 <code>prompt_tokens</code> 和 <code>completion_tokens</code>。</li></ul>
+<p>模型名从你选定的供应商当天文档抄，不写已经停用的旧名字。</p>
+</main>
+<footer>
+<p>写程序仍在电脑上。新开对话只发：先读 主文件.md，从书签继续。</p>
+</footer>
+</body>
+</html>

@@ -1,248 +1,44 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>学习卡片</title>
-  <style>
-    :root {
-      color-scheme: light;
-      --ink: #1c1917;
-      --muted: #57534e;
-      --line: #e7e5e4;
-      --paper: #fafaf9;
-      --accent: #1d4ed8;
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: "Iowan Old Style", "Songti SC", Palatino, serif;
-      background: var(--paper);
-      color: var(--ink);
-      line-height: 1.55;
-    }
-    header, main { max-width: 40rem; margin: 0 auto; padding: 0 1.1rem; }
-    header { padding-top: 1rem; }
-    nav {
-      display: flex;
-      gap: 0.6rem;
-      flex-wrap: wrap;
-      font-family: "Avenir Next", "PingFang SC", sans-serif;
-      font-size: 0.92rem;
-    }
-    nav a { color: var(--accent); }
-    h1 { font-size: 1.7rem; margin: 0.3rem 0 0.4rem; }
-    h2 { font-size: 1.25rem; margin: 1.6rem 0 0.4rem; }
-    h3 { font-size: 1.05rem; margin: 1.1rem 0 0.3rem; }
-    p, li { margin: 0.35rem 0; }
-    .muted, .kicker {
-      font-family: "Avenir Next", "PingFang SC", sans-serif;
-      color: var(--muted);
-    }
-    .kicker { font-size: 0.78rem; letter-spacing: 0.04em; }
-    code { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: 0.92em; }
-    article {
-      padding-bottom: 0.6rem;
-      border-bottom: 1px solid var(--line);
-    }
-    details { margin: 0.6rem 0 0.2rem; }
-    summary {
-      font-family: "Avenir Next", "PingFang SC", sans-serif;
-      cursor: pointer;
-      color: var(--accent);
-    }
-    table { width: 100%; border-collapse: collapse; font-size: 0.92rem; margin: 0.4rem 0; }
-    th, td { text-align: left; vertical-align: top; padding: 0.35rem 0.3rem; border-top: 1px solid var(--line); }
-    .week { margin: 0.8rem 0; }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>大模型应用开发课文</title>
+<style>
+:root { color-scheme: light; --ink:#1c1917; --muted:#57534e; --line:#e7e5e4; --paper:#fafaf9; --accent:#1d4ed8; --code:#f5f5f4; }
+* { box-sizing: border-box; }
+body { margin:0; font-family:"Iowan Old Style","Songti SC",Palatino,serif; background:var(--paper); color:var(--ink); line-height:1.6; }
+header, main, footer { max-width:42rem; margin:0 auto; padding:0 1.1rem; }
+header { padding-top:1rem; }
+nav, .jump, footer, .kicker, .muted { font-family:"Avenir Next","PingFang SC",sans-serif; }
+nav { display:flex; gap:.7rem; flex-wrap:wrap; font-size:.92rem; }
+a { color:var(--accent); }
+h1 { font-size:1.55rem; line-height:1.3; margin:.35rem 0 .5rem; }
+h2 { font-size:1.2rem; margin:1.5rem 0 .35rem; }
+h3 { font-size:1.05rem; margin:1.15rem 0 .3rem; }
+h4 { font-size:1rem; margin:1rem 0 .25rem; }
+p, li { margin:.35rem 0; }
+.muted, .kicker { color:var(--muted); }
+.kicker { font-size:.78rem; letter-spacing:.04em; }
+code { font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace; font-size:.9em; }
+pre { background:var(--code); border:1px solid var(--line); padding:.75rem .8rem; overflow:auto; line-height:1.45; }
+pre code { font-size:.82rem; }
+table { width:100%; border-collapse:collapse; font-size:.92rem; margin:.5rem 0 1rem; }
+th, td { text-align:left; vertical-align:top; padding:.35rem .3rem; border-top:1px solid var(--line); }
+blockquote { margin:.6rem 0; padding-left:.8rem; border-left:3px solid var(--line); color:var(--muted); }
+hr { border:0; border-top:1px solid var(--line); margin:1.2rem 0; }
+.card { display:block; padding:.7rem 0; border-top:1px solid var(--line); text-decoration:none; color:inherit; }
+.card strong { color:var(--accent); font-family:"Avenir Next","PingFang SC",sans-serif; }
+footer { padding:1.4rem 1.1rem 2rem; color:var(--muted); font-size:.92rem; }
+</style>
 </head>
 <body>
-  <header>
-    <p class="kicker">手机复习 · 不需要开 AI</p>
-    <h1>学习卡片</h1>
-    <p class="muted">每次看一块，先自己答，再点开预期结果。写代码回到电脑，新开对话，只发：先读 主文件.md，从书签继续。</p>
-    <nav>
-      <a href="#today">今天</a>
-      <a href="#week1">第一周</a>
-      <a href="#map">半年 26 周</a>
-    </nav>
-  </header>
-  <main>
-    <article id="today">
-      <h2>今天 · a01-d01</h2>
-      <p>11 月 16 日，约 2 小时。比较、布尔、<code>and</code>／<code>or</code>／<code>not</code>，以及数字和字符串的真值。</p>
-      <ol>
-        <li><code>=</code> 和 <code>==</code> 各做什么？</li>
-        <li><code>3 &gt; 2</code></li>
-        <li><code>3 == "3"</code></li>
-        <li><code>3 != 4</code></li>
-        <li><code>5 &gt;= 5</code></li>
-        <li><code>2 &lt; 1</code></li>
-        <li><code>True and False</code></li>
-        <li><code>False or True</code></li>
-        <li><code>not True</code></li>
-        <li><code>bool(0)</code> 和 <code>bool("0")</code> 是否相同？为什么？</li>
-      </ol>
-      <p>再写三句：成绩至少 60；成绩在 0 到 100 之间；字符串不是空的。</p>
-      <details>
-        <summary>对答案</summary>
-        <ol>
-          <li><code>=</code> 赋值，<code>==</code> 比较。</li>
-          <li>True</li>
-          <li>False。整数和字符串不是同一个值。</li>
-          <li>True</li>
-          <li>True</li>
-          <li>False</li>
-          <li>False。<code>and</code> 要两边都成立。</li>
-          <li>True。<code>or</code> 有一边成立即可。</li>
-          <li>False</li>
-          <li>不相同。<code>0</code> 是假；<code>"0"</code> 不是空字符串，是真。</li>
-        </ol>
-        <p><code>score &gt;= 60</code>；<code>0 &lt;= score &lt;= 100</code>；<code>text != ""</code>。</p>
-      </details>
-    </article>
-
-    <h2 id="week1">第一周 · 11 月 16 日到 22 日</h2>
-    <p class="muted">目标是独立写出带校验、分支、循环和简单统计的成绩录入。前 5 天每天约 2 小时，后 2 天每天约 5 小时，拆开学。程序在电脑上写到 <code>code/test/ai-app-26w/week01/</code>。这里不放完整程序。</p>
-
-    <article id="d02">
-      <h3>第 2 天 · a01-d02 输入与字符串</h3>
-      <p>学 <code>input</code>、<code>strip</code>、<code>lower</code>、<code>isdecimal</code>、f-string。输入进来都是字符串。方法要写括号，结果要接住。</p>
-      <p>文件 <code>d02_input.py</code>：读姓名和成绩文本，打出原文、去掉首尾空格后的文本、长度、能不能当作整数字符串。再把 <code>" Q "</code> 去空格并转小写。</p>
-      <p>自测样本：<code>" 60 "</code>、<code>""</code>、<code>"abc"</code>、<code>"60.5"</code>、<code>" Q "</code>。</p>
-      <details>
-        <summary>预期</summary>
-        <ul>
-          <li><code>" 60 "</code> 去掉空格是 <code>"60"</code>，可以当整数。</li>
-          <li>空字符串和 <code>"abc"</code> 不是整数文本。</li>
-          <li><code>"60.5"</code> 含小数点，<code>isdecimal()</code> 为假。今天不要对它直接 <code>int</code>。</li>
-          <li><code>" Q "</code> 去掉空格再小写是 <code>"q"</code>。</li>
-          <li>去掉空格不等于已经检查过是不是合法成绩。</li>
-        </ul>
-      </details>
-    </article>
-
-    <article id="d03">
-      <h3>第 3 天 · a01-d03 分支</h3>
-      <p>先看是不是整数字符串，再 <code>int</code>，再看范围和等级。0–100 才接受。90–100 优秀，60–89 及格，0–59 不及格。其余提示错误。</p>
-      <p>文件 <code>d03_grade.py</code>。每个输入单独运行一次。</p>
-      <details>
-        <summary>预期</summary>
-        <ul>
-          <li>0、59：不及格</li>
-          <li>60、89：及格</li>
-          <li>90、100：优秀</li>
-          <li>101、-1、abc、空字符串、60.5：错误，不输出等级，也不因转换崩溃</li>
-        </ul>
-        <p>同一条 <code>elif</code> 链里如果先写 <code>&gt;= 60</code>，90 分会在到达优秀之前就被及格接走。</p>
-      </details>
-    </article>
-
-    <article id="d04">
-      <h3>第 4 天 · a01-d04 for</h3>
-      <p><code>range</code> 不含终点。累加和计数在循环外设成 0。文件 <code>d04_for.py</code>：1 到 10 的和；55 到 65 里至少 60 的个数。先不要用列表和 <code>sum</code>。</p>
-      <details>
-        <summary>预期</summary>
-        <ul>
-          <li>1 到 10 的和是 55。</li>
-          <li>55 到 65 里至少 60 的有 6 个：60 到 65。</li>
-          <li><code>range(1, 6)</code> 是 1、2、3、4、5，共 5 个数。</li>
-          <li>1 到 5 的和是 15。59 到 61 里至少 60 的有 2 个。</li>
-          <li>计数器如果写在循环里面并每轮归零，最后只会剩 0 或 1。</li>
-        </ul>
-      </details>
-    </article>
-
-    <article id="d05">
-      <h3>第 5 天 · a01-d05 while</h3>
-      <p>文件 <code>d05_while.py</code>。一直读成绩。去空格、转小写后是 q 就退出。合法成绩打印等级并计入个数。非法的提示错误，不计入，然后继续读下一次。</p>
-      <details>
-        <summary>预期</summary>
-        <ul>
-          <li><code>60 → abc → 90 → q</code>：有效 2 个。</li>
-          <li>直接 <code>q</code>：有效 0 个。</li>
-          <li><code>101 → -1 → Q</code>：退出，有效 0 个。</li>
-          <li><code>break</code> 结束整段循环。<code>continue</code> 跳过这一轮剩下的步骤。退出要靠 q，不是靠停掉程序。</li>
-        </ul>
-      </details>
-    </article>
-
-    <article id="d06">
-      <h3>第 6 天 · a01-d06 成绩工具</h3>
-      <p>文件 <code>score_cli.py</code>。持续录入 0–100 的整数，<code>q</code>／<code>Q</code> 退出。非法输入只提示，不进统计。退出时给出有效个数、及格个数、不及格个数和平均分。及格线 60。没有有效成绩时说明暂无，不能除以零。相同分数录入两次算两次。</p>
-      <details>
-        <summary>8 组预期</summary>
-        <table>
-          <tr><th>输入</th><th>结果</th></tr>
-          <tr><td>59 → 60 → 100 → q</td><td>有效 3，及格 2，不及格 1，平均 73.00</td></tr>
-          <tr><td>q</td><td>有效 0，暂无有效成绩</td></tr>
-          <tr><td>abc → -1 → 101 → 60 → q</td><td>有效 1，及格 1，不及格 0，平均 60.00</td></tr>
-          <tr><td>带首尾空格的 60 → Q</td><td>有效 1，及格 1，平均 60.00</td></tr>
-          <tr><td>60.5 → q</td><td>有效 0，暂无有效成绩</td></tr>
-          <tr><td>0 → 100 → q</td><td>有效 2，及格 1，不及格 1，平均 50.00</td></tr>
-          <tr><td>60 → 60 → q</td><td>有效 2，及格 2，平均 60.00</td></tr>
-          <tr><td>空字符串 → q</td><td>有效 0，暂无有效成绩</td></tr>
-        </table>
-      </details>
-    </article>
-
-    <article id="d07">
-      <h3>第 7 天 · a01-d07 周验收</h3>
-      <p>关掉旧代码，用 50 分钟写精简版：录入、错误跳过、q 退出、统计有效个数和及格个数。再把完整工具的及格线改成变量，先设 70。</p>
-      <details>
-        <summary>及格线 70 的预期</summary>
-        <p><code>69 → 70 → q</code>：有效 2，及格 1，不及格 1，平均 69.50。改回 60 后再跑上面 8 组。</p>
-        <p>当周通过还不等于两周后仍记得。+7 天和 +14 天要另测。</p>
-      </details>
-    </article>
-
-    <h2 id="map">半年 26 周</h2>
-    <p class="muted">2026-11-16 到 2027-05-16。每周约 20 小时。某一周没过就顺延，不删内容。手机上看本周要做什么；代码在电脑上写。</p>
-
-    <section class="week">
-      <h3>第 1 月 · Python · 11 月 16 日到 12 月 13 日</h3>
-      <p><strong>a01</strong> 布尔、字符串、条件、循环。做出带校验的成绩录入。</p>
-      <p><strong>a02</strong> 列表、字典、集合、函数。补索引、切片、enumerate、zip。做去重、分类、排序。</p>
-      <p><strong>a03</strong> 文件、JSON、异常、Git。批量读文件并统计。缺文件、坏 JSON 时给出错误，不覆盖原文件。</p>
-      <p><strong>a04</strong> 日志、pytest、README。完成反馈数据清洗器，并为正常、空数据、坏数据写测试。</p>
-    </section>
-    <section class="week">
-      <h3>第 2 月 · 后端 · 12 月 14 日到 1 月 10 日</h3>
-      <p><strong>a05</strong> HTTP 与 FastAPI。工单的创建、查询、列表、修改。分清参数错误、找不到、服务错误。</p>
-      <p><strong>a06</strong> SQLite。用户表和工单表，筛选、分页、统计、参数化查询。能说明何时用事务。</p>
-      <p><strong>a07</strong> 配置、归属校验、接口测试。用户不能读别人的工单，输入不能拼进 SQL。</p>
-      <p><strong>a08</strong> PostgreSQL、Linux、Docker。新环境按说明启动，重启不丢数据。</p>
-    </section>
-    <section class="week">
-      <h3>第 3 月 · 模型 API · 1 月 11 日到 2 月 7 日</h3>
-      <p><strong>a09</strong> 同一套代码接两家模型，只改配置。多轮和流式自己保存历史。鉴权失败、超时、限流要有上限重试。</p>
-      <p><strong>a10</strong> 提示模板和结构化输出。先用 json_schema，不支持再退回。字段仍由代码校验。</p>
-      <p><strong>a11</strong> 向量和评测集。分清调用 API、检索、微调。分清格式正确和内容正确。</p>
-      <p><strong>a12</strong> 把提取接进工单服务。同一批样本比较两个提示、两家供应商，并记下用量。</p>
-    </section>
-    <section class="week">
-      <h3>第 4 月 · 知识库 · 2 月 8 日到 3 月 7 日</h3>
-      <p><strong>a13</strong> 切块、重叠、来源和页码。解析失败要报出来。</p>
-      <p><strong>a14</strong> 词匹配和 FAISS。索引记下 embedding 模型名。换模型就重建，不混用旧向量。</p>
-      <p><strong>a15</strong> 引用、无答案拒答、权限。权限不能只靠提示词。</p>
-      <p><strong>a16</strong> 检索和回答分开记分。两路结果合并后再生成。通过后开始投实习。</p>
-    </section>
-    <section class="week">
-      <h3>第 5 月 · 工单助手 · 3 月 8 日到 4 月 4 日</h3>
-      <p><strong>a17</strong> 至少 3 个受控工具。模型不能直接执行代码或 SQL。</p>
-      <p><strong>a18</strong> 步数上限、人工确认、幂等。没有确认不能写入。重复提交不重复更新。</p>
-      <p><strong>a19</strong> 迁到 LangGraph。用 interrupt、会落盘的存档和 thread_id。重启后能恢复待确认任务。</p>
-      <p><strong>a20</strong> 任务评测和部署。讲清一次完整调用。然后扩大投递。</p>
-    </section>
-    <section class="week">
-      <h3>第 6 月 · 投递 · 4 月 5 日到 5 月 16 日</h3>
-      <p><strong>a21</strong> 两个项目在干净环境重装。只有目标岗位写了 MCP，才做一个只读工具。</p>
-      <p><strong>a22</strong> 测 1、5、10 个并发。指出慢在模型、检索还是数据库。</p>
-      <p><strong>a23</strong> 自动回归和 3 个故障案例。付费 API 的测试单独跑。</p>
-      <p><strong>a24</strong> 一页简历、两次模拟面试。讲清你做的部分、一次取舍、一次失败。</p>
-      <p><strong>a25</strong> 对照 20 个岗位，按反馈改简历或项目。</p>
-      <p><strong>a26</strong> 半天内独立完成一个小改动，并复盘。</p>
-    </section>
-  </main>
+<header>
+<p class="kicker">2026-11-16 开始 · 26 周</p>
+<nav><a href="#m1">课文</a><a href="learn/w01.html">原教材</a><a href="learn/method.html">现行学法</a></nav>
+</header>
+<main id="m1">
+<h1>大模型应用开发课文</h1><p>从第 1 周读起。每一页是讲解、例子和你要自己写的练习。这一站不放完整作业程序。</p><p><a href="learn/a01.html">今天从第 1 周读</a></p><h2>第 1 个月 · Python</h2><p class="muted">2026-11-16 — 2026-12-13</p><a class="card" href="learn/a01.html"><strong>第 1 周</strong><br>布尔、字符串、条件、循环</a><a class="card" href="learn/a02.html"><strong>第 2 周</strong><br>列表、字典、函数</a><a class="card" href="learn/a03.html"><strong>第 3 周</strong><br>文件、JSON、异常、Git</a><a class="card" href="learn/a04.html"><strong>第 4 周</strong><br>测试、日志、反馈清洗</a><h2>第 2 个月 · 后端和 SQL</h2><p class="muted">2026-12-14 — 2027-01-10</p><a class="card" href="learn/a05.html"><strong>第 5 周</strong><br>HTTP 与 FastAPI</a><a class="card" href="learn/a06.html"><strong>第 6 周</strong><br>SQLite 表、联表、事务</a><a class="card" href="learn/a07.html"><strong>第 7 周</strong><br>分层、归属校验、接口测试</a><a class="card" href="learn/a08.html"><strong>第 8 周</strong><br>PostgreSQL、Linux、Docker</a><h2>第 3 个月 · 模型 API</h2><p class="muted">2027-01-11 — 2027-02-07</p><a class="card" href="learn/a09.html"><strong>第 9 周</strong><br>两家模型 API</a><a class="card" href="learn/a10.html"><strong>第 10 周</strong><br>结构化输出与字段校验</a><a class="card" href="learn/a11.html"><strong>第 11 周</strong><br>向量、评测集、三种改知识的办法</a><a class="card" href="learn/a12.html"><strong>第 12 周</strong><br>提取服务、缓存、用量</a><h2>第 4 个月 · 知识库问答</h2><p class="muted">2027-02-08 — 2027-03-07</p><a class="card" href="learn/a13.html"><strong>第 13 周</strong><br>切块、元数据、文档版本</a><a class="card" href="learn/a14.html"><strong>第 14 周</strong><br>词匹配、向量、FAISS</a><a class="card" href="learn/a15.html"><strong>第 15 周</strong><br>引用、拒答、权限</a><a class="card" href="learn/a16.html"><strong>第 16 周</strong><br>分层评测与可启动版本</a><h2>第 5 个月 · 工单助手</h2><p class="muted">2027-03-08 — 2027-04-04</p><a class="card" href="learn/a17.html"><strong>第 17 周</strong><br>工具调用</a><a class="card" href="learn/a18.html"><strong>第 18 周</strong><br>确认、幂等、失败</a><a class="card" href="learn/a19.html"><strong>第 19 周</strong><br>LangGraph 暂停与恢复</a><a class="card" href="learn/a20.html"><strong>第 20 周</strong><br>任务评测与调用链</a><h2>第 6 个月 · 简历和投递</h2><p class="muted">2027-04-05 — 2027-05-16</p><a class="card" href="learn/a21.html"><strong>第 21 周</strong><br>换环境仍能启动</a><a class="card" href="learn/a22.html"><strong>第 22 周</strong><br>并发、超时、延迟</a><a class="card" href="learn/a23.html"><strong>第 23 周</strong><br>回归测试与故障复盘</a><a class="card" href="learn/a24.html"><strong>第 24 周</strong><br>简历和 5 分钟讲解</a><a class="card" href="learn/a25.html"><strong>第 25 周</strong><br>对照岗位、记录反馈</a><a class="card" href="learn/a26.html"><strong>第 26 周</strong><br>独立做一个小变更</a><h2>原课文和对照</h2><p class="muted">下面是仓库里已有的教材，按原编号保留，不删节。</p><a class="card" href="learn/w01.html">原课文 · Python 基础</a><a class="card" href="learn/w02.html">原课文 · Python 核心</a><a class="card" href="learn/w03.html">原课文 · 调用大模型</a><a class="card" href="learn/w04.html">原课文 · 提示词与评测</a><a class="card" href="learn/w05.html">原课文 · RAG 原理</a><a class="card" href="learn/w06.html">原课文 · 文档问答项目</a><a class="card" href="learn/w07.html">原课文 · 工具调用</a><a class="card" href="learn/w08.html">原课文 · 接口与求职</a><a class="card" href="learn/lecture-w00.html">对照讲解 · 环境</a><a class="card" href="learn/lecture-w01.html">对照讲解 · Python 基础</a><a class="card" href="learn/lecture-w02.html">对照讲解 · Python 核心</a><a class="card" href="learn/lecture-w03.html">对照讲解 · 调用大模型</a><a class="card" href="learn/lecture-w04.html">对照讲解 · 提示词与评测</a><a class="card" href="learn/lecture-w05.html">对照讲解 · RAG 原理</a><a class="card" href="learn/lecture-w06.html">对照讲解 · 文档问答</a><a class="card" href="learn/lecture-w07.html">对照讲解 · 工具调用</a><a class="card" href="learn/lecture-w08.html">对照讲解 · 接口与求职</a><a class="card" href="learn/lecture-errors.html">易错点</a><a class="card" href="learn/lecture-commands.html">电脑上的运行命令</a><a class="card" href="learn/method.html">现行学法</a><a class="card" href="learn/outline.html">知识点总表</a>
+</main>
 </body>
 </html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>电脑上的运行命令</title>
+<style>
+:root { color-scheme: light; --ink:#1c1917; --muted:#57534e; --line:#e7e5e4; --paper:#fafaf9; --accent:#1d4ed8; --code:#f5f5f4; }
+* { box-sizing: border-box; }
+body { margin:0; font-family:"Iowan Old Style","Songti SC",Palatino,serif; background:var(--paper); color:var(--ink); line-height:1.6; }
+header, main, footer { max-width:42rem; margin:0 auto; padding:0 1.1rem; }
+header { padding-top:1rem; }
+nav, .jump, footer, .kicker, .muted { font-family:"Avenir Next","PingFang SC",sans-serif; }
+nav { display:flex; gap:.7rem; flex-wrap:wrap; font-size:.92rem; }
+a { color:var(--accent); }
+h1 { font-size:1.55rem; line-height:1.3; margin:.35rem 0 .5rem; }
+h2 { font-size:1.2rem; margin:1.5rem 0 .35rem; }
+h3 { font-size:1.05rem; margin:1.15rem 0 .3rem; }
+h4 { font-size:1rem; margin:1rem 0 .25rem; }
+p, li { margin:.35rem 0; }
+.muted, .kicker { color:var(--muted); }
+.kicker { font-size:.78rem; letter-spacing:.04em; }
+code { font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace; font-size:.9em; }
+pre { background:var(--code); border:1px solid var(--line); padding:.75rem .8rem; overflow:auto; line-height:1.45; }
+pre code { font-size:.82rem; }
+table { width:100%; border-collapse:collapse; font-size:.92rem; margin:.5rem 0 1rem; }
+th, td { text-align:left; vertical-align:top; padding:.35rem .3rem; border-top:1px solid var(--line); }
+blockquote { margin:.6rem 0; padding-left:.8rem; border-left:3px solid var(--line); color:var(--muted); }
+hr { border:0; border-top:1px solid var(--line); margin:1.2rem 0; }
+.card { display:block; padding:.7rem 0; border-top:1px solid var(--line); text-decoration:none; color:inherit; }
+.card strong { color:var(--accent); font-family:"Avenir Next","PingFang SC",sans-serif; }
+footer { padding:1.4rem 1.1rem 2rem; color:var(--muted); font-size:.92rem; }
+</style>
+</head>
+<body>
+<header>
+<p class="kicker">手机读课文 · 代码回电脑写</p>
+<p class="jump"><a href="../index.html">目录</a></p>
+</header>
+<main>
+<h1>全部练习与作品命令</h1>
+<p>在仓库根目录、已 <code>source .venv/bin/activate</code>。一次全跑：<code>python3 code/test/run_all.py</code></p>
+<h2>第 0–1 周</h2>
+<pre class="lang-bash"><code>python3 code/test/w01_1_hello.py
+python3 code/test/w01_2_types.py
+python3 code/test/w01_3_bool.py
+python3 code/test/w01_4_string.py
+python3 code/test/w01_5_if.py
+python3 code/test/w01_6_loop.py
+python3 code/test/w01_7_list.py
+python3 code/test/w01_8_dict.py
+python3 code/test/w01_9_func.py
+python3 code/test/w01_10_comprehension.py
+python3 code/test/w01_ex_guess.py
+python3 code/test/w01_ex_scores.py
+python3 code/test/w01_ex_filter.py</code></pre>
+<h2>第 2 周</h2>
+<pre class="lang-bash"><code>python3 code/test/w02_1_venv.py
+python3 code/test/w02_2_files.py
+python3 code/test/w02_3_json.py
+python3 code/test/w02_4_errors.py
+python3 code/test/w02_5_defaults.py
+python3 code/test/w02_6_class.py
+python3 code/test/w02_7_module.py
+python3 code/test/w02_8_http.py
+python3 code/test/w02_ex_wordcount.py
+python3 code/test/w02_ex_config.py</code></pre>
+<h2>第 3–4 周</h2>
+<pre class="lang-bash"><code>python3 code/test/w03_1_web_vs_api.py
+python3 code/test/w03_2_messages.py
+python3 code/test/w03_3_usage.py
+python3 code/test/w03_4_history.py
+python3 code/test/w03_5_stream.py
+python3 code/test/w03_6_params.py
+python3 code/test/w03_7_errors.py
+python3 code/test/w03_ex_summarize.py
+python3 code/test/w03_ex_system.py
+python3 code/test/w04_1_prompt.py
+python3 code/test/w04_2_pipeline.py
+python3 code/test/w04_3_json.py
+python3 code/test/w04_4_eval.py
+python3 code/test/w04_5_guard.py</code></pre>
+<h2>第 5–8 周与作品</h2>
+<pre class="lang-bash"><code>python3 code/test/w05_1_why_rag.py
+python3 code/test/w05_2_chunk.py
+python3 code/test/w05_3_jaccard.py
+python3 code/test/w05_4_cosine.py
+python3 code/test/w05_5_cite.py
+python3 code/test/w05_6_fail.py
+python3 code/test/w05_compare.py
+python3 code/test/rag-qa/ask.py &quot;什么是 RAG？&quot;
+python3 code/test/rag-qa/eval.py
+python3 code/test/agent-tools/run.py &quot;计算 2**10，并总结 memo.txt&quot;
+python3 code/test/w08_2_env.py</code></pre>
+<pre class="lang-bash"><code>cd 仓库根目录/code/test
+uvicorn api:app --reload</code></pre>
+<p>简历：<code>code/test/resume.md</code>。面试提纲：<code>code/test/w08_interview.md</code>。</p>
+</main>
+<footer>
+<p>写程序仍在电脑上。新开对话只发：先读 主文件.md，从书签继续。</p>
+</footer>
+</body>
+</html>

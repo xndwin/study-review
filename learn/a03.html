@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>第 3 周 文件、JSON、异常、Git</title>
+<style>
+:root { color-scheme: light; --ink:#1c1917; --muted:#57534e; --line:#e7e5e4; --paper:#fafaf9; --accent:#1d4ed8; --code:#f5f5f4; }
+* { box-sizing: border-box; }
+body { margin:0; font-family:"Iowan Old Style","Songti SC",Palatino,serif; background:var(--paper); color:var(--ink); line-height:1.6; }
+header, main, footer { max-width:42rem; margin:0 auto; padding:0 1.1rem; }
+header { padding-top:1rem; }
+nav, .jump, footer, .kicker, .muted { font-family:"Avenir Next","PingFang SC",sans-serif; }
+nav { display:flex; gap:.7rem; flex-wrap:wrap; font-size:.92rem; }
+a { color:var(--accent); }
+h1 { font-size:1.55rem; line-height:1.3; margin:.35rem 0 .5rem; }
+h2 { font-size:1.2rem; margin:1.5rem 0 .35rem; }
+h3 { font-size:1.05rem; margin:1.15rem 0 .3rem; }
+h4 { font-size:1rem; margin:1rem 0 .25rem; }
+p, li { margin:.35rem 0; }
+.muted, .kicker { color:var(--muted); }
+.kicker { font-size:.78rem; letter-spacing:.04em; }
+code { font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace; font-size:.9em; }
+pre { background:var(--code); border:1px solid var(--line); padding:.75rem .8rem; overflow:auto; line-height:1.45; }
+pre code { font-size:.82rem; }
+table { width:100%; border-collapse:collapse; font-size:.92rem; margin:.5rem 0 1rem; }
+th, td { text-align:left; vertical-align:top; padding:.35rem .3rem; border-top:1px solid var(--line); }
+blockquote { margin:.6rem 0; padding-left:.8rem; border-left:3px solid var(--line); color:var(--muted); }
+hr { border:0; border-top:1px solid var(--line); margin:1.2rem 0; }
+.card { display:block; padding:.7rem 0; border-top:1px solid var(--line); text-decoration:none; color:inherit; }
+.card strong { color:var(--accent); font-family:"Avenir Next","PingFang SC",sans-serif; }
+footer { padding:1.4rem 1.1rem 2rem; color:var(--muted); font-size:.92rem; }
+</style>
+</head>
+<body>
+<header>
+<p class="kicker">手机读课文 · 代码回电脑写</p>
+<p class="jump"><a href="../index.html">目录</a> · <a href="a02.html">上一篇</a> · <a href="a04.html">下一篇</a></p>
+</header>
+<main>
+<h1>第 3 周：文件、JSON、异常、Git</h1>
+<p>计划日期：2026-11-30 到 2026-12-06。</p>
+<p>这一周写一个命令行工具：读一批文件，输出统计。缺文件、编码不对、JSON 坏了，都要有明确错误，并且不能覆盖原始数据。</p>
+<h2>路径和编码</h2>
+<p>不要把系统 Python 当成项目环境。项目用仓库根目录的 <code>.venv</code>。终端里先 <code>source .venv/bin/activate</code>，提示符前面出现 <code>(.venv)</code> 再装包、再运行。</p>
+<p>中文文件用 <code>utf-8</code>。路径用 <code>pathlib</code>。<code>Path(__file__)</code> 是当前脚本自己的位置，不随你在哪个目录敲命令而改变。</p>
+<pre class="lang-python"><code>from pathlib import Path
+
+here = Path(__file__).resolve().parent
+source = here / &quot;sample.csv&quot;
+target = here / &quot;out&quot; / &quot;summary.txt&quot;
+target.parent.mkdir(parents=True, exist_ok=True)
+text = source.read_text(encoding=&quot;utf-8&quot;)
+target.write_text(text, encoding=&quot;utf-8&quot;)</code></pre>
+<p><code>&quot;w&quot;</code> 会清空目标文件再写。输出写到新文件，例如 <code>out/summary.txt</code>。读的那个 <code>sample.csv</code> 不要用 <code>&quot;w&quot;</code> 打开。</p>
+<p><code>with</code> 离开代码块时自动关文件：</p>
+<pre class="lang-python"><code>with source.open(&quot;r&quot;, encoding=&quot;utf-8&quot;) as f:
+    for line in f:
+        print(line.rstrip(&quot;\n&quot;))</code></pre>
+<h2>CSV 和 JSON</h2>
+<p>CSV 第一行当表头。用标准库 <code>csv</code>，不要自己按逗号切开，因为字段里也可能有逗号。</p>
+<pre class="lang-python"><code>import csv
+from pathlib import Path
+
+with Path(&quot;feedback.csv&quot;).open(encoding=&quot;utf-8&quot;, newline=&quot;&quot;) as f:
+    rows = list(csv.DictReader(f))
+print(rows[0][&quot;name&quot;])</code></pre>
+<p>JSON 的对象对应字典，数组对应列表。<code>json.dumps</code> 把字典变成文本，<code>json.loads</code> 把文本变回字典。中文要 <code>ensure_ascii=False</code>，否则文件里会变成 <code>\u4e2d</code>。</p>
+<pre class="lang-python"><code>import json
+payload = {&quot;name&quot;: &quot;王敏&quot;, &quot;score&quot;: 90}
+raw = json.dumps(payload, ensure_ascii=False)
+print(raw)
+print(json.loads(raw)[&quot;score&quot;])</code></pre>
+<p>文件坏了会抛 <code>json.JSONDecodeError</code>。捕获之后打印文件名和「这一份跳过」，继续下一份。不要用光秃秃的 <code>except:</code>，那会把键盘中断也吞掉。</p>
+<h2>Traceback</h2>
+<p>报错从下往上看。最后一行是异常类型和说明，上面最近的一条带你的文件名和行号，就是你先该看的位置。</p>
+<pre class="lang-python"><code>def parse_file(path):
+    try:
+        return json.loads(Path(path).read_text(encoding=&quot;utf-8&quot;))
+    except FileNotFoundError:
+        print(f&quot;找不到 {path}&quot;)
+    except UnicodeDecodeError:
+        print(f&quot;编码不是 utf-8：{path}&quot;)
+    except json.JSONDecodeError as exc:
+        print(f&quot;JSON 坏了：{path} 第 {exc.lineno} 行&quot;)
+    return None</code></pre>
+<p>这三种失败都返回 <code>None</code>，调用方决定跳过，不把半截结果写回原文件。</p>
+<h2>模块</h2>
+<p>一个文件就是一个模块。想在命令行直接运行，又想被别的文件导入，把「真正开跑」放进：</p>
+<pre class="lang-python"><code>def main():
+    print(&quot;开始统计&quot;)
+
+if __name__ == &quot;__main__&quot;:
+    main()</code></pre>
+<p>别人 <code>import</code> 这个文件时，<code>__name__</code> 不是 <code>&quot;__main__&quot;</code>，<code>main</code> 不会自动跑。文件名用 <code>summarize.py</code> 这种字母，不要用 <code>01_files.py</code> 当被导入的模块名，因为模块名不能以数字开头。</p>
+<h2>Git 只记四件事</h2>
+<p>在练习项目目录里：</p>
+<pre class="lang-bash"><code>git init
+git status
+git add summary.py
+git commit -m &quot;读取一份 CSV 并打印行数&quot;
+git diff
+git checkout -b try-json</code></pre>
+<p><code>status</code> 看哪些文件改了。<code>diff</code> 看改了哪几行。<code>commit</code> 留下一个可以回去的点。试验新格式时开分支 <code>try-json</code>，坏了就回到原来的分支，原始数据文件不要提交进「覆盖实验」。</p>
+<p>密钥文件 <code>.env</code> 不要 <code>git add</code>。</p>
+<h2>这一周自己写</h2>
+<p>做 <code>batch_summary.py</code>：</p>
+<ul><li>参数是一个目录。目录不存在就退出并说明。</li><li>读其中每个 <code>.csv</code> 和 <code>.json</code>。</li><li>统计行数或对象个数，写到 <code>out/report.txt</code>。</li><li>某个文件坏了：报告文件名和原因，其他文件继续。</li><li>再跑一次，确认源目录里的文件字节没有变。可以在跑之前把源文件复制到一边，跑完比对自己那份副本。</li></ul>
+<p>验收：缺文件、错编码、坏 JSON 三种都能看到人话错误；原始数据还在。</p>
+</main>
+<footer>
+<p>写程序仍在电脑上。新开对话只发：先读 主文件.md，从书签继续。</p>
+</footer>
+</body>
+</html>

@@ -41,7 +41,18 @@ footer { padding:1.4rem 1.1rem 2rem; color:var(--muted); font-size:.92rem; }
 <h1>第 9 周：两家模型 API</h1>
 <p>计划日期：2027-01-11 到 2027-01-17。</p>
 <p>同一套代码分别接两家 OpenAI 兼容供应商，只改配置。对话历史由你保存。换供应商之后，已经说过的话还在。鉴权失败、超时、限流都有上限和中文说明。</p>
-<p>调用形状以 <a href="method.html">现行学法</a> 为准。国内兼容接口用 Chat Completions：<code>messages</code>、<code>tools</code>、<code>stream</code>、<code>response_format</code>。OpenAI 自家新项目文档推荐 Responses API，流式事件不一样，不作为这套代码的第一实现。</p>
+<p>调用形状以 <a href="method.html">现行学法</a> 为准，日期看那一页。2026-11-17 的核对结果写在下面。</p>
+<h2>2026-11-17 两套都要认识</h2>
+<p>两家互换的作业用 Chat Completions：<code>messages</code>、<code>tools</code>、<code>stream</code>、<code>response_format</code>。通义当天帮助页仍把它当作兼容入口，DeepSeek 也还提供这条路径。</p>
+<p>OpenAI 规定自家新项目用 Responses。DeepSeek 同样有 <code>POST /responses</code>。Assistants API 已于 2026-08-26 停用，不要学 threads、assistants 那套旧教程。</p>
+<pre class="lang-python"><code>response = client.responses.create(
+    model=model,
+    instructions=&quot;用中文，回答不超过两句。&quot;,
+    input=&quot;什么是外键？&quot;,
+)
+print(response.output_text)</code></pre>
+<p>这段的结果在 <code>output_text</code>，不在 <code>choices[0].message.content</code>。流式事件也不同，两套解析不要抄到一起。通义若当天没有 Responses，这一段只在有该接口的供应商上跑；互换作业仍走 Chat Completions。</p>
+<p>模型名放进环境变量，从当天模型列表抄。DeepSeek 文档这天的示例是 <code>deepseek-flash</code>。参考脚本里的 <code>deepseek-chat</code> 是旧例子，不写进新代码。思考开关按供应商文档放：DeepSeek 用 <code>thinking</code>，通义放在 <code>extra_body</code>。厂商自带的网页搜索是公开网页能力，不是第 13 周你自己的知识库。</p>
 <h2>网页产品和 API</h2>
 <p>网页聊天的历史存在厂商那边。API 每次都是新请求，厂商不记得上一次。你要把之前的 <code>user</code> 和 <code>assistant</code> 消息放进下一次的 <code>messages</code>。</p>
 <table><thead><tr><th>role</th><th>谁写的</th></tr></thead><tbody><tr><td>system</td><td>你，规定人设和格式</td></tr><tr><td>user</td><td>用户这一轮</td></tr><tr><td>assistant</td><td>模型上一轮的原文</td></tr><tr><td>tool</td><td>你的函数返回，第 17 周再用</td></tr></tbody></table>

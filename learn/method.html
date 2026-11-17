@@ -38,26 +38,34 @@ footer { padding:1.4rem 1.1rem 2rem; color:var(--muted); font-size:.92rem; }
 <p class="jump"><a href="../index.html">目录</a></p>
 </header>
 <main>
-<h1>现行学法（2026-11-16）</h1>
-<p>课文 <code>lessons/</code> 不删。学到调用模型、结构化输出、RAG 和工具时，以这一页和供应商当天的文档为准。模型名、价格和某家是否支持某个参数都会变，写进代码前打开官方页核对。</p>
-<p>来源：</p>
-<ul><li><a href="https://developers.openai.com/api/reference/resources/chat">Chat Completions</a>：仍可用。新接 OpenAI 自家平台时，文档建议改看 Responses API。</li><li><a href="https://developers.openai.com/api/docs/guides/structured-outputs">Structured Outputs</a>：<code>json_schema</code> 能约束字段；<code>json_object</code> 只保证是 JSON。</li><li><a href="https://developers.openai.com/api/docs/guides/migrate-to-responses">Migrate to the Responses API</a>：两套流式事件不一样，解析代码不能混用。</li><li><a href="https://docs.langchain.com/oss/python/langgraph/interrupts">LangGraph interrupts</a>、<a href="https://docs.langchain.com/oss/python/langgraph/checkpointers">checkpointers</a>：暂停用 <code>interrupt()</code>，恢复用 <code>Command(resume=...)</code>，靠 <code>thread_id</code> 找到存档。</li><li><a href="https://docs.langchain.com/langsmith/evaluate-rag-tutorial">Evaluate a RAG application</a>：检索质量和回答质量分开打分。</li></ul>
-<h2>调用哪套接口</h2>
-<p>国内供应商的兼容接口仍是 Chat Completions：<code>messages</code>、<code>tools</code>、<code>stream</code>、<code>response_format</code>。<code>a09</code> 的两家供应商就用这一套，只改 <code>base_url</code>、密钥和模型名。</p>
-<p>OpenAI 文档把 Responses API 标成自家新项目的入口。它的流式事件是分类型的，不是 Chat Completions 里的 <code>choices[].delta</code>。本计划不把 Responses 当作第一套代码，因为两家兼容供应商对不齐。简历里要能说出两套接口的差别。</p>
-<p>旧字段 <code>function_call</code> 已由 <code>tools</code> / <code>tool_calls</code> 代替。看到只教 <code>function_call</code> 的例子，不要照抄。</p>
+<h1>现行学法（2026-11-17）</h1>
+<p>课文 <code>lessons/</code> 不删。学到调用模型、结构化输出、RAG 和工具时，以这一页和供应商当天的文档为准。模型名、域名、价格和某个参数是否支持都会变，写进代码前打开官方页核对。</p>
+<p>这一页只记录应用开发还在用的接口。预训练、推理引擎和多 Agent 平台仍不作为这半年的主线。</p>
+<p>2026-11-17 核对过的来源：</p>
+<ul><li><a href="https://developers.openai.com/api/docs/guides/migrate-to-responses">Migrate to the Responses API</a>：OpenAI 新项目用 Responses。Chat Completions 仍可用。Assistants API 已于 2026-08-26 停用。</li><li><a href="https://developers.openai.com/api/reference/resources/chat">Chat Completions</a>：页面写明新项目去看 Responses。</li><li><a href="https://api-docs.deepseek.com/">DeepSeek 第一次调用</a>：同时给出 OpenAI 兼容和 Anthropic 兼容。当天示例模型是 <code>deepseek-flash</code>。</li><li><a href="https://api-docs.deepseek.com/guides/build_a_chatbot/">DeepSeek 聊天机器人</a>：Messages、Responses、Chat Completions 三条路径都列着。</li><li><a href="https://api-docs.deepseek.com/guides/tool_calls.md">DeepSeek 工具调用</a>：工具仍由调用方执行；思考模式和普通模式的限制不同。</li><li><a href="https://help.aliyun.com/zh/model-studio/qwen-api-via-openai-chat-completions">通义 OpenAI 兼容 Chat</a>：当天仍用 Chat Completions。<code>base_url</code> 带业务空间，按账号地域从帮助页抄。</li><li><a href="https://help.aliyun.com/zh/model-studio/multi-round-conversation">通义多轮对话</a>：Chat Completions 的历史要自己拼；Responses 被标成另一条更省事的多轮路径。</li><li><a href="https://docs.langchain.com/oss/python/langgraph/interrupts">LangGraph interrupts</a>、<a href="https://docs.langchain.com/oss/python/langgraph/checkpointers">checkpointers</a>。</li></ul>
+<h2>现在写哪套接口</h2>
+<p>两家都要能跑的作业，用 Chat Completions：<code>messages</code>、<code>tools</code>、<code>stream</code>、<code>response_format</code>。2026-11-17 通义帮助页仍把它当作兼容入口，DeepSeek 也还提供 <code>POST /chat/completions</code>。所以第 9 周互换供应商时，只改 <code>base_url</code>、密钥和模型名。</p>
+<p>OpenAI 自家的新项目用 Responses。DeepSeek 同样提供 <code>POST /responses</code>。通义把 Responses 写成多轮对话的另一条路径。简历里要能说出差别：</p>
+<table><thead><tr><th></th><th>Chat Completions</th><th>Responses</th></tr></thead><tbody><tr><td>请求</td><td><code>messages</code></td><td><code>input</code>，系统要求放在 <code>instructions</code></td></tr><tr><td>结果</td><td><code>choices[0].message</code></td><td><code>output</code> 里的条目；SDK 可用 <code>output_text</code></td></tr><tr><td>结构化输出</td><td><code>response_format</code></td><td><code>text.format</code></td></tr><tr><td>流式</td><td><code>choices[].delta</code></td><td>事件类型不同，解析代码不能混用</td></tr><tr><td>多轮</td><td>自己保存并重发历史</td><td>可用 <code>previous_response_id</code> 或会话接口；自己保存历史仍然有效</td></tr></tbody></table>
+<p>Assistants API 已经停用。看到 threads、assistants 的旧教程，不要照抄。</p>
+<p>Chat Completions 里的旧字段 <code>function_call</code> 已由 <code>tools</code> / <code>tool_calls</code> 代替。Responses 里的 <code>function_call</code> 是输出条目的类型名，和那个旧字段不是同一个东西。</p>
+<p>从 GPT-5.4 起，OpenAI 的 Chat Completions 在 <code>reasoning_effort</code> 不是 <code>none</code> 时不做工具调用。要同时用推理和工具，走 Responses。国内模型的思考开关以当天文档为准：DeepSeek 示例放在 <code>thinking.type</code> 和 <code>reasoning_effort</code>；通义示例放在 <code>extra_body</code>。</p>
+<h2>模型名和地址</h2>
+<p>模型名从控制台或当天模型列表抄进环境变量，不写死在业务代码里。2026-11-17 DeepSeek 文档的示例名是 <code>deepseek-flash</code>，由当时的 V4 系列 Flash 提供；旧名即使还能转发，也不要写进新代码。通义页面上同时出现 <code>qwen-plus</code>、<code>qwen4-max</code> 等名字，以你账号里能开通的那个为准。</p>
+<p>参考脚本里如果还印着 <code>deepseek-chat</code>，那是旧示例。运行前改成环境变量里的模型名。</p>
+<p>通义的 <code>base_url</code> 按地域和业务空间从帮助页抄。北京地域当天写的是带 <code>{WorkspaceId}</code> 的 <code>maas</code> 地址。控制台如果给你另一条地址，以控制台为准。</p>
 <h2>结构化输出</h2>
-<ol><li>供应商支持时，用 <code>response_format</code> 的 <code>json_schema</code>，并设严格模式。</li><li>不支持时，退到 <code>json_object</code>，或在提示里要求只输出 JSON。</li><li>两种都要在自己的代码里校验字段、枚举和空值。schema 不管业务规则，例如「分数必须在 0 到 100」仍由代码判断。</li><li>模型拒绝、输出截断、接口报错，要和「JSON 合格」分开处理。</li></ol>
+<ol><li>Chat Completions 上，供应商支持时用 <code>response_format</code> 的 <code>json_schema</code>，并设严格模式。Responses 上改放到 <code>text.format</code>。</li><li>不支持时，退到 <code>json_object</code>，或在提示里要求只输出 JSON。</li><li>两种都要在自己的代码里校验字段、枚举和空值。schema 不管业务规则，例如「分数必须在 0 到 100」仍由代码判断。</li><li>模型拒绝、输出截断、接口报错，要和「JSON 合格」分开处理。</li></ol>
 <h2>检索</h2>
-<p>项目一保持固定顺序：切块、召回、再生成。不要先做成「由模型决定要不要检索」的 Agentic RAG。那是项目二才会碰到的选择。</p>
-<p>词匹配和向量都留下。比较之后做一个简单合并：两路各取若干段，按来源去重，再交给生成。不要比较完只留一路。</p>
-<p>索引旁记下 embedding 模型名。换模型或换维度，就重建索引，不把旧向量和新向量混在同一次检索里。模型名从供应商当天的文档抄，不写死已经退市的名字。</p>
-<p>评测至少分开记两列：检索有没有找到标注证据；回答里的事实有没有被引用片段支撑。和标准答案是否一致、回答是否对准问题，可以再记，但不要合成一个模糊分数。人工核对是依据。用模型给模型打分只能当辅助，而且要另记费用。</p>
+<p>项目一保持固定顺序：切块、召回、再生成。厂商自带的网页搜索是另一项能力，例如 DeepSeek 的 <code>deepseek_web_search</code>。它可以回答公开网页上的问题，不能代替你自己的文档、权限和引用评测。</p>
+<p>词匹配和向量都留下。两路各取若干段，按来源去重，再交给生成。</p>
+<p>索引旁记下 embedding 模型名。换模型或换维度，就重建索引。模型名从供应商当天的文档抄。</p>
+<p>评测分开记两列：检索有没有找到标注证据；回答里的事实有没有被引用片段支撑。人工核对是依据。用模型给模型打分只能当辅助，而且要另记费用。</p>
 <h2>工具和人工确认</h2>
 <p>工具由你声明 JSON Schema，模型只返回想调用的名字和参数。真正执行的是你的 Python。参数先校验，再调用白名单里的函数。</p>
+<p>DeepSeek 写明：Chat Completions 不能在对话中途插入一条不是模型自己产生的工具调用；Responses 和 Anthropic Messages 可以。第 17 周如果要插入这种记录，就用 Responses 那一条路径，并在笔记里写明当时哪家支持。</p>
 <p>迁到 LangGraph 时：</p>
-<ul><li>图在进入需要人决定的节点里调用 <code>interrupt()</code>。</li><li>编译时带上 checkpointer。学习用 SQLite 这类会落盘的实现。只放在内存里的存档，进程一关就恢复不了。</li><li>每次调用带同一个 <code>thread_id</code>，才能读到上次的存档。</li><li>人做出决定后，用 <code>Command(resume=...)</code> 继续。不要新开一个空线程假装恢复。</li><li>业务上「没有确认不能写入」仍由你的规则和测试保证，不交给模型说一句「用户已同意」。</li></ul>
-<p>官方还有一种由模型决定何时检索的图教程。项目一不要从那篇教程起手。</p>
+<ul><li>图在进入需要人决定的节点里调用 <code>interrupt()</code>。</li><li>编译时带上 checkpointer。学习用 SQLite 这类会落盘的实现。</li><li>每次调用带同一个 <code>thread_id</code>。</li><li>人做出决定后，用 <code>Command(resume=...)</code> 继续。</li><li>「没有确认不能写入」仍由你的规则和测试保证。</li></ul>
 </main>
 <footer>
 <p>写程序仍在电脑上。新开对话只发：先读 主文件.md，从书签继续。</p>

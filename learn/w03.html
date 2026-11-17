@@ -40,7 +40,7 @@ footer { padding:1.4rem 1.1rem 2rem; color:var(--muted); font-size:.92rem; }
 <main>
 <h1>第 3 周：调用大模型（全量）</h1>
 <p>对应 <code>w03-1</code> … <code>w03-7</code>。没有 Key 时先读完 w03-1～w03-3 的概念，申请到 Key 再跑代码。</p>
-<p>2026-11-16 补充：调用形状以 <a href="method.html">现行学法</a> 为准。兼容供应商继续用 Chat Completions。不要学已替换掉的 <code>function_call</code> 字段。OpenAI 自家新项目推荐 Responses API，流式事件不同，不作为这里的第一套代码。</p>
+<p>2026-11-17 补充：调用形状以 <a href="method.html">现行学法</a> 为准。两家都能跑的作业仍用 Chat Completions。OpenAI 新项目和 DeepSeek 的另一条路径用 Responses，流式事件不同，不要混用解析。Assistants API 已停用。模型名从当天文档抄，不沿用参考脚本里的旧示例名。</p>
 <hr>
 <h2>w03-1 网页产品和 API 的差别</h2>
 <p>网页 ChatGPT：厂商帮你存历史、画界面、限流、安全过滤。  应用岗写的是：<strong>你的服务器用 HTTP 调模型，再把结果接到业务</strong>（知识库、表单、内部系统）。</p>

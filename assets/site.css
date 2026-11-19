@@ -213,7 +213,36 @@ h1 {
 .month h2, .prose h2, .prose h3, .prose h4 { font-weight: 650; line-height: 1.4; }
 .month h2 { font-size: 1.2rem; margin: 0 0 0.15rem; }
 .muted { color: var(--muted); margin: 0 0 0.7rem; font-size: 0.9rem; }
-.week-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.65rem; }
+.week-grid { display: grid; grid-template-columns: 1fr; gap: 0.85rem; }
+.chapter-index {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.35rem;
+  margin: 0.45rem 0 0.15rem;
+}
+.chapter-index p, .prose .chapter-index p {
+  grid-column: 1 / -1;
+  margin: 0;
+  font-family: var(--sans);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+.chapter-index a {
+  display: block;
+  padding: 0.42rem 0.65rem;
+  background: var(--chip);
+  border: 1px solid var(--line);
+  border-radius: 0.55rem;
+  color: inherit;
+  text-decoration: none;
+  font-family: var(--sans);
+  font-size: 0.88rem;
+  line-height: 1.4;
+}
+.chapter-index a:hover { border-color: color-mix(in srgb, var(--cinnabar) 40%, var(--line)); }
+.rail-link.chapter { margin-left: 0.7rem; padding: 0.22rem 0.45rem; font-size: 0.8rem; }
+.rail-link.parent-here span { color: var(--cinnabar); }
 .card {
   display: flex;
   flex-direction: column;
@@ -391,7 +420,7 @@ a:focus-visible, button:focus-visible {
   .topbar { margin: 0 -1.15rem 1rem; padding: 0.65rem 0.85rem; }
   .catalog, .prose { max-width: none; }
   h1 { font-size: 1.7rem; }
-  .week-grid, .pager { grid-template-columns: 1fr; }
+  .week-grid, .pager, .chapter-index { grid-template-columns: 1fr; }
   .tools button:nth-child(-n+3) { padding-inline: 0.5rem; }
 }
 @media (prefers-reduced-motion: reduce) {

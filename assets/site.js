@@ -22,6 +22,24 @@
   syncSize();
   syncTheme();
 
+  var scrollKey = "study-scroll:" + location.pathname;
+  if (!location.hash) {
+    try {
+      var saved = localStorage.getItem(scrollKey);
+      if (saved) window.scrollTo(0, Number(saved) || 0);
+    } catch (e) {}
+  }
+  var scrollTimer;
+  function rememberScroll() {
+    clearTimeout(scrollTimer);
+    scrollTimer = setTimeout(function () {
+      try { localStorage.setItem(scrollKey, String(window.scrollY)); } catch (e) {}
+    }, 120);
+  }
+  window.addEventListener("pagehide", function () {
+    try { localStorage.setItem(scrollKey, String(window.scrollY)); } catch (e) {}
+  });
+
   document.querySelectorAll("[data-size]").forEach(function (btn) {
     btn.addEventListener("click", function () {
       var size = btn.getAttribute("data-size");
@@ -77,5 +95,8 @@
     if (passed) passed.classList.add("active");
   }
   onScroll();
-  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("scroll", function () {
+    onScroll();
+    rememberScroll();
+  }, { passive: true });
 })();

@@ -134,6 +134,11 @@ body::before {
 }
 .rail-link:hover { background: rgba(122, 46, 38, 0.06); }
 .today-card { background: var(--cinnabar-soft); }
+.today-card span, .today-card small {
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
+}
 .rail-link.here { background: var(--pine); color: var(--here-ink); }
 .rail-link.here small { color: color-mix(in srgb, var(--here-ink) 78%, transparent); }
 .sheet {

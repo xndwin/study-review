@@ -18,8 +18,8 @@
   --quote: #f4eee4;
   --read: 1.125rem;
   --sans: "Avenir Next", "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", sans-serif;
-  --serif: "Literata", "Songti SC", "Noto Serif SC", "Source Han Serif SC", Palatino, serif;
-  --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --serif: "Songti SC", "Source Han Serif SC", "Noto Serif SC", "Iowan Old Style", Palatino, serif;
+  --mono: "SF Mono", ui-monospace, Menlo, Consolas, monospace;
   --shadow: 0 18px 40px rgba(70, 48, 24, 0.08);
 }
 [data-theme="night"] {
@@ -42,7 +42,7 @@
   --shadow: none;
 }
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: auto; }
 body {
   margin: 0;
   background: var(--desk);
@@ -151,9 +151,8 @@ body::before {
   z-index: 6;
   margin: 0 -2.4rem 1.2rem;
   padding: 0.75rem 1.3rem;
-  background: color-mix(in srgb, var(--paper) 90%, transparent);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid transparent;
+  background: var(--paper);
+  border-bottom: 1px solid var(--line);
 }
 .crumb { color: var(--muted); text-decoration: none; font-size: 0.88rem; }
 .tools { margin-left: auto; display: flex; gap: 0.35rem; }
@@ -200,69 +199,68 @@ h1 {
 .continue {
   display: inline-flex;
   flex-direction: column;
-  gap: 0.12rem;
-  margin: 0.2rem 0 1.8rem;
-  padding: 0.85rem 1.15rem 0.95rem;
-  background: var(--pine);
-  color: var(--here-ink);
-  text-decoration: none;
-  border-radius: 0.85rem;
-}
-.continue span { font-family: var(--serif); font-size: 0.98rem; opacity: 0.86; }
-.month { margin: 0 0 1.5rem; }
-.month h2, .prose h2, .prose h3, .prose h4 { font-weight: 650; line-height: 1.4; }
-.month h2 { font-size: 1.2rem; margin: 0 0 0.15rem; }
-.muted { color: var(--muted); margin: 0 0 0.7rem; font-size: 0.9rem; }
-.week-grid { display: grid; grid-template-columns: 1fr; gap: 0.85rem; }
-.chapter-index {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.35rem;
-  margin: 0.45rem 0 0.15rem;
-}
-.chapter-index p, .prose .chapter-index p {
-  grid-column: 1 / -1;
-  margin: 0;
-  font-family: var(--sans);
-  font-size: 0.75rem;
-  letter-spacing: 0.08em;
+  gap: 0.15rem;
+  margin: 0.3rem 0 1.5rem;
+  padding: 0.1rem 0 0.1rem 0.85rem;
+  border-left: 2px solid var(--cinnabar);
+  background: transparent;
   color: var(--muted);
+  text-decoration: none;
+  border-radius: 0;
 }
+.continue span { font-family: var(--serif); font-size: 1.2rem; color: var(--ink); }
+.month { margin: 0 0 1.8rem; }
+.month h2, .prose h2, .prose h3, .prose h4 { font-weight: 650; line-height: 1.4; }
+.month h2 { font-size: 1.35rem; margin: 1.4rem 0 0.15rem; font-family: var(--serif); }
+.muted { color: var(--muted); margin: 0 0 0.4rem; font-size: 0.9rem; }
+.week-grid { display: block; }
+.week-block { border-top: 1px solid var(--line); padding: 0.15rem 0 0.55rem; }
+.chapter-index { margin: 0.1rem 0 0.35rem; }
 .chapter-index a {
   display: block;
-  padding: 0.42rem 0.65rem;
-  background: var(--chip);
-  border: 1px solid var(--line);
-  border-radius: 0.55rem;
+  padding: 0.22rem 0 0.22rem 0.85rem;
   color: inherit;
   text-decoration: none;
-  font-family: var(--sans);
-  font-size: 0.88rem;
-  line-height: 1.4;
+  font-family: var(--serif);
+  font-size: 1.02rem;
+  line-height: 1.55;
+  background:
+    linear-gradient(var(--line), var(--line)) 0 0.72em / 0.45rem 1px no-repeat;
 }
-.chapter-index a:hover { border-color: color-mix(in srgb, var(--cinnabar) 40%, var(--line)); }
-.rail-link.chapter { margin-left: 0.7rem; padding: 0.22rem 0.45rem; font-size: 0.8rem; }
+.chapter-index a:hover { color: var(--cinnabar); }
+.rail-link span, .rail-link small {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.rail-link.chapter {
+  margin-left: 0.75rem;
+  padding: 0.12rem 0.4rem;
+  font-size: 0.78rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 .rail-link.parent-here span { color: var(--cinnabar); }
 .card {
   display: flex;
-  flex-direction: column;
-  gap: 0.2rem;
-  min-height: 4.6rem;
-  padding: 0.85rem 0.95rem;
-  background: var(--chip);
-  border: 1px solid var(--line);
-  border-radius: 0.8rem;
+  flex-direction: row;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 0;
+  padding: 0.85rem 0 0.15rem;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
   color: inherit;
   text-decoration: none;
   line-height: 1.4;
 }
-.card strong { font-size: 0.95rem; }
-.card span, .card.slim { color: var(--muted); font-size: 0.88rem; }
-.card.now {
-  background: var(--cinnabar-soft);
-  border-color: color-mix(in srgb, var(--cinnabar) 45%, var(--line));
-}
-.card:hover { border-color: color-mix(in srgb, var(--cinnabar) 40%, var(--line)); }
+.card strong { font-family: var(--serif); font-size: 1.18rem; font-weight: 650; }
+.card span, .card.slim { color: var(--muted); font-size: 0.88rem; text-align: right; }
+.card.now strong { color: var(--cinnabar); }
+.card:hover strong { color: var(--cinnabar); }
 .prose h1 { margin-top: 0.2rem; }
 .prose h2 {
   font-size: 1.38rem;
@@ -412,7 +410,8 @@ a:focus-visible, button:focus-visible {
     height: 100vh;
     background: var(--desk);
     transform: translateX(-105%);
-    transition: transform 0.2s ease;
+    transition: transform 160ms cubic-bezier(0.2, 0.8, 0.2, 1);
+    transition-delay: 0s;
     box-shadow: var(--shadow);
   }
   .rail.open { transform: none; }
@@ -420,10 +419,20 @@ a:focus-visible, button:focus-visible {
   .topbar { margin: 0 -1.15rem 1rem; padding: 0.65rem 0.85rem; }
   .catalog, .prose { max-width: none; }
   h1 { font-size: 1.7rem; }
-  .week-grid, .pager, .chapter-index { grid-template-columns: 1fr; }
+  .pager { grid-template-columns: 1fr; }
+  .card { flex-direction: column; align-items: flex-start; gap: 0.15rem; }
+  .card span, .card.slim { text-align: left; }
   .tools button:nth-child(-n+3) { padding-inline: 0.5rem; }
+}
+.sheet {
+  animation: page-in 180ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  animation-delay: 0s;
+}
+@keyframes page-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .rail { transition: none; }
+  .rail, .sheet { transition: none; animation: none; }
 }

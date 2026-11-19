@@ -3,60 +3,59 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#e7dccb">
 <title>第 26 周 独立做一个小变更</title>
-<style>
-:root { color-scheme: light; --ink:#1c1917; --muted:#57534e; --line:#e7e5e4; --paper:#fafaf9; --accent:#1d4ed8; --code:#f5f5f4; }
-* { box-sizing: border-box; }
-body { margin:0; font-family:"Iowan Old Style","Songti SC",Palatino,serif; background:var(--paper); color:var(--ink); line-height:1.6; }
-header, main, footer { max-width:42rem; margin:0 auto; padding:0 1.1rem; }
-header { padding-top:1rem; }
-nav, .jump, footer, .kicker, .muted { font-family:"Avenir Next","PingFang SC",sans-serif; }
-nav { display:flex; gap:.7rem; flex-wrap:wrap; font-size:.92rem; }
-a { color:var(--accent); }
-h1 { font-size:1.55rem; line-height:1.3; margin:.35rem 0 .5rem; }
-h2 { font-size:1.2rem; margin:1.5rem 0 .35rem; }
-h3 { font-size:1.05rem; margin:1.15rem 0 .3rem; }
-h4 { font-size:1rem; margin:1rem 0 .25rem; }
-p, li { margin:.35rem 0; }
-.muted, .kicker { color:var(--muted); }
-.kicker { font-size:.78rem; letter-spacing:.04em; }
-code { font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace; font-size:.9em; }
-pre { background:var(--code); border:1px solid var(--line); padding:.75rem .8rem; overflow:auto; line-height:1.45; }
-pre code { font-size:.82rem; }
-table { width:100%; border-collapse:collapse; font-size:.92rem; margin:.5rem 0 1rem; }
-th, td { text-align:left; vertical-align:top; padding:.35rem .3rem; border-top:1px solid var(--line); }
-blockquote { margin:.6rem 0; padding-left:.8rem; border-left:3px solid var(--line); color:var(--muted); }
-hr { border:0; border-top:1px solid var(--line); margin:1.2rem 0; }
-.card { display:block; padding:.7rem 0; border-top:1px solid var(--line); text-decoration:none; color:inherit; }
-.card strong { color:var(--accent); font-family:"Avenir Next","PingFang SC",sans-serif; }
-footer { padding:1.4rem 1.1rem 2rem; color:var(--muted); font-size:.92rem; }
-</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Literata:opsz,wght@7..72,480;7..72,650&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/site.css">
+<script>
+try {
+  var theme = localStorage.getItem("study-theme");
+  if (theme === "night") document.documentElement.setAttribute("data-theme", "night");
+  var size = localStorage.getItem("study-read-size");
+  if (size) document.documentElement.style.setProperty("--read", size);
+} catch (e) {}
+</script>
 </head>
 <body>
-<header>
-<p class="kicker">手机读课文 · 代码回电脑写</p>
-<p class="jump"><a href="../index.html">目录</a> · <a href="a25.html">上一篇</a></p>
-</header>
-<main>
-<h1>第 26 周：独立做一个小变更</h1>
+<div class="progress" aria-hidden="true"></div>
+<button class="scrim" type="button" aria-label="关闭目录" hidden></button>
+<div class="shell has-toc">
+<aside class="rail" id="rail"><a class="mark" href="../index.html">课文</a><p class="rail-kicker">今天</p><a class="rail-link today-card" href="a01.html"><span>第 1 周</span><small>布尔与比较</small></a><p class="rail-kicker">二十六周</p><details open><summary>第 1 个月 · Python</summary><a class="rail-link" href="a01.html"><span>第 1 周</span><small>布尔、字符串、条件、循环</small></a><a class="rail-link" href="a02.html"><span>第 2 周</span><small>列表、字典、函数</small></a><a class="rail-link" href="a03.html"><span>第 3 周</span><small>文件、JSON、异常、Git</small></a><a class="rail-link" href="a04.html"><span>第 4 周</span><small>测试、日志、反馈清洗</small></a></details><details><summary>第 2 个月 · 后端和 SQL</summary><a class="rail-link" href="a05.html"><span>第 5 周</span><small>HTTP 与 FastAPI</small></a><a class="rail-link" href="a06.html"><span>第 6 周</span><small>SQLite 表、联表、事务</small></a><a class="rail-link" href="a07.html"><span>第 7 周</span><small>分层、归属校验、接口测试</small></a><a class="rail-link" href="a08.html"><span>第 8 周</span><small>PostgreSQL、Linux、Docker</small></a></details><details><summary>第 3 个月 · 模型 API</summary><a class="rail-link" href="a09.html"><span>第 9 周</span><small>两家模型 API</small></a><a class="rail-link" href="a10.html"><span>第 10 周</span><small>结构化输出与字段校验</small></a><a class="rail-link" href="a11.html"><span>第 11 周</span><small>向量、评测集、三种改知识的办法</small></a><a class="rail-link" href="a12.html"><span>第 12 周</span><small>提取服务、缓存、用量</small></a></details><details><summary>第 4 个月 · 知识库问答</summary><a class="rail-link" href="a13.html"><span>第 13 周</span><small>切块、元数据、文档版本</small></a><a class="rail-link" href="a14.html"><span>第 14 周</span><small>词匹配、向量、FAISS</small></a><a class="rail-link" href="a15.html"><span>第 15 周</span><small>引用、拒答、权限</small></a><a class="rail-link" href="a16.html"><span>第 16 周</span><small>分层评测与可启动版本</small></a></details><details><summary>第 5 个月 · 工单助手</summary><a class="rail-link" href="a17.html"><span>第 17 周</span><small>工具调用</small></a><a class="rail-link" href="a18.html"><span>第 18 周</span><small>确认、幂等、失败</small></a><a class="rail-link" href="a19.html"><span>第 19 周</span><small>LangGraph 暂停与恢复</small></a><a class="rail-link" href="a20.html"><span>第 20 周</span><small>任务评测与调用链</small></a></details><details open><summary>第 6 个月 · 简历和投递</summary><a class="rail-link" href="a21.html"><span>第 21 周</span><small>换环境仍能启动</small></a><a class="rail-link" href="a22.html"><span>第 22 周</span><small>并发、超时、延迟</small></a><a class="rail-link" href="a23.html"><span>第 23 周</span><small>回归测试与故障复盘</small></a><a class="rail-link" href="a24.html"><span>第 24 周</span><small>简历和 5 分钟讲解</small></a><a class="rail-link" href="a25.html"><span>第 25 周</span><small>对照岗位、记录反馈</small></a><a class="rail-link here" href="a26.html"><span>第 26 周</span><small>独立做一个小变更</small></a></details><details><summary>原课文</summary><a class="rail-link" href="w01.html">原课文 · Python 基础</a><a class="rail-link" href="w02.html">原课文 · Python 核心</a><a class="rail-link" href="w03.html">原课文 · 调用大模型</a><a class="rail-link" href="w04.html">原课文 · 提示词与评测</a><a class="rail-link" href="w05.html">原课文 · RAG 原理</a><a class="rail-link" href="w06.html">原课文 · 文档问答项目</a><a class="rail-link" href="w07.html">原课文 · 工具调用</a><a class="rail-link" href="w08.html">原课文 · 接口与求职</a></details><details><summary>对照</summary><a class="rail-link" href="lecture-w00.html">对照讲解 · 环境</a><a class="rail-link" href="lecture-w01.html">对照讲解 · Python 基础</a><a class="rail-link" href="lecture-w02.html">对照讲解 · Python 核心</a><a class="rail-link" href="lecture-w03.html">对照讲解 · 调用大模型</a><a class="rail-link" href="lecture-w04.html">对照讲解 · 提示词与评测</a><a class="rail-link" href="lecture-w05.html">对照讲解 · RAG 原理</a><a class="rail-link" href="lecture-w06.html">对照讲解 · 文档问答</a><a class="rail-link" href="lecture-w07.html">对照讲解 · 工具调用</a><a class="rail-link" href="lecture-w08.html">对照讲解 · 接口与求职</a><a class="rail-link" href="lecture-errors.html">易错点</a><a class="rail-link" href="lecture-commands.html">电脑上的运行命令</a><a class="rail-link" href="method.html">现行学法</a><a class="rail-link" href="outline.html">知识点总表</a></details></aside>
+<div class="sheet">
+<div class="topbar">
+<button class="menu" type="button" aria-expanded="false" aria-controls="rail">目录</button>
+<a class="crumb" href="../index.html">课文</a>
+<div class="tools">
+<button type="button" data-size="1rem" aria-pressed="false">小</button>
+<button type="button" data-size="1.125rem" aria-pressed="true">中</button>
+<button type="button" data-size="1.3rem" aria-pressed="false">大</button>
+<button type="button" class="theme" aria-pressed="false">夜间</button>
+</div>
+</div>
+<article class="prose"><details class="toc-mobile"><summary>本页目录</summary><a class="toc-h2" href="#需求要小到半天能做完">需求要小到半天能做完</a><a class="toc-h2" href="#当天的顺序">当天的顺序</a><a class="toc-h2" href="#结束后的一页">结束后的一页</a><a class="toc-h2" href="#这一周自己写">这一周自己写</a></details><h1 id="第-26-周-独立做一个小变更">第 26 周：独立做一个小变更</h1>
 <p>计划日期：2027-05-10 到 2027-05-16。</p>
 <p>给自己一个新需求，在半天里做完：实现、测试、按 README 启动，并讲给别人听。同时维持投递，跑一遍两个项目的免费回归。</p>
-<h2>需求要小到半天能做完</h2>
+<h2 id="需求要小到半天能做完">需求要小到半天能做完</h2>
 <p>从下面选一个，或写一个同样大小的。开始前把范围写成五句话：谁用、输入、输出、拒绝什么、怎样算做完。</p>
 <ul><li>知识库：按文档版本过滤，旧版本默认不参与检索。</li><li>工单：增加一个「补充材料」状态，只有 open 能转到它，确认之前仍然不能变成 resolved。</li><li>提取：类别增加一个允许值，旧测试还要通过，缺字段仍然转人工。</li></ul>
 <p>半天之外的想法记下来，不在这天做。做不完就缩小范围，例如只做状态转换和测试，不改界面。</p>
-<h2>当天的顺序</h2>
+<h2 id="当天的顺序">当天的顺序</h2>
 <ol><li>写出验收的三条测试，先看它们失败。</li><li>改最少的代码让它们通过。</li><li>跑这一个项目全部免费测试。</li><li>按 README 在本地启动，手动走一遍新路径。</li><li>用 5 分钟讲：改了哪一层，哪条测试拦住了旧行为被破坏。</li></ol>
 <p>讲的时候说明 AI 帮你看了哪一段、哪一段是你自己定的规则。规则和测试要是你能改的。</p>
-<h2>结束后的一页</h2>
+<h2 id="结束后的一页">结束后的一页</h2>
 <p>写下还没掌握的三件事，每件对应后面要读的官方文档章节，不新开一条主线。Kubernetes、分布式训练、多 Agent 平台不放进这三件，除非已经拿到的录用通知把其中一项写成到岗前必须会。</p>
 <p>投递继续。项目指标没达到练习目标时，简历写实测计数和失败分析。核心路径跑不起来、权限或未经确认就能写入、自己讲不清核心代码，就先修再拿这个项目投。</p>
-<h2>这一周自己写</h2>
+<h2 id="这一周自己写">这一周自己写</h2>
 <p>一个小变更的说明：需求五句话、diff 涉及的文件、测试名、手动检查的结果。</p>
-<p>验收：半天时间盒内能演示；回归命令通过；你能回答「如果再改一个相邻字段，测试要加在哪」。</p>
-</main>
+<p>验收：半天时间盒内能演示；回归命令通过；你能回答「如果再改一个相邻字段，测试要加在哪」。</p><nav class="pager" aria-label="前后篇"><a class="prev" href="a25.html"><small>上一篇</small>第 25 周</a></nav></article>
 <footer>
 <p>写程序仍在电脑上。新开对话只发：先读 主文件.md，从书签继续。</p>
 </footer>
+</div>
+<nav class="toc" aria-label="本页目录"><p>本页</p><a class="toc-h2" href="#需求要小到半天能做完">需求要小到半天能做完</a><a class="toc-h2" href="#当天的顺序">当天的顺序</a><a class="toc-h2" href="#结束后的一页">结束后的一页</a><a class="toc-h2" href="#这一周自己写">这一周自己写</a></nav>
+</div>
+<script src="../assets/site.js"></script>
 </body>
 </html>

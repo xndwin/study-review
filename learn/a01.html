@@ -3,76 +3,72 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#e7dccb">
 <title>第 1 周 布尔、字符串、条件、循环</title>
-<style>
-:root { color-scheme: light; --ink:#1c1917; --muted:#57534e; --line:#e7e5e4; --paper:#fafaf9; --accent:#1d4ed8; --code:#f5f5f4; }
-* { box-sizing: border-box; }
-body { margin:0; font-family:"Iowan Old Style","Songti SC",Palatino,serif; background:var(--paper); color:var(--ink); line-height:1.6; }
-header, main, footer { max-width:42rem; margin:0 auto; padding:0 1.1rem; }
-header { padding-top:1rem; }
-nav, .jump, footer, .kicker, .muted { font-family:"Avenir Next","PingFang SC",sans-serif; }
-nav { display:flex; gap:.7rem; flex-wrap:wrap; font-size:.92rem; }
-a { color:var(--accent); }
-h1 { font-size:1.55rem; line-height:1.3; margin:.35rem 0 .5rem; }
-h2 { font-size:1.2rem; margin:1.5rem 0 .35rem; }
-h3 { font-size:1.05rem; margin:1.15rem 0 .3rem; }
-h4 { font-size:1rem; margin:1rem 0 .25rem; }
-p, li { margin:.35rem 0; }
-.muted, .kicker { color:var(--muted); }
-.kicker { font-size:.78rem; letter-spacing:.04em; }
-code { font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace; font-size:.9em; }
-pre { background:var(--code); border:1px solid var(--line); padding:.75rem .8rem; overflow:auto; line-height:1.45; }
-pre code { font-size:.82rem; }
-table { width:100%; border-collapse:collapse; font-size:.92rem; margin:.5rem 0 1rem; }
-th, td { text-align:left; vertical-align:top; padding:.35rem .3rem; border-top:1px solid var(--line); }
-blockquote { margin:.6rem 0; padding-left:.8rem; border-left:3px solid var(--line); color:var(--muted); }
-hr { border:0; border-top:1px solid var(--line); margin:1.2rem 0; }
-.card { display:block; padding:.7rem 0; border-top:1px solid var(--line); text-decoration:none; color:inherit; }
-.card strong { color:var(--accent); font-family:"Avenir Next","PingFang SC",sans-serif; }
-footer { padding:1.4rem 1.1rem 2rem; color:var(--muted); font-size:.92rem; }
-</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Literata:opsz,wght@7..72,480;7..72,650&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/site.css">
+<script>
+try {
+  var theme = localStorage.getItem("study-theme");
+  if (theme === "night") document.documentElement.setAttribute("data-theme", "night");
+  var size = localStorage.getItem("study-read-size");
+  if (size) document.documentElement.style.setProperty("--read", size);
+} catch (e) {}
+</script>
 </head>
 <body>
-<header>
-<p class="kicker">手机读课文 · 代码回电脑写</p>
-<p class="jump"><a href="../index.html">目录</a> · <a href="a02.html">下一篇</a></p>
-</header>
-<main>
-<h1>第 1 周：布尔、字符串、条件、循环</h1>
+<div class="progress" aria-hidden="true"></div>
+<button class="scrim" type="button" aria-label="关闭目录" hidden></button>
+<div class="shell has-toc">
+<aside class="rail" id="rail"><a class="mark" href="../index.html">课文</a><p class="rail-kicker">今天</p><a class="rail-link today-card" href="a01.html"><span>第 1 周</span><small>布尔与比较</small></a><p class="rail-kicker">二十六周</p><details open><summary>第 1 个月 · Python</summary><a class="rail-link here" href="a01.html"><span>第 1 周</span><small>布尔、字符串、条件、循环</small></a><a class="rail-link" href="a02.html"><span>第 2 周</span><small>列表、字典、函数</small></a><a class="rail-link" href="a03.html"><span>第 3 周</span><small>文件、JSON、异常、Git</small></a><a class="rail-link" href="a04.html"><span>第 4 周</span><small>测试、日志、反馈清洗</small></a></details><details><summary>第 2 个月 · 后端和 SQL</summary><a class="rail-link" href="a05.html"><span>第 5 周</span><small>HTTP 与 FastAPI</small></a><a class="rail-link" href="a06.html"><span>第 6 周</span><small>SQLite 表、联表、事务</small></a><a class="rail-link" href="a07.html"><span>第 7 周</span><small>分层、归属校验、接口测试</small></a><a class="rail-link" href="a08.html"><span>第 8 周</span><small>PostgreSQL、Linux、Docker</small></a></details><details><summary>第 3 个月 · 模型 API</summary><a class="rail-link" href="a09.html"><span>第 9 周</span><small>两家模型 API</small></a><a class="rail-link" href="a10.html"><span>第 10 周</span><small>结构化输出与字段校验</small></a><a class="rail-link" href="a11.html"><span>第 11 周</span><small>向量、评测集、三种改知识的办法</small></a><a class="rail-link" href="a12.html"><span>第 12 周</span><small>提取服务、缓存、用量</small></a></details><details><summary>第 4 个月 · 知识库问答</summary><a class="rail-link" href="a13.html"><span>第 13 周</span><small>切块、元数据、文档版本</small></a><a class="rail-link" href="a14.html"><span>第 14 周</span><small>词匹配、向量、FAISS</small></a><a class="rail-link" href="a15.html"><span>第 15 周</span><small>引用、拒答、权限</small></a><a class="rail-link" href="a16.html"><span>第 16 周</span><small>分层评测与可启动版本</small></a></details><details><summary>第 5 个月 · 工单助手</summary><a class="rail-link" href="a17.html"><span>第 17 周</span><small>工具调用</small></a><a class="rail-link" href="a18.html"><span>第 18 周</span><small>确认、幂等、失败</small></a><a class="rail-link" href="a19.html"><span>第 19 周</span><small>LangGraph 暂停与恢复</small></a><a class="rail-link" href="a20.html"><span>第 20 周</span><small>任务评测与调用链</small></a></details><details><summary>第 6 个月 · 简历和投递</summary><a class="rail-link" href="a21.html"><span>第 21 周</span><small>换环境仍能启动</small></a><a class="rail-link" href="a22.html"><span>第 22 周</span><small>并发、超时、延迟</small></a><a class="rail-link" href="a23.html"><span>第 23 周</span><small>回归测试与故障复盘</small></a><a class="rail-link" href="a24.html"><span>第 24 周</span><small>简历和 5 分钟讲解</small></a><a class="rail-link" href="a25.html"><span>第 25 周</span><small>对照岗位、记录反馈</small></a><a class="rail-link" href="a26.html"><span>第 26 周</span><small>独立做一个小变更</small></a></details><details><summary>原课文</summary><a class="rail-link" href="w01.html">原课文 · Python 基础</a><a class="rail-link" href="w02.html">原课文 · Python 核心</a><a class="rail-link" href="w03.html">原课文 · 调用大模型</a><a class="rail-link" href="w04.html">原课文 · 提示词与评测</a><a class="rail-link" href="w05.html">原课文 · RAG 原理</a><a class="rail-link" href="w06.html">原课文 · 文档问答项目</a><a class="rail-link" href="w07.html">原课文 · 工具调用</a><a class="rail-link" href="w08.html">原课文 · 接口与求职</a></details><details><summary>对照</summary><a class="rail-link" href="lecture-w00.html">对照讲解 · 环境</a><a class="rail-link" href="lecture-w01.html">对照讲解 · Python 基础</a><a class="rail-link" href="lecture-w02.html">对照讲解 · Python 核心</a><a class="rail-link" href="lecture-w03.html">对照讲解 · 调用大模型</a><a class="rail-link" href="lecture-w04.html">对照讲解 · 提示词与评测</a><a class="rail-link" href="lecture-w05.html">对照讲解 · RAG 原理</a><a class="rail-link" href="lecture-w06.html">对照讲解 · 文档问答</a><a class="rail-link" href="lecture-w07.html">对照讲解 · 工具调用</a><a class="rail-link" href="lecture-w08.html">对照讲解 · 接口与求职</a><a class="rail-link" href="lecture-errors.html">易错点</a><a class="rail-link" href="lecture-commands.html">电脑上的运行命令</a><a class="rail-link" href="method.html">现行学法</a><a class="rail-link" href="outline.html">知识点总表</a></details></aside>
+<div class="sheet">
+<div class="topbar">
+<button class="menu" type="button" aria-expanded="false" aria-controls="rail">目录</button>
+<a class="crumb" href="../index.html">课文</a>
+<div class="tools">
+<button type="button" data-size="1rem" aria-pressed="false">小</button>
+<button type="button" data-size="1.125rem" aria-pressed="true">中</button>
+<button type="button" data-size="1.3rem" aria-pressed="false">大</button>
+<button type="button" class="theme" aria-pressed="false">夜间</button>
+</div>
+</div>
+<article class="prose"><details class="toc-mobile"><summary>本页目录</summary><a class="toc-h2" href="#程序怎么往下走">程序怎么往下走</a><a class="toc-h2" href="#第-1-天-比较和布尔">第 1 天：比较和布尔</a><a class="toc-h2" href="#第-2-天-输入和字符串">第 2 天：输入和字符串</a><a class="toc-h2" href="#第-3-天-分支">第 3 天：分支</a><a class="toc-h2" href="#第-4-天-for-和统计变量">第 4 天：for 和统计变量</a><a class="toc-h2" href="#第-5-天-while-退出和跳过">第 5 天：while、退出和跳过</a><a class="toc-h2" href="#第-6-天-合成这个工具">第 6 天：合成这个工具</a><a class="toc-h2" href="#第-7-天-改一条规则">第 7 天：改一条规则</a></details><h1 id="第-1-周-布尔-字符串-条件-循环">第 1 周：布尔、字符串、条件、循环</h1>
 <p>日期：2026-11-16 到 2026-11-22。大约 20 小时。</p>
 <p>这一周结束，你要能独立写出一个成绩录入：持续读入，<code>q</code> 退出，非法输入跳过，退出时给出有效个数、及格个数、不及格个数和平均分。这一页讲规则和最小例子。完整程序由你在电脑上写，不在这里给整份答案。</p>
 <p>原课文对应 <code>w01-1</code> 到 <code>w01-6</code> 的一部分。<code>is</code>、切片、<code>enumerate</code> 留到第 2 周，不删。</p>
-<h2>程序怎么往下走</h2>
+<h2 id="程序怎么往下走">程序怎么往下走</h2>
 <p>Python 从第一行执行到最后一行。<code>print(...)</code> 把结果打到屏幕。<code>#</code> 后面是注释，不执行。</p>
 <p><code>=</code> 是赋值，把右边的值贴到左边的名字上。<code>==</code> 是比较，结果是 <code>True</code> 或 <code>False</code>。</p>
-<pre class="lang-python"><code>score = 60
+<figure class="code"><figcaption>python</figcaption><pre class="lang-python"><code>score = 60
 print(score == 60)
-print(3 == &quot;3&quot;)</code></pre>
+print(3 == &quot;3&quot;)</code></pre></figure>
 <p>输出：</p>
-<pre class="lang-text"><code>True
-False</code></pre>
+<figure class="code"><figcaption>text</figcaption><pre class="lang-text"><code>True
+False</code></pre></figure>
 <p><code>3</code> 是整数，<code>&quot;3&quot;</code> 是字符串，类型不同，不相等。</p>
-<h2>第 1 天：比较和布尔</h2>
+<h2 id="第-1-天-比较和布尔" class="day">第 1 天：比较和布尔</h2>
 <p>六个比较：<code>==</code>、<code>!=</code>、<code>&gt;</code>、<code>&lt;</code>、<code>&gt;=</code>、<code>&lt;=</code>。</p>
 <p><code>and</code> 要求两边都成立。<code>or</code> 只要一边成立。<code>not</code> 取反。</p>
-<pre class="lang-python"><code>print(3 &gt; 2)
+<figure class="code"><figcaption>python</figcaption><pre class="lang-python"><code>print(3 &gt; 2)
 print(3 != 4)
 print(5 &gt;= 5)
 print(2 &lt; 1)
 print(True and False)
 print(False or True)
-print(not True)</code></pre>
+print(not True)</code></pre></figure>
 <p>输出依次是 <code>True</code>、<code>True</code>、<code>True</code>、<code>False</code>、<code>False</code>、<code>True</code>、<code>False</code>。</p>
 <p>在条件里，这些当成假：<code>0</code>、<code>0.0</code>、<code>&quot;&quot;</code>、<code>[]</code>、<code>{}</code>、<code>None</code>、<code>False</code>。非空字符串、非零数字当成真。所以 <code>bool(0)</code> 是 <code>False</code>，<code>bool(&quot;0&quot;)</code> 是 <code>True</code>。<code>&quot;0&quot;</code> 不是空字符串，它是一个字符。</p>
 <p>三条以后会反复用到的判断：</p>
-<pre class="lang-python"><code>score &gt;= 60
+<figure class="code"><figcaption>python</figcaption><pre class="lang-python"><code>score &gt;= 60
 0 &lt;= score &lt;= 100
-text != &quot;&quot;</code></pre>
+text != &quot;&quot;</code></pre></figure>
 <p>电脑上新建 <code>code/test/ai-app-26w/week01/d01_bool.py</code>。先把上面每个表达式的预测写在注释里，再运行核对。另外自己写三个表达式：成绩至少 60、成绩在 0 到 100 之间、字符串不是空的。今天先不写 <code>if</code>。</p>
-<h2>第 2 天：输入和字符串</h2>
+<h2 id="第-2-天-输入和字符串" class="day">第 2 天：输入和字符串</h2>
 <p><code>input(&quot;提示:&quot;)</code> 返回的永远是字符串。用户输入 <code>60</code>，你得到的是 <code>&quot;60&quot;</code>，还不能拿来和数字比大小。</p>
 <p>字符串不能原地改某个字符。方法返回的是新字符串，原来的还在。</p>
-<pre class="lang-python"><code>raw = &quot;  Q &quot;
+<figure class="code"><figcaption>python</figcaption><pre class="lang-python"><code>raw = &quot;  Q &quot;
 cleaned = raw.strip().lower()
 print(repr(raw))
 print(cleaned)
@@ -81,23 +77,23 @@ print(&quot;60.5&quot;.isdecimal())
 print(&quot;-1&quot;.isdecimal())
 print(&quot;&quot;.isdecimal())
 name = &quot;王敏&quot;
-print(f&quot;你好，{name}&quot;)</code></pre>
+print(f&quot;你好，{name}&quot;)</code></pre></figure>
 <p>输出：</p>
-<pre class="lang-text"><code>&#x27;  Q &#x27;
+<figure class="code"><figcaption>text</figcaption><pre class="lang-text"><code>&#x27;  Q &#x27;
 q
 True
 False
 False
 False
-你好，王敏</code></pre>
+你好，王敏</code></pre></figure>
 <p><code>strip</code> 去掉首尾空白，不改中间。<code>lower</code> 把字母变成小写。<code>isdecimal</code> 只在字符串非空、并且每个字符都是十进制数字时为真。小数点、负号、空串都不算。<code>repr</code> 用来看见空格还在不在。</p>
 <p>电脑上写 <code>d02_input.py</code>：读姓名和成绩文本，打印原始文本、去掉首尾空格后的文本、长度、能不能当作十进制整数。再用 f-string 拼一句说明。把 <code>&quot; Q &quot;</code> 去空格并转小写。今天不要对任意输入直接 <code>int</code>，只对已经确认是数字文本的值转换。</p>
 <p>自己核对这五个样本：<code>&quot; 60 &quot;</code>、<code>&quot;&quot;</code>、<code>&quot;abc&quot;</code>、<code>&quot;60.5&quot;</code>、<code>&quot; Q &quot;</code>。</p>
-<h2>第 3 天：分支</h2>
+<h2 id="第-3-天-分支" class="day">第 3 天：分支</h2>
 <p><code>if</code> / <code>elif</code> / <code>else</code> 从上到下，只走第一条成立的分支。缩进 4 个空格是语法的一部分。</p>
 <p>顺序必须是：先看是不是数字文本，再 <code>int</code>，再看是否超过 100，再分等级。先 <code>int(&quot;abc&quot;)</code> 会抛 <code>ValueError</code>，程序停在那里。</p>
 <p>等级：90 到 100 是优秀，60 到 89 是及格，0 到 59 是不及格。其余都提示错误，不输出等级。</p>
-<pre class="lang-python"><code>raw = &quot; 90 &quot;
+<figure class="code"><figcaption>python</figcaption><pre class="lang-python"><code>raw = &quot; 90 &quot;
 text = raw.strip()
 if not text.isdecimal():
     print(&quot;错误&quot;)
@@ -110,15 +106,15 @@ else:
     elif score &gt;= 60:
         print(&quot;及格&quot;)
     else:
-        print(&quot;不及格&quot;)</code></pre>
+        print(&quot;不及格&quot;)</code></pre></figure>
 <p>如果把 <code>&gt;= 60</code> 写在 <code>&gt;= 90</code> 前面，90 分会在第一条就被判成及格，优秀那一支永远走不到。</p>
-<table><thead><tr><th>输入</th><th>结果</th></tr></thead><tbody><tr><td>0、59</td><td>不及格</td></tr><tr><td>60、89</td><td>及格</td></tr><tr><td>90、100</td><td>优秀</td></tr><tr><td>101、-1</td><td>错误，不输出等级</td></tr><tr><td>abc、空字符串、60.5</td><td>错误，不崩溃，不输出等级</td></tr></tbody></table>
+<div class="table-wrap"><table><thead><tr><th>输入</th><th>结果</th></tr></thead><tbody><tr><td>0、59</td><td>不及格</td></tr><tr><td>60、89</td><td>及格</td></tr><tr><td>90、100</td><td>优秀</td></tr><tr><td>101、-1</td><td>错误，不输出等级</td></tr><tr><td>abc、空字符串、60.5</td><td>错误，不崩溃，不输出等级</td></tr></tbody></table></div>
 <p><code>-1</code> 里有负号，<code>isdecimal</code> 为假，所以在转换之前就被挡下。</p>
 <p>电脑上写 <code>d03_grade.py</code>，按上表处理一次输入。通过之后，不看这一页，把优秀线改成 85，确认 85 走优秀、84 走及格。</p>
-<h2>第 4 天：for 和统计变量</h2>
+<h2 id="第-4-天-for-和统计变量" class="day">第 4 天：for 和统计变量</h2>
 <p><code>range(start, stop)</code> 含起点，不含终点。<code>range(1, 6)</code> 是 1、2、3、4、5，一共五个数。</p>
 <p>累加器和计数器写在循环外面。写在循环里面，每轮都会被重新设成 0。</p>
-<pre class="lang-python"><code>total = 0
+<figure class="code"><figcaption>python</figcaption><pre class="lang-python"><code>total = 0
 for n in range(1, 11):
     total = total + n
 print(total)
@@ -127,15 +123,15 @@ passed = 0
 for n in range(55, 66):
     if n &gt;= 60:
         passed = passed + 1
-print(passed)</code></pre>
+print(passed)</code></pre></figure>
 <p>输出：</p>
-<pre class="lang-text"><code>55
-6</code></pre>
+<figure class="code"><figcaption>text</figcaption><pre class="lang-text"><code>55
+6</code></pre></figure>
 <p>1 到 10 的和是 55。55 到 65 里至少 60 的是 60、61、62、63、64、65，共 6 个。</p>
 <p>电脑上写 <code>d04_for.py</code>，只用变量和 <code>range</code>，先不要用列表和 <code>sum</code>。再改成 1 到 5 求和、遍历 59 到 61，先预测再运行。口头说明 <code>range(1, 6)</code> 有几个数。</p>
-<h2>第 5 天：while、退出和跳过</h2>
+<h2 id="第-5-天-while-退出和跳过" class="day">第 5 天：while、退出和跳过</h2>
 <p>次数事先不知道，用 <code>while</code>。<code>break</code> 离开整个循环。<code>continue</code> 跳过本轮剩下的语句，回到循环开头再读下一次输入。</p>
-<pre class="lang-python"><code>valid = 0
+<figure class="code"><figcaption>python</figcaption><pre class="lang-python"><code>valid = 0
 while True:
     raw = input(&quot;成绩，q 退出: &quot;)
     text = raw.strip().lower()
@@ -150,24 +146,27 @@ while True:
         continue
     print(score)
     valid = valid + 1
-print(&quot;有效&quot;, valid)</code></pre>
+print(&quot;有效&quot;, valid)</code></pre></figure>
 <p>三组自己走一遍：</p>
 <ul><li><code>60 → abc → 90 → q</code>：有效个数 2。<code>abc</code> 在 <code>continue</code> 处回到开头，不会给 <code>valid</code> 加 1。</li><li>直接 <code>q</code>：有效个数 0。</li><li><code>101 → -1 → Q</code>：有效个数 0。<code>Q</code> 被 <code>lower</code> 变成 <code>q</code>。</li></ul>
 <p>每轮都要重新 <code>input</code>。如果把 <code>input</code> 放在循环外面，程序会拿同一段文字一直转。按停止按钮杀掉进程，不算正常退出。</p>
 <p>电脑上写 <code>d05_while.py</code>。今天只统计有效个数，平均分明天再加。主动造一个写错变量名的错误，看 Traceback 最后一行的文件和行号。</p>
-<h2>第 6 天：合成这个工具</h2>
+<h2 id="第-6-天-合成这个工具" class="day">第 6 天：合成这个工具</h2>
 <p>文件名 <code>score_cli.py</code>。规则：</p>
 <ul><li>持续读入 0 到 100 的整数成绩，允许首尾空格。<code>q</code> 或 <code>Q</code> 退出。</li><li>负数、小数、空输入、非数字、大于 100，都提示错误，不计入统计。</li><li>退出时输出有效个数、及格个数、不及格个数、平均分。及格线 60。0 算不及格，100 算及格。</li><li>一次都没有有效成绩时，输出「暂无有效成绩」，不能做除法。</li><li>同一个分数录入两次，算两次。</li></ul>
 <p>循环外面准备四个变量：有效个数、及格个数、不及格个数、总分。退出之后，有效个数是 0 就只提示；否则平均分是总分除以有效个数，用 <code>f&quot;{avg:.2f}&quot;</code> 保留两位小数。</p>
-<table><thead><tr><th>测试</th><th>依次输入</th><th>预期</th></tr></thead><tbody><tr><td>T01</td><td>59 → 60 → 100 → q</td><td>有效 3，及格 2，不及格 1，平均 73.00</td></tr><tr><td>T02</td><td>q</td><td>有效 0，暂无有效成绩</td></tr><tr><td>T03</td><td>abc → -1 → 101 → 60 → q</td><td>有效 1，及格 1，不及格 0，平均 60.00</td></tr><tr><td>T04</td><td>首尾有空格的 60 → Q</td><td>有效 1，及格 1，平均 60.00</td></tr><tr><td>T05</td><td>60.5 → q</td><td>有效 0，暂无有效成绩</td></tr><tr><td>T06</td><td>0 → 100 → q</td><td>有效 2，及格 1，不及格 1，平均 50.00</td></tr><tr><td>T07</td><td>60 → 60 → q</td><td>有效 2，及格 2，平均 60.00</td></tr><tr><td>T08</td><td>空字符串 → q</td><td>有效 0，暂无有效成绩</td></tr></tbody></table>
+<div class="table-wrap"><table><thead><tr><th>测试</th><th>依次输入</th><th>预期</th></tr></thead><tbody><tr><td>T01</td><td>59 → 60 → 100 → q</td><td>有效 3，及格 2，不及格 1，平均 73.00</td></tr><tr><td>T02</td><td>q</td><td>有效 0，暂无有效成绩</td></tr><tr><td>T03</td><td>abc → -1 → 101 → 60 → q</td><td>有效 1，及格 1，不及格 0，平均 60.00</td></tr><tr><td>T04</td><td>首尾有空格的 60 → Q</td><td>有效 1，及格 1，平均 60.00</td></tr><tr><td>T05</td><td>60.5 → q</td><td>有效 0，暂无有效成绩</td></tr><tr><td>T06</td><td>0 → 100 → q</td><td>有效 2，及格 1，不及格 1，平均 50.00</td></tr><tr><td>T07</td><td>60 → 60 → q</td><td>有效 2，及格 2，平均 60.00</td></tr><tr><td>T08</td><td>空字符串 → q</td><td>有效 0，暂无有效成绩</td></tr></tbody></table></div>
 <p>73.00 是 <code>(59 + 60 + 100) / 3</code>。50.00 是 <code>(0 + 100) / 2</code>。</p>
-<h2>第 7 天：改一条规则</h2>
+<h2 id="第-7-天-改一条规则" class="day">第 7 天：改一条规则</h2>
 <p>把及格线放进变量，先设成 70。输入 <code>69 → 70 → q</code>，结果是有效 2、及格 1、不及格 1、平均 69.50。再改回 60，把上面八组重跑一遍。</p>
 <p>用自己的话讲清五件事：为什么 <code>input</code> 之后要先校验再转换；统计变量为什么放在循环外；什么时候用 <code>for</code>、什么时候用 <code>while</code>；<code>break</code> 和 <code>continue</code> 差在哪；没有成绩时为什么不能直接算平均分。</p>
-<p>做完在电脑上新开对话，发送 <code>完成：a01-d01</code> 这类口令，并写上第一次对了几题、有没有看提示。</p>
-</main>
+<p>做完在电脑上新开对话，发送 <code>完成：a01-d01</code> 这类口令，并写上第一次对了几题、有没有看提示。</p><nav class="pager" aria-label="前后篇"><span></span><a class="next" href="a02.html"><small>下一篇</small>第 2 周</a></nav></article>
 <footer>
 <p>写程序仍在电脑上。新开对话只发：先读 主文件.md，从书签继续。</p>
 </footer>
+</div>
+<nav class="toc" aria-label="本页目录"><p>本页</p><a class="toc-h2" href="#程序怎么往下走">程序怎么往下走</a><a class="toc-h2" href="#第-1-天-比较和布尔">第 1 天：比较和布尔</a><a class="toc-h2" href="#第-2-天-输入和字符串">第 2 天：输入和字符串</a><a class="toc-h2" href="#第-3-天-分支">第 3 天：分支</a><a class="toc-h2" href="#第-4-天-for-和统计变量">第 4 天：for 和统计变量</a><a class="toc-h2" href="#第-5-天-while-退出和跳过">第 5 天：while、退出和跳过</a><a class="toc-h2" href="#第-6-天-合成这个工具">第 6 天：合成这个工具</a><a class="toc-h2" href="#第-7-天-改一条规则">第 7 天：改一条规则</a></nav>
+</div>
+<script src="../assets/site.js"></script>
 </body>
 </html>

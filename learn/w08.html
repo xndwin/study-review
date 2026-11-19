@@ -3,72 +3,71 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#e7dccb">
 <title>原课文 · 接口与求职</title>
-<style>
-:root { color-scheme: light; --ink:#1c1917; --muted:#57534e; --line:#e7e5e4; --paper:#fafaf9; --accent:#1d4ed8; --code:#f5f5f4; }
-* { box-sizing: border-box; }
-body { margin:0; font-family:"Iowan Old Style","Songti SC",Palatino,serif; background:var(--paper); color:var(--ink); line-height:1.6; }
-header, main, footer { max-width:42rem; margin:0 auto; padding:0 1.1rem; }
-header { padding-top:1rem; }
-nav, .jump, footer, .kicker, .muted { font-family:"Avenir Next","PingFang SC",sans-serif; }
-nav { display:flex; gap:.7rem; flex-wrap:wrap; font-size:.92rem; }
-a { color:var(--accent); }
-h1 { font-size:1.55rem; line-height:1.3; margin:.35rem 0 .5rem; }
-h2 { font-size:1.2rem; margin:1.5rem 0 .35rem; }
-h3 { font-size:1.05rem; margin:1.15rem 0 .3rem; }
-h4 { font-size:1rem; margin:1rem 0 .25rem; }
-p, li { margin:.35rem 0; }
-.muted, .kicker { color:var(--muted); }
-.kicker { font-size:.78rem; letter-spacing:.04em; }
-code { font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace; font-size:.9em; }
-pre { background:var(--code); border:1px solid var(--line); padding:.75rem .8rem; overflow:auto; line-height:1.45; }
-pre code { font-size:.82rem; }
-table { width:100%; border-collapse:collapse; font-size:.92rem; margin:.5rem 0 1rem; }
-th, td { text-align:left; vertical-align:top; padding:.35rem .3rem; border-top:1px solid var(--line); }
-blockquote { margin:.6rem 0; padding-left:.8rem; border-left:3px solid var(--line); color:var(--muted); }
-hr { border:0; border-top:1px solid var(--line); margin:1.2rem 0; }
-.card { display:block; padding:.7rem 0; border-top:1px solid var(--line); text-decoration:none; color:inherit; }
-.card strong { color:var(--accent); font-family:"Avenir Next","PingFang SC",sans-serif; }
-footer { padding:1.4rem 1.1rem 2rem; color:var(--muted); font-size:.92rem; }
-</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Literata:opsz,wght@7..72,480;7..72,650&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/site.css">
+<script>
+try {
+  var theme = localStorage.getItem("study-theme");
+  if (theme === "night") document.documentElement.setAttribute("data-theme", "night");
+  var size = localStorage.getItem("study-read-size");
+  if (size) document.documentElement.style.setProperty("--read", size);
+} catch (e) {}
+</script>
 </head>
 <body>
-<header>
-<p class="kicker">手机读课文 · 代码回电脑写</p>
-<p class="jump"><a href="../index.html">目录</a></p>
-</header>
-<main>
-<h1>第 8 周：接口、工程习惯、求职（全量）</h1>
+<div class="progress" aria-hidden="true"></div>
+<button class="scrim" type="button" aria-label="关闭目录" hidden></button>
+<div class="shell has-toc">
+<aside class="rail" id="rail"><a class="mark" href="../index.html">课文</a><p class="rail-kicker">今天</p><a class="rail-link today-card" href="a01.html"><span>第 1 周</span><small>布尔与比较</small></a><p class="rail-kicker">二十六周</p><details open><summary>第 1 个月 · Python</summary><a class="rail-link" href="a01.html"><span>第 1 周</span><small>布尔、字符串、条件、循环</small></a><a class="rail-link" href="a02.html"><span>第 2 周</span><small>列表、字典、函数</small></a><a class="rail-link" href="a03.html"><span>第 3 周</span><small>文件、JSON、异常、Git</small></a><a class="rail-link" href="a04.html"><span>第 4 周</span><small>测试、日志、反馈清洗</small></a></details><details><summary>第 2 个月 · 后端和 SQL</summary><a class="rail-link" href="a05.html"><span>第 5 周</span><small>HTTP 与 FastAPI</small></a><a class="rail-link" href="a06.html"><span>第 6 周</span><small>SQLite 表、联表、事务</small></a><a class="rail-link" href="a07.html"><span>第 7 周</span><small>分层、归属校验、接口测试</small></a><a class="rail-link" href="a08.html"><span>第 8 周</span><small>PostgreSQL、Linux、Docker</small></a></details><details><summary>第 3 个月 · 模型 API</summary><a class="rail-link" href="a09.html"><span>第 9 周</span><small>两家模型 API</small></a><a class="rail-link" href="a10.html"><span>第 10 周</span><small>结构化输出与字段校验</small></a><a class="rail-link" href="a11.html"><span>第 11 周</span><small>向量、评测集、三种改知识的办法</small></a><a class="rail-link" href="a12.html"><span>第 12 周</span><small>提取服务、缓存、用量</small></a></details><details><summary>第 4 个月 · 知识库问答</summary><a class="rail-link" href="a13.html"><span>第 13 周</span><small>切块、元数据、文档版本</small></a><a class="rail-link" href="a14.html"><span>第 14 周</span><small>词匹配、向量、FAISS</small></a><a class="rail-link" href="a15.html"><span>第 15 周</span><small>引用、拒答、权限</small></a><a class="rail-link" href="a16.html"><span>第 16 周</span><small>分层评测与可启动版本</small></a></details><details><summary>第 5 个月 · 工单助手</summary><a class="rail-link" href="a17.html"><span>第 17 周</span><small>工具调用</small></a><a class="rail-link" href="a18.html"><span>第 18 周</span><small>确认、幂等、失败</small></a><a class="rail-link" href="a19.html"><span>第 19 周</span><small>LangGraph 暂停与恢复</small></a><a class="rail-link" href="a20.html"><span>第 20 周</span><small>任务评测与调用链</small></a></details><details><summary>第 6 个月 · 简历和投递</summary><a class="rail-link" href="a21.html"><span>第 21 周</span><small>换环境仍能启动</small></a><a class="rail-link" href="a22.html"><span>第 22 周</span><small>并发、超时、延迟</small></a><a class="rail-link" href="a23.html"><span>第 23 周</span><small>回归测试与故障复盘</small></a><a class="rail-link" href="a24.html"><span>第 24 周</span><small>简历和 5 分钟讲解</small></a><a class="rail-link" href="a25.html"><span>第 25 周</span><small>对照岗位、记录反馈</small></a><a class="rail-link" href="a26.html"><span>第 26 周</span><small>独立做一个小变更</small></a></details><details open><summary>原课文</summary><a class="rail-link" href="w01.html">原课文 · Python 基础</a><a class="rail-link" href="w02.html">原课文 · Python 核心</a><a class="rail-link" href="w03.html">原课文 · 调用大模型</a><a class="rail-link" href="w04.html">原课文 · 提示词与评测</a><a class="rail-link" href="w05.html">原课文 · RAG 原理</a><a class="rail-link" href="w06.html">原课文 · 文档问答项目</a><a class="rail-link" href="w07.html">原课文 · 工具调用</a><a class="rail-link here" href="w08.html">原课文 · 接口与求职</a></details><details><summary>对照</summary><a class="rail-link" href="lecture-w00.html">对照讲解 · 环境</a><a class="rail-link" href="lecture-w01.html">对照讲解 · Python 基础</a><a class="rail-link" href="lecture-w02.html">对照讲解 · Python 核心</a><a class="rail-link" href="lecture-w03.html">对照讲解 · 调用大模型</a><a class="rail-link" href="lecture-w04.html">对照讲解 · 提示词与评测</a><a class="rail-link" href="lecture-w05.html">对照讲解 · RAG 原理</a><a class="rail-link" href="lecture-w06.html">对照讲解 · 文档问答</a><a class="rail-link" href="lecture-w07.html">对照讲解 · 工具调用</a><a class="rail-link" href="lecture-w08.html">对照讲解 · 接口与求职</a><a class="rail-link" href="lecture-errors.html">易错点</a><a class="rail-link" href="lecture-commands.html">电脑上的运行命令</a><a class="rail-link" href="method.html">现行学法</a><a class="rail-link" href="outline.html">知识点总表</a></details></aside>
+<div class="sheet">
+<div class="topbar">
+<button class="menu" type="button" aria-expanded="false" aria-controls="rail">目录</button>
+<a class="crumb" href="../index.html">课文</a>
+<div class="tools">
+<button type="button" data-size="1rem" aria-pressed="false">小</button>
+<button type="button" data-size="1.125rem" aria-pressed="true">中</button>
+<button type="button" data-size="1.3rem" aria-pressed="false">大</button>
+<button type="button" class="theme" aria-pressed="false">夜间</button>
+</div>
+</div>
+<article class="prose"><details class="toc-mobile"><summary>本页目录</summary><a class="toc-h2" href="#w08-1-fastapi">w08-1 FastAPI</a><a class="toc-h2" href="#w08-2-环境变量与仓库卫生">w08-2 环境变量与仓库卫生</a><a class="toc-h2" href="#w08-3-简历项目描述-写满-不要空">w08-3 简历项目描述（写满，不要空）</a><a class="toc-h2" href="#w08-4-面试口头-全部-对照知识点总表">w08-4 面试口头（全部，对照知识点总表）</a><a class="toc-h2" href="#w08-5-别人能跑">w08-5 别人能跑</a></details><h1 id="第-8-周-接口-工程习惯-求职-全量">第 8 周：接口、工程习惯、求职（全量）</h1>
 <p>对应 <code>w08-1</code> … <code>w08-5</code>。第 1–7 周知识点不删，本周是接到「能给别人用、能讲」。</p>
 <hr>
-<h2>w08-1 FastAPI</h2>
+<h2 id="w08-1-fastapi">w08-1 FastAPI</h2>
 <p>脚本是给你自己跑的；HTTP 接口是给前端、评测脚本、同事用的。</p>
-<pre class="lang-bash"><code>cd 仓库根目录
+<figure class="code"><figcaption>bash</figcaption><pre class="lang-bash"><code>cd 仓库根目录
 source .venv/bin/activate
-uvicorn projects.api:app --reload</code></pre>
+uvicorn projects.api:app --reload</code></pre></figure>
 <p>打开 http://127.0.0.1:8000/docs</p>
 <ul><li><code>@app.get(&quot;/health&quot;)</code> 探活</li><li><code>@app.post(&quot;/rag&quot;)</code> 请求体用 Pydantic 模型校验 <code>{&quot;question&quot;: &quot;...&quot;}</code>   缺字段或类型不对会自动 422，不必手写一堆 if</li></ul>
 <p><code>projects/api.py</code> 内部仍调用 <code>ask()</code>。以后 Agent 可再加 <code>POST /agent</code>。</p>
 <p>概念：路由、请求/响应 JSON、OpenAPI 自动文档、校验。本周不要求鉴权、部署到云，但要知道上线还差：HTTPS、Key、限流、日志。</p>
 <hr>
-<h2>w08-2 环境变量与仓库卫生</h2>
+<h2 id="w08-2-环境变量与仓库卫生">w08-2 环境变量与仓库卫生</h2>
 <ul><li>密钥只在 <code>.env</code>，模板是 <code>.env.example</code>（无真实 Key）</li><li><code>.gitignore</code> 已忽略 <code>.env</code>、<code>.venv</code>、<code>__pycache__</code></li><li>日志里不要 print 完整 Key；最多打印前四位</li><li>README 写：Python 版本、如何 venv、如何填 Key、如何跑 ask/eval/uvicorn</li></ul>
 <hr>
-<h2>w08-3 简历项目描述（写满，不要空）</h2>
+<h2 id="w08-3-简历项目描述-写满-不要空">w08-3 简历项目描述（写满，不要空）</h2>
 <p>把下面两段改成你的真实数字和领域，贴进第 8 周笔记。</p>
 <p><strong>文档问答 RAG</strong>  面向【领域】的文档问答。流程：加载 data/ → 切块（size/overlap）→【词重叠或余弦】检索 → 大模型生成带引用答案；空检索拒答。自建 N 条评测，通过率 x%。个人负责：数据、切块、检索、prompt、评测。已知问题：……</p>
 <p><strong>工具 Agent</strong>   OpenAI 兼容 tool calling。工具：计算器（AST 白名单）、受限目录读文件。最大步数 N，路径 resolve 后必须落在 data/ 下。个人负责：工具 schema、执行循环、错误回传。演示：……</p>
 <hr>
-<h2>w08-4 面试口头（全部，对照知识点总表）</h2>
+<h2 id="w08-4-面试口头-全部-对照知识点总表">w08-4 面试口头（全部，对照知识点总表）</h2>
 <p>合上电脑答。答不出回到对应周，不要用「课上有压缩版」跳过。</p>
 <ol><li>网页产品和自己调 API 差在哪？记忆存在哪？</li><li>system / user / assistant / tool 各自谁产生？</li><li>token 是什么？和字数？usage 两项？</li><li>为什么不能把整本手册塞进一次 prompt？</li><li>画 RAG 五框：文档、切块、索引、检索、生成。</li><li>chunk 太大、太小、没有 overlap 会怎样？</li><li>词重叠和余弦各自怎么打分？embedding 换在哪一层？</li><li>检索为空为什么不能当普通聊天？</li><li>RAG 和微调分别解决什么？</li><li>评测集为什么要有拒答题和注入题？</li><li>JSON 输出脏了怎么降级？</li><li>Agent 的工具到底谁在执行？</li><li>为什么不用 eval？路径逃逸是什么？</li><li>如何降低幻觉、费用、延迟？（各举两条）</li><li>FastAPI 比直接跑脚本多了什么？</li></ol>
 <hr>
-<h2>w08-5 别人能跑</h2>
+<h2 id="w08-5-别人能跑">w08-5 别人能跑</h2>
 <p>两个项目 README：安装、环境变量、一条最小命令、评测命令、你的机器上跑过的示例问答。  本周合格线：两个能演示的项目 + 上表能讲。不是证书。</p>
-<p>后续（不替代本课已写内容）：Chroma/Qdrant、LangGraph 状态机、更细的忠实度评测。</p>
-</main>
+<p>后续（不替代本课已写内容）：Chroma/Qdrant、LangGraph 状态机、更细的忠实度评测。</p><nav class="pager" aria-label="前后篇"><a class="prev" href="w07.html"><small>上一篇</small>原课文 · 工具调用</a></nav></article>
 <footer>
 <p>写程序仍在电脑上。新开对话只发：先读 主文件.md，从书签继续。</p>
 </footer>
+</div>
+<nav class="toc" aria-label="本页目录"><p>本页</p><a class="toc-h2" href="#w08-1-fastapi">w08-1 FastAPI</a><a class="toc-h2" href="#w08-2-环境变量与仓库卫生">w08-2 环境变量与仓库卫生</a><a class="toc-h2" href="#w08-3-简历项目描述-写满-不要空">w08-3 简历项目描述（写满，不要空）</a><a class="toc-h2" href="#w08-4-面试口头-全部-对照知识点总表">w08-4 面试口头（全部，对照知识点总表）</a><a class="toc-h2" href="#w08-5-别人能跑">w08-5 别人能跑</a></nav>
+</div>
+<script src="../assets/site.js"></script>
 </body>
 </html>

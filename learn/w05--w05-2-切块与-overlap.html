@@ -31,7 +31,7 @@ try {
 <button type="button" class="theme" aria-pressed="false">夜间</button>
 </div>
 </div>
-<article class="prose"><p class="kicker"><a href="w05.html">原课文 · RAG 原理</a></p><details class="toc-mobile"><summary>本页目录</summary><a class="toc-h2" href="#w05-2-切块与-overlap">w05-2 切块与 overlap</a></details><h2 id="w05-2-切块与-overlap">w05-2 切块与 overlap</h2>
+<article class="prose"><p class="kicker"><a href="w05.html">原课文 · RAG 原理</a> · 02 / 08</p><details class="toc-mobile"><summary>本页目录</summary><a class="toc-h2" href="#w05-2-切块与-overlap">w05-2 切块与 overlap</a></details><h2 id="w05-2-切块与-overlap">w05-2 切块与 overlap</h2>
 <p>检索的单位是块，不是整篇。</p>
 <ul><li><code>chunk_size</code> 太大：一块里噪声多，打分钝</li><li>太小：句子从中切开，缺主语</li><li><code>overlap</code>：块与块重叠一段，避免答案落在切缝上丢失</li></ul>
 <p>实现：<code>chunk_text</code>（按字符滑动窗口）。工业界还会按标题/段落切，中文可用更认真的分词。本周先把窗口做对。</p>

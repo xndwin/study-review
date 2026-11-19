@@ -31,7 +31,7 @@ try {
 <button type="button" class="theme" aria-pressed="false">夜间</button>
 </div>
 </div>
-<article class="prose"><p class="kicker"><a href="a01.html">第 1 周 布尔、字符串、条件、循环</a></p><details class="toc-mobile"><summary>本页目录</summary><a class="toc-h2" href="#第-6-天-合成这个工具">第 6 天：合成这个工具</a></details><h2 id="第-6-天-合成这个工具" class="day">第 6 天：合成这个工具</h2>
+<article class="prose"><p class="kicker"><a href="a01.html">第 1 周 布尔、字符串、条件、循环</a> · 07 / 08</p><details class="toc-mobile"><summary>本页目录</summary><a class="toc-h2" href="#第-6-天-合成这个工具">第 6 天：合成这个工具</a></details><h2 id="第-6-天-合成这个工具" class="day">第 6 天：合成这个工具</h2>
 <p>文件名 <code>score_cli.py</code>。规则：</p>
 <ul><li>持续读入 0 到 100 的整数成绩，允许首尾空格。<code>q</code> 或 <code>Q</code> 退出。</li><li>负数、小数、空输入、非数字、大于 100，都提示错误，不计入统计。</li><li>退出时输出有效个数、及格个数、不及格个数、平均分。及格线 60。0 算不及格，100 算及格。</li><li>一次都没有有效成绩时，输出「暂无有效成绩」，不能做除法。</li><li>同一个分数录入两次，算两次。</li></ul>
 <p>循环外面准备四个变量：有效个数、及格个数、不及格个数、总分。退出之后，有效个数是 0 就只提示；否则平均分是总分除以有效个数，用 <code>f&quot;{avg:.2f}&quot;</code> 保留两位小数。</p>

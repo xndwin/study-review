@@ -31,7 +31,7 @@ try {
 <button type="button" class="theme" aria-pressed="false">夜间</button>
 </div>
 </div>
-<article class="prose"><p class="kicker"><a href="lecture-w05.html">对照讲解 · RAG 原理</a></p><details class="toc-mobile"><summary>本页目录</summary><a class="toc-h2" href="#w05-4-向量-embedding-余弦">w05-4 向量、embedding、余弦</a></details><h2 id="w05-4-向量-embedding-余弦">w05-4 向量、embedding、余弦</h2>
+<article class="prose"><p class="kicker"><a href="lecture-w05.html">对照讲解 · RAG 原理</a> · 04 / 06</p><details class="toc-mobile"><summary>本页目录</summary><a class="toc-h2" href="#w05-4-向量-embedding-余弦">w05-4 向量、embedding、余弦</a></details><h2 id="w05-4-向量-embedding-余弦">w05-4 向量、embedding、余弦</h2>
 <p>embedding：文本 → 长度为 d 的浮点向量，语义近的夹角小。</p>
 <p>cos(a,b) = (a · b) / (|a| |b|)</p>
 <p>范围约 -1～1，越接近 1 越相似。本仓库用<strong>词袋向量 + 余弦</strong>演示公式（不调付费 embedding）。词袋：每一维是词出现次数。和神经网络 embedding 不同，但余弦计算一模一样。有 embedding 接口时，只换「造向量」这一步。</p>

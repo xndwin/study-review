@@ -31,7 +31,7 @@ try {
 <button type="button" class="theme" aria-pressed="false">夜间</button>
 </div>
 </div>
-<article class="prose"><p class="kicker"><a href="a18.html">第 18 周 确认、幂等、失败</a></p><details class="toc-mobile"><summary>本页目录</summary><a class="toc-h2" href="#重试要分读和写">重试要分读和写</a></details><h2 id="重试要分读和写">重试要分读和写</h2>
+<article class="prose"><p class="kicker"><a href="a18.html">第 18 周 确认、幂等、失败</a> · 03 / 04</p><details class="toc-mobile"><summary>本页目录</summary><a class="toc-h2" href="#重试要分读和写">重试要分读和写</a></details><h2 id="重试要分读和写">重试要分读和写</h2>
 <p>查工单、查政策可以再试。<code>save_draft</code> 和状态更新如果失败，先看幂等键有没有已经成功，再决定要不要重做。没有幂等键的写操作不要自动重试。</p>
 <p>最大步数沿用工具循环，例如 6 步。到达上限就停，把最后一次工具错误写进任务记录。</p>
 <p>信息不够时，例如工单没有订单号而政策要求订单号，就停止并说明缺什么，不要让模型编一个订单号再写入。</p><nav class="pager" aria-label="前后篇"><a class="prev" href="a18--幂等.html"><small>上一篇</small>幂等</a><a class="next" href="a18--这一周自己写.html"><small>下一篇</small>这一周自己写</a></nav></article>

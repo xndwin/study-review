@@ -31,7 +31,7 @@ try {
 <button type="button" class="theme" aria-pressed="false">夜间</button>
 </div>
 </div>
-<article class="prose"><p class="kicker"><a href="a14.html">第 14 周 词匹配、向量、FAISS</a></p><details class="toc-mobile"><summary>本页目录</summary><a class="toc-h2" href="#向量和模型名">向量和模型名</a></details><h2 id="向量和模型名">向量和模型名</h2>
+<article class="prose"><p class="kicker"><a href="a14.html">第 14 周 词匹配、向量、FAISS</a> · 02 / 04</p><details class="toc-mobile"><summary>本页目录</summary><a class="toc-h2" href="#向量和模型名">向量和模型名</a></details><h2 id="向量和模型名">向量和模型名</h2>
 <p>调用供应商的 embedding 接口，把每一块变成向量。索引旁边写上当天文档里的模型名和向量维度。换模型或换维度，就重建索引。旧向量和新向量不能混在同一次搜索里。</p>
 <p>FAISS 负责按向量找最近的编号。它不保存「这是哪一页、属于哪个用户」。搜到编号之后，回数据库取原文。数据库说这份已经删除，就丢掉这个编号。</p>
 <figure class="code"><figcaption>python</figcaption><pre class="lang-python"><code>def search(query: str, k: int = 5) -&gt; list[dict]:

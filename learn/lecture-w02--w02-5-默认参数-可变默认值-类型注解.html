@@ -31,7 +31,7 @@ try {
 <button type="button" class="theme" aria-pressed="false">夜间</button>
 </div>
 </div>
-<article class="prose"><p class="kicker"><a href="lecture-w02.html">对照讲解 · Python 核心</a></p><details class="toc-mobile"><summary>本页目录</summary><a class="toc-h2" href="#w02-5-默认参数-可变默认值-类型注解">w02-5 默认参数、可变默认值、类型注解</a></details><h2 id="w02-5-默认参数-可变默认值-类型注解">w02-5 默认参数、可变默认值、类型注解</h2>
+<article class="prose"><p class="kicker"><a href="lecture-w02.html">对照讲解 · Python 核心</a> · 05 / 09</p><details class="toc-mobile"><summary>本页目录</summary><a class="toc-h2" href="#w02-5-默认参数-可变默认值-类型注解">w02-5 默认参数、可变默认值、类型注解</a></details><h2 id="w02-5-默认参数-可变默认值-类型注解">w02-5 默认参数、可变默认值、类型注解</h2>
 <p>默认参数必须放后面。<code>list</code> / <code>dict</code> 不要当默认值，多次调用会共用同一个对象。正确：</p>
 <figure class="code"><figcaption>python</figcaption><pre class="lang-python"><code>def add_msg(item: str, history: list[str] | None = None) -&gt; list[str]:
     if history is None:

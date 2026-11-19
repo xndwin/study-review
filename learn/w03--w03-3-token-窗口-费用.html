@@ -31,7 +31,7 @@ try {
 <button type="button" class="theme" aria-pressed="false">夜间</button>
 </div>
 </div>
-<article class="prose"><p class="kicker"><a href="w03.html">原课文 · 调用大模型</a></p><details class="toc-mobile"><summary>本页目录</summary><a class="toc-h2" href="#w03-3-token-窗口-费用">w03-3 token、窗口、费用</a></details><h2 id="w03-3-token-窗口-费用">w03-3 token、窗口、费用</h2>
+<article class="prose"><p class="kicker"><a href="w03.html">原课文 · 调用大模型</a> · 03 / 09</p><details class="toc-mobile"><summary>本页目录</summary><a class="toc-h2" href="#w03-3-token-窗口-费用">w03-3 token、窗口、费用</a></details><h2 id="w03-3-token-窗口-费用">w03-3 token、窗口、费用</h2>
 <p>token 是模型计费和长度的单位，<strong>不是汉字个数</strong>。英文常 1 token≈0.75 词；中文常见 1 字≈1–2 token（随模型而变）。</p>
 <ul><li><code>prompt_tokens</code>：你发进去的（system + 历史 + 资料）</li><li><code>completion_tokens</code>：模型新写的</li><li>账单两者都算</li></ul>
 <p>上下文窗口：一次请求里 messages 总长不能超过模型上限。RAG 把整本手册塞进去会爆窗口、又贵、又稀释重点——这就是为什么要检索。</p>

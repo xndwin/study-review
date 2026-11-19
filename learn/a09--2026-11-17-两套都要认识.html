@@ -31,7 +31,7 @@ try {
 <button type="button" class="theme" aria-pressed="false">夜间</button>
 </div>
 </div>
-<article class="prose"><p class="kicker"><a href="a09.html">第 9 周 两家模型 API</a></p><details class="toc-mobile"><summary>本页目录</summary><a class="toc-h2" href="#2026-11-17-两套都要认识">2026-11-17 两套都要认识</a></details><h2 id="2026-11-17-两套都要认识">2026-11-17 两套都要认识</h2>
+<article class="prose"><p class="kicker"><a href="a09.html">第 9 周 两家模型 API</a> · 01 / 06</p><details class="toc-mobile"><summary>本页目录</summary><a class="toc-h2" href="#2026-11-17-两套都要认识">2026-11-17 两套都要认识</a></details><h2 id="2026-11-17-两套都要认识">2026-11-17 两套都要认识</h2>
 <p>两家互换的作业用 Chat Completions：<code>messages</code>、<code>tools</code>、<code>stream</code>、<code>response_format</code>。通义当天帮助页仍把它当作兼容入口，DeepSeek 也还提供这条路径。</p>
 <p>OpenAI 规定自家新项目用 Responses。DeepSeek 同样有 <code>POST /responses</code>。Assistants API 已于 2026-08-26 停用，不要学 threads、assistants 那套旧教程。</p>
 <figure class="code"><figcaption>python</figcaption><pre class="lang-python"><code>response = client.responses.create(

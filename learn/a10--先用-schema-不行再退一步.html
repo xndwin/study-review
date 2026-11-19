@@ -31,7 +31,7 @@ try {
 <button type="button" class="theme" aria-pressed="false">夜间</button>
 </div>
 </div>
-<article class="prose"><p class="kicker"><a href="a10.html">第 10 周 结构化输出与字段校验</a></p><details class="toc-mobile"><summary>本页目录</summary><a class="toc-h2" href="#先用-schema-不行再退一步">先用 schema，不行再退一步</a></details><h2 id="先用-schema-不行再退一步">先用 schema，不行再退一步</h2>
+<article class="prose"><p class="kicker"><a href="a10.html">第 10 周 结构化输出与字段校验</a> · 02 / 05</p><details class="toc-mobile"><summary>本页目录</summary><a class="toc-h2" href="#先用-schema-不行再退一步">先用 schema，不行再退一步</a></details><h2 id="先用-schema-不行再退一步">先用 schema，不行再退一步</h2>
 <p>供应商支持时，<code>response_format</code> 用 <code>json_schema</code>，并打开严格模式。这样模型更不容易漏字段或加字段。</p>
 <p>不支持时，退到 <code>json_object</code>，或者在提示里要求只输出一个 JSON 对象。<code>json_object</code> 只保证整体是 JSON，不保证有 <code>kind</code> 这个键，也不保证 <code>kind</code> 属于那三个词。</p>
 <p>两种都要在你的代码里再查一遍：</p>

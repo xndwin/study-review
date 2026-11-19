@@ -31,7 +31,7 @@ try {
 <button type="button" class="theme" aria-pressed="false">夜间</button>
 </div>
 </div>
-<article class="prose"><p class="kicker"><a href="lecture-w05.html">对照讲解 · RAG 原理</a></p><details class="toc-mobile"><summary>本页目录</summary><a class="toc-h2" href="#w05-3-词重叠检索-jaccard">w05-3 词重叠检索（Jaccard）</a></details><h2 id="w05-3-词重叠检索-jaccard">w05-3 词重叠检索（Jaccard）</h2>
+<article class="prose"><p class="kicker"><a href="lecture-w05.html">对照讲解 · RAG 原理</a> · 03 / 06</p><details class="toc-mobile"><summary>本页目录</summary><a class="toc-h2" href="#w05-3-词重叠检索-jaccard">w05-3 词重叠检索（Jaccard）</a></details><h2 id="w05-3-词重叠检索-jaccard">w05-3 词重叠检索（Jaccard）</h2>
 <p>不依赖 embedding 接口：问题和块切成英文单词 + 连续两字中文。</p>
 <p>score = |Q ∩ C| / |Q ∪ C|</p>
 <p>取 Top-K 且分数 &gt; 0。没有交集视为没检索到。接口已经是 <code>retrieve(query) -&gt; list[(Chunk, score)]</code>，后面换向量不改生成代码。</p>

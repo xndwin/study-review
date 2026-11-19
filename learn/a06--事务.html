@@ -31,7 +31,7 @@ try {
 <button type="button" class="theme" aria-pressed="false">夜间</button>
 </div>
 </div>
-<article class="prose"><p class="kicker"><a href="a06.html">第 6 周 SQLite 表、联表、事务</a></p><details class="toc-mobile"><summary>本页目录</summary><a class="toc-h2" href="#事务">事务</a></details><h2 id="事务">事务</h2>
+<article class="prose"><p class="kicker"><a href="a06.html">第 6 周 SQLite 表、联表、事务</a> · 03 / 04</p><details class="toc-mobile"><summary>本页目录</summary><a class="toc-h2" href="#事务">事务</a></details><h2 id="事务">事务</h2>
 <p>事务把多步改动绑成一次成功或一次失败。例如关闭工单的同时写一条操作记录：两句 <code>INSERT</code> / <code>UPDATE</code> 都成功才 <code>commit</code>，中间出错就 <code>rollback</code>，避免工单已关闭但记录没写上。</p>
 <p>只读一条 <code>SELECT</code> 不需要自己开事务。下面这种「先读再改」才需要：</p>
 <figure class="code"><figcaption>python</figcaption><pre class="lang-python"><code>with conn:

@@ -31,7 +31,7 @@ try {
 <button type="button" class="theme" aria-pressed="false">夜间</button>
 </div>
 </div>
-<article class="prose"><p class="kicker"><a href="w05.html">原课文 · RAG 原理</a></p><details class="toc-mobile"><summary>本页目录</summary><a class="toc-h2" href="#w05-6-失败模式">w05-6 失败模式</a></details><h2 id="w05-6-失败模式">w05-6 失败模式</h2>
+<article class="prose"><p class="kicker"><a href="w05.html">原课文 · RAG 原理</a> · 06 / 08</p><details class="toc-mobile"><summary>本页目录</summary><a class="toc-h2" href="#w05-6-失败模式">w05-6 失败模式</a></details><h2 id="w05-6-失败模式">w05-6 失败模式</h2>
 <div class="table-wrap"><table><thead><tr><th>现象</th><th>常见原因</th><th>处理</th></tr></thead><tbody><tr><td>胡编</td><td>空检索仍让模型自由发挥</td><td>拒答或强制只据资料</td></tr><tr><td>答非所问</td><td>切块差、K 太小、词重叠对同义句弱</td><td>换切法/K/向量</td></tr><tr><td>答案缺半句</td><td>切在句子中间且 overlap 不够</td><td>加大 overlap 或按句切</td></tr><tr><td>引用错号</td><td>模型没严格执行</td><td>后处理核对编号是否在 hits 里</td></tr><tr><td>全篇都一般相关</td><td>文档太同质或问题太泛</td><td>让用户问具体一点；加标题进块</td></tr></tbody></table></div>
 <hr><nav class="pager" aria-label="前后篇"><a class="prev" href="w05--w05-5-带引用生成与拒答.html"><small>上一篇</small>w05-5 带引用生成与拒答</a><a class="next" href="w05--练习.html"><small>下一篇</small>练习</a></nav></article>
 <footer>

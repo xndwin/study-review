@@ -31,7 +31,7 @@ try {
 <button type="button" class="theme" aria-pressed="false">夜间</button>
 </div>
 </div>
-<article class="prose"><p class="kicker"><a href="a17.html">第 17 周 工具调用</a></p><details class="toc-mobile"><summary>本页目录</summary><a class="toc-h2" href="#三个工具">三个工具</a></details><h2 id="三个工具">三个工具</h2>
+<article class="prose"><p class="kicker"><a href="a17.html">第 17 周 工具调用</a> · 02 / 04</p><details class="toc-mobile"><summary>本页目录</summary><a class="toc-h2" href="#三个工具">三个工具</a></details><h2 id="三个工具">三个工具</h2>
 <p>先做这三个，都只读或只产生草稿：</p>
 <ul><li><code>get_ticket(ticket_id)</code>：返回这张模拟工单的状态和用户。</li><li><code>get_policy(topic)</code>：从你写的短政策里查一条。</li><li><code>save_draft(ticket_id, text)</code>：把草稿存起来，不改变工单状态。</li></ul>
 <p>参数先校验。<code>ticket_id</code> 不是整数、政策主题不在允许列表，就返回错误字符串给模型，让它看见失败原因。不要把异常直接打成 500 结束整个循环。</p>

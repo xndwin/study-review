@@ -31,7 +31,7 @@ try {
 <button type="button" class="theme" aria-pressed="false">夜间</button>
 </div>
 </div>
-<article class="prose"><p class="kicker"><a href="lecture-w05.html">对照讲解 · RAG 原理</a></p><details class="toc-mobile"><summary>本页目录</summary><a class="toc-h2" href="#w05-5-带引用生成与拒答">w05-5 带引用生成与拒答</a></details><h2 id="w05-5-带引用生成与拒答">w05-5 带引用生成与拒答</h2>
+<article class="prose"><p class="kicker"><a href="lecture-w05.html">对照讲解 · RAG 原理</a> · 05 / 06</p><details class="toc-mobile"><summary>本页目录</summary><a class="toc-h2" href="#w05-5-带引用生成与拒答">w05-5 带引用生成与拒答</a></details><h2 id="w05-5-带引用生成与拒答">w05-5 带引用生成与拒答</h2>
 <p>prompt 里给块编号 <code>[1] 来源 notes.md：……</code>。规矩：只根据资料；不足说「资料中没有」；用到的句子末尾标编号。</p>
 <p>检索为空时，<code>build_prompt</code> 写入「没有检索到资料」。生成侧仍可能胡编，所以要用评测盯住。产品里也可以空检索时<strong>不调生成</strong>，直接固定拒答。</p>
 <figure class="code"><figcaption>bash</figcaption><pre class="lang-bash"><code>python3 code/test/w05_5_cite.py</code></pre></figure>

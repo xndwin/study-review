@@ -31,7 +31,7 @@ try {
 <button type="button" class="theme" aria-pressed="false">夜间</button>
 </div>
 </div>
-<article class="prose"><p class="kicker"><a href="a09.html">第 9 周 两家模型 API</a></p><details class="toc-mobile"><summary>本页目录</summary><a class="toc-h2" href="#失败">失败</a></details><h2 id="失败">失败</h2>
+<article class="prose"><p class="kicker"><a href="a09.html">第 9 周 两家模型 API</a> · 05 / 06</p><details class="toc-mobile"><summary>本页目录</summary><a class="toc-h2" href="#失败">失败</a></details><h2 id="失败">失败</h2>
 <div class="table-wrap"><table><thead><tr><th>现象</th><th>含义</th><th>你怎么做</th></tr></thead><tbody><tr><td>401</td><td>密钥不对或没带</td><td>立刻失败，提示检查密钥，不要重试十几次</td></tr><tr><td>429</td><td>限流</td><td>最多重试 2 次，间隔拉开</td></tr><tr><td>超时</td><td>网络或模型太慢</td><td>最多重试 2 次，然后告诉用户稍后再试</td></tr><tr><td>5xx</td><td>对方服务故障</td><td>同样设上限</td></tr></tbody></table></div>
 <p>重试次数写在配置里。最后一次仍失败，抛出一个你自己的错误，消息是中文，里面没有密钥、没有整段 HTML 报错。</p><nav class="pager" aria-label="前后篇"><a class="prev" href="a09--流式.html"><small>上一篇</small>流式</a><a class="next" href="a09--这一周自己写.html"><small>下一篇</small>这一周自己写</a></nav></article>
 <footer>

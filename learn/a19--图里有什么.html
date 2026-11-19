@@ -31,7 +31,7 @@ try {
 <button type="button" class="theme" aria-pressed="false">夜间</button>
 </div>
 </div>
-<article class="prose"><p class="kicker"><a href="a19.html">第 19 周 LangGraph 暂停与恢复</a></p><details class="toc-mobile"><summary>本页目录</summary><a class="toc-h2" href="#图里有什么">图里有什么</a></details><h2 id="图里有什么">图里有什么</h2>
+<article class="prose"><p class="kicker"><a href="a19.html">第 19 周 LangGraph 暂停与恢复</a> · 01 / 03</p><details class="toc-mobile"><summary>本页目录</summary><a class="toc-h2" href="#图里有什么">图里有什么</a></details><h2 id="图里有什么">图里有什么</h2>
 <p>节点是函数，例如分类、查询、写草稿、等待确认、执行更新。边决定下一个节点。状态是一份字典，在节点之间传递，里面有工单编号、草稿、是否已确认。</p>
 <p>人要做决定时，在那个节点里面调用 <code>interrupt()</code>，把草稿版本交给外面。图停住。人提交决定后，用 <code>Command(resume=...)</code> 从停下的地方继续，不要新开一个空线程假装已经确认。</p>
 <p>编译图时带上会落盘的 checkpointer。学习用 SQLite。只放在内存里的存档，进程一关就找不回来。</p>

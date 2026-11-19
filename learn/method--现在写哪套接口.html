@@ -31,7 +31,7 @@ try {
 <button type="button" class="theme" aria-pressed="false">夜间</button>
 </div>
 </div>
-<article class="prose"><p class="kicker"><a href="method.html">现行学法</a></p><details class="toc-mobile"><summary>本页目录</summary><a class="toc-h2" href="#现在写哪套接口">现在写哪套接口</a></details><h2 id="现在写哪套接口">现在写哪套接口</h2>
+<article class="prose"><p class="kicker"><a href="method.html">现行学法</a> · 01 / 05</p><details class="toc-mobile"><summary>本页目录</summary><a class="toc-h2" href="#现在写哪套接口">现在写哪套接口</a></details><h2 id="现在写哪套接口">现在写哪套接口</h2>
 <p>两家都要能跑的作业，用 Chat Completions：<code>messages</code>、<code>tools</code>、<code>stream</code>、<code>response_format</code>。2026-11-17 通义帮助页仍把它当作兼容入口，DeepSeek 也还提供 <code>POST /chat/completions</code>。所以第 9 周互换供应商时，只改 <code>base_url</code>、密钥和模型名。</p>
 <p>OpenAI 自家的新项目用 Responses。DeepSeek 同样提供 <code>POST /responses</code>。通义把 Responses 写成多轮对话的另一条路径。简历里要能说出差别：</p>
 <div class="table-wrap"><table><thead><tr><th></th><th>Chat Completions</th><th>Responses</th></tr></thead><tbody><tr><td>请求</td><td><code>messages</code></td><td><code>input</code>，系统要求放在 <code>instructions</code></td></tr><tr><td>结果</td><td><code>choices[0].message</code></td><td><code>output</code> 里的条目；SDK 可用 <code>output_text</code></td></tr><tr><td>结构化输出</td><td><code>response_format</code></td><td><code>text.format</code></td></tr><tr><td>流式</td><td><code>choices[].delta</code></td><td>事件类型不同，解析代码不能混用</td></tr><tr><td>多轮</td><td>自己保存并重发历史</td><td>可用 <code>previous_response_id</code> 或会话接口；自己保存历史仍然有效</td></tr></tbody></table></div>

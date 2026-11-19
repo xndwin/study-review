@@ -31,7 +31,7 @@ try {
 <button type="button" class="theme" aria-pressed="false">夜间</button>
 </div>
 </div>
-<article class="prose"><p class="kicker"><a href="lecture-w05.html">对照讲解 · RAG 原理</a></p><details class="toc-mobile"><summary>本页目录</summary><a class="toc-h2" href="#w05-2-切块与-overlap">w05-2 切块与 overlap</a></details><h2 id="w05-2-切块与-overlap">w05-2 切块与 overlap</h2>
+<article class="prose"><p class="kicker"><a href="lecture-w05.html">对照讲解 · RAG 原理</a> · 02 / 06</p><details class="toc-mobile"><summary>本页目录</summary><a class="toc-h2" href="#w05-2-切块与-overlap">w05-2 切块与 overlap</a></details><h2 id="w05-2-切块与-overlap">w05-2 切块与 overlap</h2>
 <p>检索单位是块，不是整篇。<code>chunk_size</code> 太大：噪声多、打分钝。太小：句子从中切开。<code>overlap</code>：块与块重叠一段，避免答案落在切缝上丢失。实现是按字符滑动窗口。工业界还会按标题/段落切。</p>
 <figure class="code"><figcaption>bash</figcaption><pre class="lang-bash"><code>python3 code/test/w05_2_chunk.py</code></pre></figure><nav class="pager" aria-label="前后篇"><a class="prev" href="lecture-w05--w05-1-为什么要-rag.html"><small>上一篇</small>w05-1 为什么要 RAG</a><a class="next" href="lecture-w05--w05-3-词重叠检索-jaccard.html"><small>下一篇</small>w05-3 词重叠检索（Jaccard）</a></nav></article>
 <footer>

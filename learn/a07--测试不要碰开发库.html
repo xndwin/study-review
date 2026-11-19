@@ -31,7 +31,7 @@ try {
 <button type="button" class="theme" aria-pressed="false">夜间</button>
 </div>
 </div>
-<article class="prose"><p class="kicker"><a href="a07.html">第 7 周 分层、归属校验、接口测试</a></p><details class="toc-mobile"><summary>本页目录</summary><a class="toc-h2" href="#测试不要碰开发库">测试不要碰开发库</a></details><h2 id="测试不要碰开发库">测试不要碰开发库</h2>
+<article class="prose"><p class="kicker"><a href="a07.html">第 7 周 分层、归属校验、接口测试</a> · 03 / 05</p><details class="toc-mobile"><summary>本页目录</summary><a class="toc-h2" href="#测试不要碰开发库">测试不要碰开发库</a></details><h2 id="测试不要碰开发库">测试不要碰开发库</h2>
 <p><code>TestClient</code> 在进程里调用接口，不需要先手动启动 uvicorn。测试用另一个数据库文件，或者内存库 <code>sqlite:///:memory:</code> 这一周先用临时文件，测完删除。</p>
 <figure class="code"><figcaption>python</figcaption><pre class="lang-python"><code>from fastapi.testclient import TestClient
 

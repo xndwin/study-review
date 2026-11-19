@@ -31,7 +31,7 @@ try {
 <button type="button" class="theme" aria-pressed="false">夜间</button>
 </div>
 </div>
-<article class="prose"><p class="kicker"><a href="a22.html">第 22 周 并发、超时、延迟</a></p><details class="toc-mobile"><summary>本页目录</summary><a class="toc-h2" href="#这些数是什么">这些数是什么</a></details><h2 id="这些数是什么">这些数是什么</h2>
+<article class="prose"><p class="kicker"><a href="a22.html">第 22 周 并发、超时、延迟</a> · 01 / 04</p><details class="toc-mobile"><summary>本页目录</summary><a class="toc-h2" href="#这些数是什么">这些数是什么</a></details><h2 id="这些数是什么">这些数是什么</h2>
 <p>p50 是把耗时从小到大排序后，位置在一半的那一个。p95 是靠近末尾的那一个，用来看慢请求，不看平均值。平均值会被一次特别慢的调用拉高，也会把慢请求藏起来。</p>
 <figure class="code"><figcaption>python</figcaption><pre class="lang-python"><code>def percentile(samples: list[float], p: float) -&gt; float:
     ordered = sorted(samples)

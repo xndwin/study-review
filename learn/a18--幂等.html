@@ -31,7 +31,7 @@ try {
 <button type="button" class="theme" aria-pressed="false">夜间</button>
 </div>
 </div>
-<article class="prose"><p class="kicker"><a href="a18.html">第 18 周 确认、幂等、失败</a></p><details class="toc-mobile"><summary>本页目录</summary><a class="toc-h2" href="#幂等">幂等</a></details><h2 id="幂等">幂等</h2>
+<article class="prose"><p class="kicker"><a href="a18.html">第 18 周 确认、幂等、失败</a> · 02 / 04</p><details class="toc-mobile"><summary>本页目录</summary><a class="toc-h2" href="#幂等">幂等</a></details><h2 id="幂等">幂等</h2>
 <p>同意之后的更新使用确认编号当幂等键。同一编号第二次进来：如果第一次已经成功，就返回当时的结果，不再执行 <code>UPDATE</code>。</p>
 <p>占位符按驱动来：SQLite 用 <code>?</code>，psycopg 用 <code>%s</code>。</p>
 <figure class="code"><figcaption>python</figcaption><pre class="lang-python"><code>def apply_decision(conn, decision_id: int, approve: bool):

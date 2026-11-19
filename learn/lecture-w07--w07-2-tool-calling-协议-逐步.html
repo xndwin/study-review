@@ -31,7 +31,7 @@ try {
 <button type="button" class="theme" aria-pressed="false">夜间</button>
 </div>
 </div>
-<article class="prose"><p class="kicker"><a href="lecture-w07.html">对照讲解 · 工具调用</a></p><details class="toc-mobile"><summary>本页目录</summary><a class="toc-h2" href="#w07-2-tool-calling-协议-逐步">w07-2 tool calling 协议（逐步）</a></details><h2 id="w07-2-tool-calling-协议-逐步">w07-2 tool calling 协议（逐步）</h2>
+<article class="prose"><p class="kicker"><a href="lecture-w07.html">对照讲解 · 工具调用</a> · 02 / 06</p><details class="toc-mobile"><summary>本页目录</summary><a class="toc-h2" href="#w07-2-tool-calling-协议-逐步">w07-2 tool calling 协议（逐步）</a></details><h2 id="w07-2-tool-calling-协议-逐步">w07-2 tool calling 协议（逐步）</h2>
 <ol><li>你提供 <code>tools</code>：name、description、parameters（JSON Schema）</li><li><code>create(..., tools=TOOLS)</code></li><li>若 <code>message.tool_calls</code> 非空：还不是最终对用户的话</li><li>对每个 call：<code>json.loads(arguments)</code> → 在<strong>你的 Python</strong>里执行</li><li>append 模型那条，再 append <code>role=tool, tool_call_id=..., content=结果</code></li><li>再 <code>create</code>，直到没有 tool_calls 或达到 <code>max_steps</code></li></ol>
 <p>模型<strong>不会</strong>真的进你电脑。它只输出「我想调 calculator，参数 expr=2**10」。执行权在你。实现：<code>code/test/lib/agent_local.py</code>（范文 <code>code/w07/agent.py</code>）。</p><nav class="pager" aria-label="前后篇"><a class="prev" href="lecture-w07--w07-1-三种系统.html"><small>上一篇</small>w07-1 三种系统</a><a class="next" href="lecture-w07--w07-3-计算器.html"><small>下一篇</small>w07-3 计算器</a></nav></article>
 <footer>

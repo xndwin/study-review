@@ -31,7 +31,7 @@ try {
 <button type="button" class="theme" aria-pressed="false">夜间</button>
 </div>
 </div>
-<article class="prose"><p class="kicker"><a href="w03.html">原课文 · 调用大模型</a></p><details class="toc-mobile"><summary>本页目录</summary><a class="toc-h2" href="#w03-7-失败与重试">w03-7 失败与重试</a></details><h2 id="w03-7-失败与重试">w03-7 失败与重试</h2>
+<article class="prose"><p class="kicker"><a href="w03.html">原课文 · 调用大模型</a> · 07 / 09</p><details class="toc-mobile"><summary>本页目录</summary><a class="toc-h2" href="#w03-7-失败与重试">w03-7 失败与重试</a></details><h2 id="w03-7-失败与重试">w03-7 失败与重试</h2>
 <div class="table-wrap"><table><thead><tr><th>情况</th><th>常见原因</th><th>应用里怎么做</th></tr></thead><tbody><tr><td>401</td><td>Key 错或没带</td><td>检查 <code>.env</code>，不要把 Key 打进日志</td></tr><tr><td>402/429</td><td>欠费或限流</td><td>退避重试；提示用户稍后</td></tr><tr><td>超时</td><td>网络或模型慢</td><td>设 timeout；流式可先出字</td></tr><tr><td>5xx</td><td>服务端</td><td>重试有限次</td></tr></tbody></table></div>
 <p><code>llm.py</code> 把 SDK 异常包成 <code>RuntimeError</code> 并保留因果。产品里还要返回给用户一句人话，而不是整段 Traceback。</p>
 <p><code>.env</code> 变量：<code>LLM_API_KEY</code> <code>LLM_BASE_URL</code> <code>LLM_MODEL</code>。<code>.env</code> 已在 gitignore。</p>

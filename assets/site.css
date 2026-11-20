@@ -179,7 +179,46 @@ button[aria-pressed="true"] {
 }
 .scrim[hidden] { display: none; }
 .catalog { max-width: 42rem; margin-inline: auto; }
-.start-page { max-width: 58rem; }
+.start-page { max-width: 40rem; }
+.start-page a { color: inherit; text-decoration: none; }
+.path { list-style: none; margin: 0.4rem 0 0; padding: 0; }
+.path > li { margin: 0 0 0.3rem; padding: 0.2rem 0 1.3rem; border-bottom: 1px solid var(--line); }
+.step-no {
+  margin: 0.7rem 0 0.15rem;
+  font-family: var(--sans);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  color: var(--cinnabar);
+}
+.path h2 {
+  margin: 0 0 0.35rem;
+  padding: 0;
+  border: 0;
+  font-family: var(--serif);
+  font-size: 1.45rem;
+}
+.path h3 {
+  margin: 1.15rem 0 0.2rem;
+  font-family: var(--serif);
+  font-size: 1.12rem;
+}
+.step-go {
+  display: flex;
+  flex-direction: column;
+  gap: 0.12rem;
+  margin-top: 0.75rem;
+  padding: 0.95rem 1rem;
+  background: var(--cinnabar-soft);
+  border-radius: 0.85rem;
+}
+.step-go small {
+  font-family: var(--sans);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  color: var(--cinnabar);
+}
+.step-go strong { font-family: var(--serif); font-size: 1.45rem; font-weight: 650; line-height: 1.3; }
+.step-go span { color: var(--muted); font-family: var(--sans); font-size: 0.92rem; }
 .prose { max-width: 40rem; margin-inline: auto; }
 .catalog + footer { max-width: 42rem; margin-inline: auto; }
 .prose + footer { max-width: 40rem; margin-inline: auto; }

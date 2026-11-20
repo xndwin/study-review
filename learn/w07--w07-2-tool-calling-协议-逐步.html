@@ -31,7 +31,7 @@ try {
 <button type="button" class="theme" aria-pressed="false">夜间</button>
 </div>
 </div>
-<article class="prose"><p class="kicker"><a href="w07.html">原课文 · 工具调用</a> · 02 / 07</p><details class="toc-mobile"><summary>本页目录</summary><a class="toc-h2" href="#w07-2-tool-calling-协议-逐步">w07-2 tool calling 协议（逐步）</a></details><h2 id="w07-2-tool-calling-协议-逐步">w07-2 tool calling 协议（逐步）</h2>
+<article class="prose"><p class="kicker"><a href="w07.html">原课文 · 工具调用</a> · 02 / 07</p><section class="study" data-study><p class="kicker">先做再看</p><p class="study-title">这一章只做一件事</p><p>合上这一页，写出「w07-2 tool calling 协议（逐步）」里的一句规则，并举一个自己的例子。写完再往下对照课文。</p><ol><li>先写，不往下翻。</li><li>对照下面的课文，只补写错的那一处，再独立写一次。</li><li>用白话讲清为什么。</li><li>把卡住的地方写成一道题，留在下面。</li><li>第 1、3、7、14 天不看课文再做一小题。做对就把间隔拉长。</li></ol><label>卡住的题<textarea data-note="gap" rows="3" placeholder="写成一道能闭卷做的小题"></textarea></label><div class="reviews" data-reviews><p>从你第一次打开这一章算起</p></div></section><details class="toc-mobile"><summary>本页目录</summary><a class="toc-h2" href="#w07-2-tool-calling-协议-逐步">w07-2 tool calling 协议（逐步）</a></details><h2 id="w07-2-tool-calling-协议-逐步">w07-2 tool calling 协议（逐步）</h2>
 <ol><li>你提供 <code>tools</code>：每个函数的 name、description、parameters（JSON Schema）</li><li><code>create(..., tools=TOOLS)</code></li><li>若 <code>message.tool_calls</code> 非空：还不是最终对用户的话</li><li>对每个 call：<code>json.loads(arguments)</code> → 在<strong>你的 Python</strong>里执行对应函数</li><li><code>messages.append</code> 模型那条，再 append <code>role=tool, tool_call_id=..., content=结果字符串</code></li><li>再 <code>create</code>，直到没有 tool_calls 或达到 <code>max_steps</code></li></ol>
 <p>模型<strong>不会</strong>真的进你电脑。它只输出「我想调 calculator，参数 expr=2**10」。执行权在你。</p>
 <p>代码：<code>code/w07/agent.py</code> 的 <code>run_agent</code>。</p>

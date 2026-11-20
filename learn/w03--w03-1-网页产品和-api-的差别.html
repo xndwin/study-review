@@ -31,7 +31,7 @@ try {
 <button type="button" class="theme" aria-pressed="false">夜间</button>
 </div>
 </div>
-<article class="prose"><p class="kicker"><a href="w03.html">原课文 · 调用大模型</a> · 01 / 09</p><details class="toc-mobile"><summary>本页目录</summary><a class="toc-h2" href="#w03-1-网页产品和-api-的差别">w03-1 网页产品和 API 的差别</a></details><h2 id="w03-1-网页产品和-api-的差别">w03-1 网页产品和 API 的差别</h2>
+<article class="prose"><p class="kicker"><a href="w03.html">原课文 · 调用大模型</a> · 01 / 09</p><section class="study" data-study><p class="kicker">先做再看</p><p class="study-title">这一章只做一件事</p><p>合上这一页，写出「w03-1 网页产品和 API 的差别」里的一句规则，并举一个自己的例子。写完再往下对照课文。</p><ol><li>先写，不往下翻。</li><li>对照下面的课文，只补写错的那一处，再独立写一次。</li><li>用白话讲清为什么。</li><li>把卡住的地方写成一道题，留在下面。</li><li>第 1、3、7、14 天不看课文再做一小题。做对就把间隔拉长。</li></ol><label>卡住的题<textarea data-note="gap" rows="3" placeholder="写成一道能闭卷做的小题"></textarea></label><div class="reviews" data-reviews><p>从你第一次打开这一章算起</p></div></section><details class="toc-mobile"><summary>本页目录</summary><a class="toc-h2" href="#w03-1-网页产品和-api-的差别">w03-1 网页产品和 API 的差别</a></details><h2 id="w03-1-网页产品和-api-的差别">w03-1 网页产品和 API 的差别</h2>
 <p>网页 ChatGPT：厂商帮你存历史、画界面、限流、安全过滤。  应用岗写的是：<strong>你的服务器用 HTTP 调模型，再把结果接到业务</strong>（知识库、表单、内部系统）。</p>
 <p>国内很多模型提供 <strong>OpenAI 兼容</strong> 接口：路径、字段和官方 SDK 一样，只换 <code>base_url</code> 和 <code>api_key</code>。本仓库默认 DeepSeek。换通义/Kimi/本地 vLLM，通常只改 <code>.env</code> 三行。</p>
 <p>SDK（<code>openai</code> 包）替你做：拼 JSON、带 Header、解析响应、流式迭代。第 2 周 <code>06_http_local.py</code> 里的 payload 就是它发出去的东西。</p>

@@ -22,6 +22,56 @@
   syncSize();
   syncTheme();
 
+  var study = document.querySelector("[data-study]");
+  if (study) {
+    function studyKey(name) {
+      return "study-" + name + ":" + location.pathname;
+    }
+    function addDays(iso, n) {
+      var d = new Date(iso + "T00:00:00");
+      d.setDate(d.getDate() + n);
+      var month = String(d.getMonth() + 1);
+      var day = String(d.getDate());
+      if (month.length < 2) month = "0" + month;
+      if (day.length < 2) day = "0" + day;
+      return d.getFullYear() + "-" + month + "-" + day;
+    }
+    var seenKey = studyKey("seen");
+    var seen = "";
+    try { seen = localStorage.getItem(seenKey) || ""; } catch (e) {}
+    if (!seen) {
+      var now = new Date();
+      var month = String(now.getMonth() + 1);
+      var day = String(now.getDate());
+      if (month.length < 2) month = "0" + month;
+      if (day.length < 2) day = "0" + day;
+      seen = now.getFullYear() + "-" + month + "-" + day;
+      try { localStorage.setItem(seenKey, seen); } catch (e) {}
+    }
+    var box = study.querySelector("[data-reviews]");
+    [1, 3, 7, 14].forEach(function (gap) {
+      var btn = document.createElement("button");
+      btn.type = "button";
+      var done = false;
+      try { done = localStorage.getItem(studyKey("done-" + gap)) === "1"; } catch (e) {}
+      btn.textContent = "第 " + gap + " 天 · " + addDays(seen, gap).slice(5);
+      btn.setAttribute("aria-pressed", done ? "true" : "false");
+      btn.addEventListener("click", function () {
+        var next = btn.getAttribute("aria-pressed") !== "true";
+        btn.setAttribute("aria-pressed", next ? "true" : "false");
+        try { localStorage.setItem(studyKey("done-" + gap), next ? "1" : "0"); } catch (e) {}
+      });
+      box.appendChild(btn);
+    });
+    var area = study.querySelector("textarea");
+    if (area) {
+      try { area.value = localStorage.getItem(studyKey("gap")) || ""; } catch (e) {}
+      area.addEventListener("input", function () {
+        try { localStorage.setItem(studyKey("gap"), area.value); } catch (e) {}
+      });
+    }
+  }
+
   var scrollKey = "study-scroll:" + location.pathname;
   if (!location.hash) {
     try {

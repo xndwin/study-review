@@ -31,7 +31,7 @@ try {
 <button type="button" class="theme" aria-pressed="false">夜间</button>
 </div>
 </div>
-<article class="prose"><p class="kicker"><a href="a13.html">第 13 周 切块、元数据、文档版本</a> · 01 / 03</p><details class="toc-mobile"><summary>本页目录</summary><a class="toc-h2" href="#先文本-再-pdf">先文本，再 PDF</a></details><h2 id="先文本-再-pdf">先文本，再 PDF</h2>
+<article class="prose"><p class="kicker"><a href="a13.html">第 13 周 切块、元数据、文档版本</a> · 01 / 03</p><section class="study" data-study><p class="kicker">先做再看</p><p class="study-title">这一章只做一件事</p><p>合上这一页，写出「先文本，再 PDF」里的一句规则，并举一个自己的例子。写完再往下对照课文。</p><ol><li>先写，不往下翻。</li><li>对照下面的课文，只补写错的那一处，再独立写一次。</li><li>用白话讲清为什么。</li><li>把卡住的地方写成一道题，留在下面。</li><li>第 1、3、7、14 天不看课文再做一小题。做对就把间隔拉长。</li></ol><label>卡住的题<textarea data-note="gap" rows="3" placeholder="写成一道能闭卷做的小题"></textarea></label><div class="reviews" data-reviews><p>从你第一次打开这一章算起</p></div></section><details class="toc-mobile"><summary>本页目录</summary><a class="toc-h2" href="#先文本-再-pdf">先文本，再 PDF</a></details><h2 id="先文本-再-pdf">先文本，再 PDF</h2>
 <p>Markdown 和纯文本用 <code>pathlib</code> 按 utf-8 读取。PDF 只处理能抽出文字的那种。扫描件没有文字层时，记录「这一份抽不出文字」，不要当成空字符串成功。</p>
 <p>每份文档有一个稳定的 <code>doc_id</code>。重新导入同一份时沿用这个编号，并增加版本号。删除是把这个 <code>doc_id</code> 标成不可用，或真的删掉它的块。问答不能再返回已删除版本的句子。</p>
 <p>一块要保存的元数据：</p>

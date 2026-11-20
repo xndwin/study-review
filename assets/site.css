@@ -294,6 +294,56 @@ h1 {
   font-family: var(--sans);
   font-size: 0.88rem;
 }
+.study {
+  margin: 0.2rem 0 1.5rem;
+  padding: 0.95rem 1rem 1rem;
+  background: var(--cinnabar-soft);
+  border-radius: 0.75rem;
+}
+.study-title {
+  margin: 0.1rem 0 0.4rem;
+  font-family: var(--serif);
+  font-size: 1.28rem;
+  font-weight: 650;
+  line-height: 1.35;
+}
+.study ol { margin: 0.35rem 0 0.8rem; padding-left: 1.25rem; }
+.study li { margin: 0.28rem 0; }
+.study label {
+  display: block;
+  color: var(--muted);
+  font-family: var(--sans);
+  font-size: 0.82rem;
+}
+.study textarea {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: 0.35rem;
+  min-height: 4.4rem;
+  padding: 0.55rem 0.7rem;
+  border: 1px solid var(--line);
+  border-radius: 0.55rem;
+  background: var(--paper);
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  resize: vertical;
+}
+.reviews {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.8rem;
+}
+.reviews p {
+  flex-basis: 100%;
+  margin: 0 0 0.1rem;
+  color: var(--muted);
+  font-family: var(--sans);
+  font-size: 0.82rem;
+}
 .rail-link span, .rail-link small {
   overflow: hidden;
   text-overflow: ellipsis;

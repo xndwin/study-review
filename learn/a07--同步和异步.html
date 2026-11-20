@@ -31,7 +31,7 @@ try {
 <button type="button" class="theme" aria-pressed="false">夜间</button>
 </div>
 </div>
-<article class="prose"><p class="kicker"><a href="a07.html">第 7 周 分层、归属校验、接口测试</a> · 04 / 05</p><details class="toc-mobile"><summary>本页目录</summary><a class="toc-h2" href="#同步和异步">同步和异步</a></details><h2 id="同步和异步">同步和异步</h2>
+<article class="prose"><p class="kicker"><a href="a07.html">第 7 周 分层、归属校验、接口测试</a> · 04 / 05</p><section class="study" data-study><p class="kicker">先做再看</p><p class="study-title">这一章只做一件事</p><p>合上这一页，写出「同步和异步」里的一句规则，并举一个自己的例子。写完再往下对照课文。</p><ol><li>先写，不往下翻。</li><li>对照下面的课文，只补写错的那一处，再独立写一次。</li><li>用白话讲清为什么。</li><li>把卡住的地方写成一道题，留在下面。</li><li>第 1、3、7、14 天不看课文再做一小题。做对就把间隔拉长。</li></ol><label>卡住的题<textarea data-note="gap" rows="3" placeholder="写成一道能闭卷做的小题"></textarea></label><div class="reviews" data-reviews><p>从你第一次打开这一章算起</p></div></section><details class="toc-mobile"><summary>本页目录</summary><a class="toc-h2" href="#同步和异步">同步和异步</a></details><h2 id="同步和异步">同步和异步</h2>
 <p>FastAPI 路径函数写成普通 <code>def</code>，阻塞的 SQL 可以放在里面，框架会把它放到线程池。写成 <code>async def</code> 之后，里面如果直接调用会卡住的数据库驱动，就会堵住整个事件循环，别的请求一起等。</p>
 <p>这一周用同步的 <code>sqlite3</code> 加普通 <code>def</code>。不要为了看起来现代，把阻塞调用塞进 <code>async def</code> 又不 <code>await</code> 一个真正的异步驱动。</p><nav class="pager" aria-label="前后篇"><a class="prev" href="a07--测试不要碰开发库.html"><small>上一篇</small>测试不要碰开发库</a><a class="next" href="a07--这一周自己写.html"><small>下一篇</small>这一周自己写</a></nav></article>
 <footer>

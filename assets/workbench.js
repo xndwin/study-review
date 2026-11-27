@@ -83,7 +83,9 @@
   }
 
   var showStdinDefault = Boolean(lab.stdin_presets && lab.stdin_presets.length > 0);
-  var primaryLabel = lab.checker ? "▶ 运行检查 (⌘+Enter)" : "▶ 运行 (⌘+Enter)";
+  var primaryLabel = lab.checker
+    ? '▶ 运行检查<span class="wb-kbd-hint"> (⌘+Enter)</span>'
+    : '▶ 运行<span class="wb-kbd-hint"> (⌘+Enter)</span>';
   var codeHeading = lab.target_file ? "写代码 · " + esc(lab.target_file.split("/").pop()) : "在线试跑";
 
   htmlParts.push(
@@ -154,10 +156,13 @@
         promptHtml = "<code>" + promptHtml + "</code>";
       }
 
+      var stackOpts = q.options.some(function (t) { return String(t).length > 12; });
+      var optsCls = "quiz-opts" + (stackOpts ? " quiz-opts-stack" : "");
+
       row.innerHTML =
         '<div class="quiz-main">' +
           '<div class="quiz-q"><span class="quiz-idx">' + String(qIdx + 1).padStart(2, "0") + '</span><span>' + promptHtml + '</span></div>' +
-          '<div class="quiz-opts">' + optsHtml + '</div>' +
+          '<div class="' + optsCls + '">' + optsHtml + '</div>' +
         '</div>' +
         (answered ? '<div class="quiz-exp' + (isOk ? '' : ' bad') + '">' + esc(q.explain) + '</div>' : '');
 

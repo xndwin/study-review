@@ -425,11 +425,20 @@
   }
 
   // Font Size & Theme Controls
+  var SIZE_STEPS = ["1rem", "1.125rem", "1.26rem"];
+  var SIZE_NAMES = { "1rem": "小", "1.125rem": "中", "1.26rem": "大" };
+  var sizeCycleBtn = document.querySelector("[data-size-cycle]");
+
   function syncSize() {
-    var current = getComputedStyle(root).getPropertyValue("--read").trim();
+    var current = getComputedStyle(root).getPropertyValue("--read").trim() || "1.125rem";
     document.querySelectorAll("[data-size]").forEach(function (btn) {
       btn.setAttribute("aria-pressed", btn.getAttribute("data-size") === current ? "true" : "false");
     });
+    if (sizeCycleBtn) {
+      var label = SIZE_NAMES[current] || "中";
+      sizeCycleBtn.textContent = "Aa·" + label;
+      sizeCycleBtn.setAttribute("aria-label", "切换字号（当前：" + label + "）");
+    }
   }
 
   var themeBtn = document.querySelector(".theme-btn");
@@ -452,6 +461,17 @@
       syncSize();
     });
   });
+
+  if (sizeCycleBtn) {
+    sizeCycleBtn.addEventListener("click", function () {
+      var current = getComputedStyle(root).getPropertyValue("--read").trim() || "1.125rem";
+      var idx = SIZE_STEPS.indexOf(current);
+      var next = SIZE_STEPS[(idx + 1) % SIZE_STEPS.length];
+      root.style.setProperty("--read", next);
+      lsSet("study-read-size", next);
+      syncSize();
+    });
+  }
 
   if (themeBtn) {
     themeBtn.addEventListener("click", function () {

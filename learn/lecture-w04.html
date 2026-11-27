@@ -1,15 +1,20 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-page-slug="lecture-w04" data-in-learn="1">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#f4f1eb">
-<title>对照讲解 · 提示词与评测</title>
-<link rel="stylesheet" href="../assets/site.css?v=5">
+<meta name="theme-color" content="#edf1ec" id="metaThemeColor">
+<title>对照讲解 · 提示词与评测 · AI 应用开发读本</title>
+<link rel="stylesheet" href="../assets/site.css?v=12">
+<link rel="stylesheet" href="../assets/workbench.css?v=12">
 <script>
 try {
   var theme = localStorage.getItem("study-theme");
-  if (theme === "night") document.documentElement.setAttribute("data-theme", "night");
+  if (theme === "night") {
+    document.documentElement.setAttribute("data-theme", "night");
+    var m = document.getElementById("metaThemeColor");
+    if (m) m.setAttribute("content", "#0e1512");
+  }
   var size = localStorage.getItem("study-read-size");
   if (size) document.documentElement.style.setProperty("--read", size);
 } catch (e) {}
@@ -19,26 +24,55 @@ try {
 <div class="progress" aria-hidden="true"></div>
 <button class="scrim" type="button" aria-label="关闭目录" hidden></button>
 <div class="shell">
-<aside class="rail" id="rail"><a class="mark" href="../index.html">开始</a><p class="rail-kicker">今天</p><a class="rail-link today-card" href="a01--第-1-天-比较和布尔.html"><span>第 1 天：比较和布尔</span><small>布尔与比较</small></a><p class="rail-kicker">对照讲解 · 提示词与评测</p><a class="rail-link chapter" href="lecture-w04--w04-1-提示词是代码配置.html">w04-1 提示词是代码配置</a><a class="rail-link chapter" href="lecture-w04--w04-2-拆步流水线.html">w04-2 拆步流水线</a><a class="rail-link chapter" href="lecture-w04--w04-3-结构化输出.html">w04-3 结构化输出</a><a class="rail-link chapter" href="lecture-w04--w04-4-评测集.html">w04-4 评测集</a><a class="rail-link chapter" href="lecture-w04--w04-5-护栏与注入.html">w04-5 护栏与注入</a><a class="rail-link" href="../index.html">回开始页</a></aside>
-<div class="sheet">
-<div class="topbar">
-<button class="menu" type="button" aria-expanded="false" aria-controls="rail">这一周</button>
-<a class="crumb" href="../index.html">课文</a>
-<div class="tools">
+<aside class="rail" id="rail" aria-label="章节导航"><div class="rail-top"><a class="brand-home" href="../index.html"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg><span>回到开始页</span></a><button type="button" class="rail-close" data-rail-close aria-label="关闭目录">收起 ✕</button></div><div class="rail-section"><p class="rail-kicker">今日主线</p><a class="rail-today" href="a01--第-1-天-比较和布尔.html"><span class="rail-today-tag">a01-d01</span><strong>第 1 天：比较和布尔</strong><small>布尔与比较</small></a></div><div class="rail-section rail-chapters"><div class="rail-group-head"><a href="lecture-w04.html" class="rail-group-title">对照讲解 · 提示词与评测</a></div><div class="rail-list"><a class="rail-link chapter" data-rail-slug="lecture-w04--w04-1-提示词是代码配置" href="lecture-w04--w04-1-提示词是代码配置.html"><b class="rail-num">01</b><span class="rail-title">w04-1 提示词是代码配置</span><i class="rail-dot" data-dot-for="lecture-w04--w04-1-提示词是代码配置"></i></a><a class="rail-link chapter" data-rail-slug="lecture-w04--w04-2-拆步流水线" href="lecture-w04--w04-2-拆步流水线.html"><b class="rail-num">02</b><span class="rail-title">w04-2 拆步流水线</span><i class="rail-dot" data-dot-for="lecture-w04--w04-2-拆步流水线"></i></a><a class="rail-link chapter" data-rail-slug="lecture-w04--w04-3-结构化输出" href="lecture-w04--w04-3-结构化输出.html"><b class="rail-num">03</b><span class="rail-title">w04-3 结构化输出</span><i class="rail-dot" data-dot-for="lecture-w04--w04-3-结构化输出"></i></a><a class="rail-link chapter" data-rail-slug="lecture-w04--w04-4-评测集" href="lecture-w04--w04-4-评测集.html"><b class="rail-num">04</b><span class="rail-title">w04-4 评测集</span><i class="rail-dot" data-dot-for="lecture-w04--w04-4-评测集"></i></a><a class="rail-link chapter" data-rail-slug="lecture-w04--w04-5-护栏与注入" href="lecture-w04--w04-5-护栏与注入.html"><b class="rail-num">05</b><span class="rail-title">w04-5 护栏与注入</span><i class="rail-dot" data-dot-for="lecture-w04--w04-5-护栏与注入"></i></a></div></div></aside>
+<div class="sheet-wrap">
+<header class="topbar">
+<div class="topbar-left">
+<button class="menu-btn" type="button" aria-expanded="false" aria-controls="rail"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h11"/></svg><span>本章目录</span></button>
+<nav class="crumbs" aria-label="位置"><a class="crumb" href="../index.html">开始页</a><span class="crumb-sep" aria-hidden="true">/</span><a class="crumb crumb-current" href="lecture-w04.html">对照讲解 · 提示词与评测</a></nav>
+</div>
+<div class="tools" role="toolbar" aria-label="阅读设置">
+<div class="size-group" role="group" aria-label="字号">
 <button type="button" data-size="1rem" aria-pressed="false">小</button>
 <button type="button" data-size="1.125rem" aria-pressed="true">中</button>
-<button type="button" data-size="1.3rem" aria-pressed="false">大</button>
-<button type="button" class="theme" aria-pressed="false">夜间</button>
+<button type="button" data-size="1.26rem" aria-pressed="false">大</button>
 </div>
+<button type="button" class="sync-btn" data-sync-open aria-label="云端同步设置">
+<span class="sync-dot" aria-hidden="true"></span>
+<span data-sync-label>云同步</span>
+</button>
+<button type="button" class="theme-btn" aria-pressed="false" aria-label="切换夜间或暖纸模式">
+<span class="theme-label">夜间</span>
+</button>
 </div>
-<article class="prose"><h1 id="第-4-周-提示词-流水线-评测-护栏">第 4 周：提示词、流水线、评测、护栏</h1>
-<p>课文：<code>lessons/w04-提示词与评测.md</code>。</p><p class="read-note">点开一章：先合上写一句规则和一个自己的例子，再对照全文。错的留在那一章，第 1、3、7、14 天再做。</p><nav class="chapter-index" aria-label="各章"><p>各章</p><a href="lecture-w04--w04-1-提示词是代码配置.html"><b>01</b><span><strong>w04-1 提示词是代码配置</strong><small>网页里改一句是手艺；产品里提示词要写在仓库里、能版本对比、能用固定题目回…</small></span></a><a href="lecture-w04--w04-2-拆步流水线.html"><b>02</b><span><strong>w04-2 拆步流水线</strong><small>好处：单步失败好查；拒答不必浪费一次长生成；以后 RAG 只接在 faq…</small></span></a><a href="lecture-w04--w04-3-结构化输出.html"><b>03</b><span><strong>w04-3 结构化输出</strong><small>让模型只吐 JSON，代码 json.loads 后当数据用。失败常见：…</small></span></a><a href="lecture-w04--w04-4-评测集.html"><b>04</b><span><strong>w04-4 评测集</strong><small>「我觉得还行」不是指标。准备：问题 + 期望（包含某词 / 必须拒答 /…</small></span></a><a href="lecture-w04--w04-5-护栏与注入.html"><b>05</b><span><strong>w04-5 护栏与注入</strong><small>护栏：超范围拒答；检索空不编；不输出密钥。</small></span></a></nav><p class="read-note">分开学过几章之后，把它们混进同一道新题，先判断该用哪一种做法。</p><nav class="pager" aria-label="前后篇"><a class="prev" href="lecture-w03.html"><small>上一篇</small>对照讲解 · 调用大模型</a><a class="next" href="lecture-w05.html"><small>下一篇</small>对照讲解 · RAG 原理</a></nav></article>
-<footer>
-<p>写程序仍在电脑上。新开对话只发：先读 主文件.md，从书签继续。</p>
+</header>
+<main class="sheet">
+<article class="prose overview-prose"><h1 id="第-4-周-提示词-流水线-评测-护栏" class="page-title">第 4 周：提示词、流水线、评测、护栏</h1>
+<p>课文：<code>lessons/w04-提示词与评测.md</code>。</p><nav class="chapter-index" aria-label="各章目录"><div class="chapter-index-head"><span>各章目录</span><span class="chapter-count" data-week-progress="lecture-w04">共 5 章</span></div><div class="chapter-list"><a class="chapter-row" data-chapter-card="lecture-w04--w04-1-提示词是代码配置" href="lecture-w04--w04-1-提示词是代码配置.html"><b class="ch-num">01</b><span class="ch-main"><span class="ch-head"><strong>w04-1 提示词是代码配置</strong><span class="ch-badges" data-badges-for="lecture-w04--w04-1-提示词是代码配置"></span></span><small>网页里改一句是手艺；产品里提示词要写在仓库里、能版本对比、能用固定题目回归。</small></span><span class="ch-arrow" aria-hidden="true">→</span></a><a class="chapter-row" data-chapter-card="lecture-w04--w04-2-拆步流水线" href="lecture-w04--w04-2-拆步流水线.html"><b class="ch-num">02</b><span class="ch-main"><span class="ch-head"><strong>w04-2 拆步流水线</strong><span class="ch-badges" data-badges-for="lecture-w04--w04-2-拆步流水线"></span></span><small>好处：单步失败好查；拒答不必浪费一次长生成；以后 RAG 只接在 faq 分支。代价…</small></span><span class="ch-arrow" aria-hidden="true">→</span></a><a class="chapter-row" data-chapter-card="lecture-w04--w04-3-结构化输出" href="lecture-w04--w04-3-结构化输出.html"><b class="ch-num">03</b><span class="ch-main"><span class="ch-head"><strong>w04-3 结构化输出</strong><span class="ch-badges" data-badges-for="lecture-w04--w04-3-结构化输出"></span></span><small>让模型只吐 JSON，代码 json.loads 后当数据用。失败常见：夹 \\\j…</small></span><span class="ch-arrow" aria-hidden="true">→</span></a><a class="chapter-row" data-chapter-card="lecture-w04--w04-4-评测集" href="lecture-w04--w04-4-评测集.html"><b class="ch-num">04</b><span class="ch-main"><span class="ch-head"><strong>w04-4 评测集</strong><span class="ch-badges" data-badges-for="lecture-w04--w04-4-评测集"></span></span><small>「我觉得还行」不是指标。准备：问题 + 期望（包含某词 / 必须拒答 / 不得包含某…</small></span><span class="ch-arrow" aria-hidden="true">→</span></a><a class="chapter-row" data-chapter-card="lecture-w04--w04-5-护栏与注入" href="lecture-w04--w04-5-护栏与注入.html"><b class="ch-num">05</b><span class="ch-main"><span class="ch-head"><strong>w04-5 护栏与注入</strong><span class="ch-badges" data-badges-for="lecture-w04--w04-5-护栏与注入"></span></span><small>护栏：超范围拒答；检索空不编；不输出密钥。</small></span><span class="ch-arrow" aria-hidden="true">→</span></a></div></nav><nav class="pager" aria-label="前后篇"><a class="pager-card prev" href="lecture-w03.html"><small>← 上一篇</small><strong>对照讲解 · 调用大模型</strong></a><a class="pager-card next" href="lecture-w05.html"><small>下一篇 →</small><strong>对照讲解 · RAG 原理</strong></a></nav></article>
+</main>
+<footer class="site-footer">
+<p>电脑与手机打开同一线上网址即可通过「云同步」互通进度与代码。新开对话发：<code>先读 主文件.md，从书签继续</code></p>
 </footer>
 </div>
 
 </div>
-<script src="../assets/site.js?v=5"></script>
+<div class="sync-modal" id="syncModal" hidden role="dialog" aria-modal="true" aria-label="云同步设置">
+<div class="sync-card">
+<div class="sync-card-head"><strong>跨设备云同步（GitHub 私有存档）</strong><button type="button" class="sync-close" data-sync-close aria-label="关闭">✕</button></div>
+<p class="sync-desc">在手机和电脑各自粘贴一次你的 GitHub Token（仅需勾选 <code>gist</code> 权限），做题进度、代码与错题会自动加密同步到你的私有 Gist，无需电脑一直开机。Token 仅保存在当前浏览器本地。</p>
+<label class="sync-field"><span>GitHub Personal Access Token（含 gist 权限）</span><input type="password" data-sync-token placeholder="ghp_... 或 github_pat_..." autocomplete="off"></label>
+<p class="sync-status-line" data-sync-status></p>
+<div class="sync-actions">
+<div class="sync-actions-left">
+<button type="button" class="sync-save-btn" data-sync-save>保存并立即同步</button>
+<button type="button" class="sync-sub-btn" data-sync-now>手动同步</button>
+</div>
+<button type="button" class="sync-sub-btn" data-sync-clear>断开</button>
+</div>
+</div>
+</div>
+<script src="../assets/site.js?v=12"></script>
+<script src="../assets/labs.js?v=12"></script>
+<script src="../assets/workbench.js?v=12"></script>
 </body>
 </html>

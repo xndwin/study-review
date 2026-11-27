@@ -1,15 +1,20 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-page-slug="outline--大模型调用-第-3-4-周" data-in-learn="1">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#f4f1eb">
-<title>大模型调用 · 第 3–4 周</title>
-<link rel="stylesheet" href="../assets/site.css?v=5">
+<meta name="theme-color" content="#edf1ec" id="metaThemeColor">
+<title>大模型调用 · 第 3–4 周 · AI 应用开发读本</title>
+<link rel="stylesheet" href="../assets/site.css?v=12">
+<link rel="stylesheet" href="../assets/workbench.css?v=12">
 <script>
 try {
   var theme = localStorage.getItem("study-theme");
-  if (theme === "night") document.documentElement.setAttribute("data-theme", "night");
+  if (theme === "night") {
+    document.documentElement.setAttribute("data-theme", "night");
+    var m = document.getElementById("metaThemeColor");
+    if (m) m.setAttribute("content", "#0e1512");
+  }
   var size = localStorage.getItem("study-read-size");
   if (size) document.documentElement.style.setProperty("--read", size);
 } catch (e) {}
@@ -18,27 +23,56 @@ try {
 <body>
 <div class="progress" aria-hidden="true"></div>
 <button class="scrim" type="button" aria-label="关闭目录" hidden></button>
-<div class="shell has-toc">
-<aside class="rail" id="rail"><a class="mark" href="../index.html">开始</a><p class="rail-kicker">今天</p><a class="rail-link today-card" href="a01--第-1-天-比较和布尔.html"><span>第 1 天：比较和布尔</span><small>布尔与比较</small></a><p class="rail-kicker">知识点总表</p><a class="rail-link chapter" href="outline--python-第-1-周.html">Python · 第 1 周</a><a class="rail-link chapter" href="outline--python-第-2-周.html">Python · 第 2 周</a><a class="rail-link here chapter" href="outline--大模型调用-第-3-4-周.html">大模型调用 · 第 3–4 周</a><a class="rail-link chapter" href="outline--rag-第-5-6-周.html">RAG · 第 5–6 周</a><a class="rail-link chapter" href="outline--agent-第-7-周.html">Agent · 第 7 周</a><a class="rail-link chapter" href="outline--工程与求职-第-8-周.html">工程与求职 · 第 8 周</a><a class="rail-link chapter" href="outline--面试口头-完整列表.html">面试口头（完整列表）</a><a class="rail-link" href="../index.html">回开始页</a></aside>
-<div class="sheet">
-<div class="topbar">
-<button class="menu" type="button" aria-expanded="false" aria-controls="rail">这一周</button>
-<a class="crumb" href="../index.html">课文</a>
-<div class="tools">
+<div class="shell">
+<aside class="rail" id="rail" aria-label="章节导航"><div class="rail-top"><a class="brand-home" href="../index.html"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg><span>回到开始页</span></a><button type="button" class="rail-close" data-rail-close aria-label="关闭目录">收起 ✕</button></div><div class="rail-section"><p class="rail-kicker">今日主线</p><a class="rail-today" href="a01--第-1-天-比较和布尔.html"><span class="rail-today-tag">a01-d01</span><strong>第 1 天：比较和布尔</strong><small>布尔与比较</small></a></div><div class="rail-section rail-chapters"><div class="rail-group-head"><a href="outline.html" class="rail-group-title">知识点总表</a></div><div class="rail-list"><a class="rail-link chapter" data-rail-slug="outline--python-第-1-周" href="outline--python-第-1-周.html"><b class="rail-num">01</b><span class="rail-title">Python · 第 1 周</span><i class="rail-dot" data-dot-for="outline--python-第-1-周"></i></a><a class="rail-link chapter" data-rail-slug="outline--python-第-2-周" href="outline--python-第-2-周.html"><b class="rail-num">02</b><span class="rail-title">Python · 第 2 周</span><i class="rail-dot" data-dot-for="outline--python-第-2-周"></i></a><a class="rail-link here chapter" data-rail-slug="outline--大模型调用-第-3-4-周" href="outline--大模型调用-第-3-4-周.html"><b class="rail-num">03</b><span class="rail-title">大模型调用 · 第 3–4 周</span><i class="rail-dot" data-dot-for="outline--大模型调用-第-3-4-周"></i></a><a class="rail-link chapter" data-rail-slug="outline--rag-第-5-6-周" href="outline--rag-第-5-6-周.html"><b class="rail-num">04</b><span class="rail-title">RAG · 第 5–6 周</span><i class="rail-dot" data-dot-for="outline--rag-第-5-6-周"></i></a><a class="rail-link chapter" data-rail-slug="outline--agent-第-7-周" href="outline--agent-第-7-周.html"><b class="rail-num">05</b><span class="rail-title">Agent · 第 7 周</span><i class="rail-dot" data-dot-for="outline--agent-第-7-周"></i></a><a class="rail-link chapter" data-rail-slug="outline--工程与求职-第-8-周" href="outline--工程与求职-第-8-周.html"><b class="rail-num">06</b><span class="rail-title">工程与求职 · 第 8 周</span><i class="rail-dot" data-dot-for="outline--工程与求职-第-8-周"></i></a><a class="rail-link chapter" data-rail-slug="outline--面试口头-完整列表" href="outline--面试口头-完整列表.html"><b class="rail-num">07</b><span class="rail-title">面试口头（完整列表）</span><i class="rail-dot" data-dot-for="outline--面试口头-完整列表"></i></a></div></div></aside>
+<div class="sheet-wrap">
+<header class="topbar">
+<div class="topbar-left">
+<button class="menu-btn" type="button" aria-expanded="false" aria-controls="rail"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h11"/></svg><span>本章目录</span></button>
+<nav class="crumbs" aria-label="位置"><a class="crumb" href="../index.html">开始页</a><span class="crumb-sep" aria-hidden="true">/</span><a class="crumb crumb-current" href="outline.html">知识点总表</a></nav>
+</div>
+<div class="tools" role="toolbar" aria-label="阅读设置">
+<div class="size-group" role="group" aria-label="字号">
 <button type="button" data-size="1rem" aria-pressed="false">小</button>
 <button type="button" data-size="1.125rem" aria-pressed="true">中</button>
-<button type="button" data-size="1.3rem" aria-pressed="false">大</button>
-<button type="button" class="theme" aria-pressed="false">夜间</button>
+<button type="button" data-size="1.26rem" aria-pressed="false">大</button>
 </div>
+<button type="button" class="sync-btn" data-sync-open aria-label="云端同步设置">
+<span class="sync-dot" aria-hidden="true"></span>
+<span data-sync-label>云同步</span>
+</button>
+<button type="button" class="theme-btn" aria-pressed="false" aria-label="切换夜间或暖纸模式">
+<span class="theme-label">夜间</span>
+</button>
 </div>
-<article class="prose"><p class="kicker"><a href="outline.html">知识点总表</a> · 03 / 07</p><section class="study" data-study><p class="kicker">先做再看</p><p class="study-title">这一章只做一件事</p><p>合上这一页，写出「大模型调用 · 第 3–4 周」里的一句规则，并举一个自己的例子。写完再往下对照课文。</p><ol><li>先写，不往下翻。</li><li>对照下面的课文，只补写错的那一处，再独立写一次。</li><li>用白话讲清为什么。</li><li>把卡住的地方写成一道题，留在下面。</li><li>第 1、3、7、14 天不看课文再做一小题。做对就把间隔拉长。</li></ol><label>卡住的题<textarea data-note="gap" rows="3" placeholder="写成一道能闭卷做的小题"></textarea></label><div class="reviews" data-reviews><p>从你第一次打开这一章算起</p></div></section><details class="toc-mobile"><summary>本页目录</summary><a class="toc-h2" href="#大模型调用-第-3-4-周">大模型调用 · 第 3–4 周</a></details><h2 id="大模型调用-第-3-4-周">大模型调用 · 第 3–4 周</h2>
-<div class="table-wrap"><table><thead><tr><th>编号</th><th>点</th><th>要能讲清</th></tr></thead><tbody><tr><td>w03-1</td><td>网页 vs API、兼容接口</td><td>只换 base_url/key/model</td></tr><tr><td>w03-2</td><td>三角色、请求响应</td><td>content、choices</td></tr><tr><td>w03-3</td><td>token、窗口、usage、费用</td><td>不是字数 1:1</td></tr><tr><td>w03-4</td><td>多轮无状态</td><td>历史要自己拼；过长要截</td></tr><tr><td>w03-5</td><td>流式</td><td>delta</td></tr><tr><td>w03-6</td><td>temperature、max_tokens</td><td>问答用低温度</td></tr><tr><td>w03-7</td><td>401/429/超时</td><td>不把 Key 打进日志</td></tr><tr><td>w04-1</td><td>提示词是配置</td><td>具体、单一职责</td></tr><tr><td>w04-2</td><td>流水线拆步</td><td>分类再生成</td></tr><tr><td>w04-3</td><td>JSON 输出与降级</td><td>剥 code fence</td></tr><tr><td>w04-4</td><td>评测集</td><td>正例/拒答/边界</td></tr><tr><td>w04-5</td><td>护栏、注入</td><td>忽略系统提示</td></tr></tbody></table></div><nav class="pager" aria-label="前后篇"><a class="prev" href="outline--python-第-2-周.html"><small>上一篇</small>Python · 第 2 周</a><a class="next" href="outline--rag-第-5-6-周.html"><small>下一篇</small>RAG · 第 5–6 周</a></nav></article>
-<footer>
-<p>写程序仍在电脑上。新开对话只发：先读 主文件.md，从书签继续。</p>
+</header>
+<main class="sheet">
+<article class="prose chapter-prose"><div class="chapter-kicker"><div class="kicker-left"><a href="outline.html">← 知识点总表</a><span class="chapter-step-no">· 03 / 07</span></div><div class="kicker-right"><button type="button" class="curtain-btn" data-curtain-toggle aria-pressed="false">遮住课文</button><button type="button" class="done-btn" data-done-toggle aria-pressed="false">标记已学</button></div></div><h1 id="大模型调用-第-3-4-周" class="page-title">大模型调用 · 第 3–4 周</h1><div class="prose-stage" data-prose-stage><div class="curtain-overlay" data-curtain-overlay hidden><div class="curtain-dialog"><p>课文已遮住 · 先回想重点再核对</p><button type="button" class="reveal-cta" data-curtain-reveal>揭开课文</button></div></div><div class="prose-body" data-prose-body>
+<div class="table-wrap"><table><thead><tr><th>编号</th><th>点</th><th>要能讲清</th></tr></thead><tbody><tr><td>w03-1</td><td>网页 vs API、兼容接口</td><td>只换 base_url/key/model</td></tr><tr><td>w03-2</td><td>三角色、请求响应</td><td>content、choices</td></tr><tr><td>w03-3</td><td>token、窗口、usage、费用</td><td>不是字数 1:1</td></tr><tr><td>w03-4</td><td>多轮无状态</td><td>历史要自己拼；过长要截</td></tr><tr><td>w03-5</td><td>流式</td><td>delta</td></tr><tr><td>w03-6</td><td>temperature、max_tokens</td><td>问答用低温度</td></tr><tr><td>w03-7</td><td>401/429/超时</td><td>不把 Key 打进日志</td></tr><tr><td>w04-1</td><td>提示词是配置</td><td>具体、单一职责</td></tr><tr><td>w04-2</td><td>流水线拆步</td><td>分类再生成</td></tr><tr><td>w04-3</td><td>JSON 输出与降级</td><td>剥 code fence</td></tr><tr><td>w04-4</td><td>评测集</td><td>正例/拒答/边界</td></tr><tr><td>w04-5</td><td>护栏、注入</td><td>忽略系统提示</td></tr></tbody></table></div></div></div><details class="review-drawer" data-study data-slug="outline--大模型调用-第-3-4-周"><summary><span>笔记与复习打卡（+1 / +3 / +7 / +14 天）</span><span class="drawer-chevron" aria-hidden="true">▾</span></summary><div class="review-drawer-body"><div class="study-inputs"><label class="study-field"><span>一句话总结 / 自拟例子</span><textarea data-note="draft" rows="2" placeholder="用自己的话记一句重点…"></textarea></label><label class="study-field"><span>卡住的题（同步到首页错题本）</span><textarea data-note="gap" rows="2" placeholder="记成一道小问题，下次复习自测…"></textarea></label></div><div class="reviews-bar" data-reviews><span class="reviews-label" data-seen-label>复习打卡：</span></div><label class="auto-curtain-opt"><input type="checkbox" data-auto-curtain><span>进入章节时默认先遮住课文（二刷复习时可勾选）</span></label></div></details><nav class="pager" aria-label="前后篇"><a class="pager-card prev" href="outline--python-第-2-周.html"><small>← 上一篇</small><strong>Python · 第 2 周</strong></a><a class="pager-card next" href="outline--rag-第-5-6-周.html"><small>下一篇 →</small><strong>RAG · 第 5–6 周</strong></a></nav></article>
+</main>
+<footer class="site-footer">
+<p>电脑与手机打开同一线上网址即可通过「云同步」互通进度与代码。新开对话发：<code>先读 主文件.md，从书签继续</code></p>
 </footer>
 </div>
-<nav class="toc" aria-label="本页目录"><p>本页</p><a class="toc-h2" href="#大模型调用-第-3-4-周">大模型调用 · 第 3–4 周</a></nav>
+
 </div>
-<script src="../assets/site.js?v=5"></script>
+<div class="sync-modal" id="syncModal" hidden role="dialog" aria-modal="true" aria-label="云同步设置">
+<div class="sync-card">
+<div class="sync-card-head"><strong>跨设备云同步（GitHub 私有存档）</strong><button type="button" class="sync-close" data-sync-close aria-label="关闭">✕</button></div>
+<p class="sync-desc">在手机和电脑各自粘贴一次你的 GitHub Token（仅需勾选 <code>gist</code> 权限），做题进度、代码与错题会自动加密同步到你的私有 Gist，无需电脑一直开机。Token 仅保存在当前浏览器本地。</p>
+<label class="sync-field"><span>GitHub Personal Access Token（含 gist 权限）</span><input type="password" data-sync-token placeholder="ghp_... 或 github_pat_..." autocomplete="off"></label>
+<p class="sync-status-line" data-sync-status></p>
+<div class="sync-actions">
+<div class="sync-actions-left">
+<button type="button" class="sync-save-btn" data-sync-save>保存并立即同步</button>
+<button type="button" class="sync-sub-btn" data-sync-now>手动同步</button>
+</div>
+<button type="button" class="sync-sub-btn" data-sync-clear>断开</button>
+</div>
+</div>
+</div>
+<script src="../assets/site.js?v=12"></script>
+<script src="../assets/labs.js?v=12"></script>
+<script src="../assets/workbench.js?v=12"></script>
 </body>
 </html>

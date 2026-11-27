@@ -1,15 +1,20 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-page-slug="a09" data-in-learn="1">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#f4f1eb">
-<title>第 9 周 两家模型 API</title>
-<link rel="stylesheet" href="../assets/site.css?v=5">
+<meta name="theme-color" content="#edf1ec" id="metaThemeColor">
+<title>第 9 周 两家模型 API · AI 应用开发读本</title>
+<link rel="stylesheet" href="../assets/site.css?v=12">
+<link rel="stylesheet" href="../assets/workbench.css?v=12">
 <script>
 try {
   var theme = localStorage.getItem("study-theme");
-  if (theme === "night") document.documentElement.setAttribute("data-theme", "night");
+  if (theme === "night") {
+    document.documentElement.setAttribute("data-theme", "night");
+    var m = document.getElementById("metaThemeColor");
+    if (m) m.setAttribute("content", "#0e1512");
+  }
   var size = localStorage.getItem("study-read-size");
   if (size) document.documentElement.style.setProperty("--read", size);
 } catch (e) {}
@@ -19,28 +24,57 @@ try {
 <div class="progress" aria-hidden="true"></div>
 <button class="scrim" type="button" aria-label="关闭目录" hidden></button>
 <div class="shell">
-<aside class="rail" id="rail"><a class="mark" href="../index.html">开始</a><p class="rail-kicker">今天</p><a class="rail-link today-card" href="a01--第-1-天-比较和布尔.html"><span>第 1 天：比较和布尔</span><small>布尔与比较</small></a><p class="rail-kicker">第 9 周：两家模型 API</p><a class="rail-link chapter" href="a09--2026-11-17-两套都要认识.html">2026-11-17 两套都要认识</a><a class="rail-link chapter" href="a09--网页产品和-api.html">网页产品和 API</a><a class="rail-link chapter" href="a09--历史要自己存.html">历史要自己存</a><a class="rail-link chapter" href="a09--流式.html">流式</a><a class="rail-link chapter" href="a09--失败.html">失败</a><a class="rail-link chapter" href="a09--这一周自己写.html">这一周自己写</a><a class="rail-link" href="../index.html">回开始页</a></aside>
-<div class="sheet">
-<div class="topbar">
-<button class="menu" type="button" aria-expanded="false" aria-controls="rail">这一周</button>
-<a class="crumb" href="../index.html">课文</a>
-<div class="tools">
+<aside class="rail" id="rail" aria-label="章节导航"><div class="rail-top"><a class="brand-home" href="../index.html"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg><span>回到开始页</span></a><button type="button" class="rail-close" data-rail-close aria-label="关闭目录">收起 ✕</button></div><div class="rail-section"><p class="rail-kicker">今日主线</p><a class="rail-today" href="a01--第-1-天-比较和布尔.html"><span class="rail-today-tag">a01-d01</span><strong>第 1 天：比较和布尔</strong><small>布尔与比较</small></a></div><div class="rail-section rail-chapters"><div class="rail-group-head"><a href="a09.html" class="rail-group-title">第 9 周 · 两家模型 API</a></div><div class="rail-list"><a class="rail-link chapter" data-rail-slug="a09--2026-11-17-两套都要认识" href="a09--2026-11-17-两套都要认识.html"><b class="rail-num">01</b><span class="rail-title">2026-11-17 两套都要认识</span><i class="rail-dot" data-dot-for="a09--2026-11-17-两套都要认识"></i></a><a class="rail-link chapter" data-rail-slug="a09--网页产品和-api" href="a09--网页产品和-api.html"><b class="rail-num">02</b><span class="rail-title">网页产品和 API</span><i class="rail-dot" data-dot-for="a09--网页产品和-api"></i></a><a class="rail-link chapter" data-rail-slug="a09--历史要自己存" href="a09--历史要自己存.html"><b class="rail-num">03</b><span class="rail-title">历史要自己存</span><i class="rail-dot" data-dot-for="a09--历史要自己存"></i></a><a class="rail-link chapter" data-rail-slug="a09--流式" href="a09--流式.html"><b class="rail-num">04</b><span class="rail-title">流式</span><i class="rail-dot" data-dot-for="a09--流式"></i></a><a class="rail-link chapter" data-rail-slug="a09--失败" href="a09--失败.html"><b class="rail-num">05</b><span class="rail-title">失败</span><i class="rail-dot" data-dot-for="a09--失败"></i></a><a class="rail-link chapter" data-rail-slug="a09--这一周自己写" href="a09--这一周自己写.html"><b class="rail-num">06</b><span class="rail-title">这一周自己写</span><i class="rail-dot" data-dot-for="a09--这一周自己写"></i></a></div></div></aside>
+<div class="sheet-wrap">
+<header class="topbar">
+<div class="topbar-left">
+<button class="menu-btn" type="button" aria-expanded="false" aria-controls="rail"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h11"/></svg><span>本章目录</span></button>
+<nav class="crumbs" aria-label="位置"><a class="crumb" href="../index.html">开始页</a><span class="crumb-sep" aria-hidden="true">/</span><a class="crumb crumb-current" href="a09.html">第 9 周 · 两家模型 API</a></nav>
+</div>
+<div class="tools" role="toolbar" aria-label="阅读设置">
+<div class="size-group" role="group" aria-label="字号">
 <button type="button" data-size="1rem" aria-pressed="false">小</button>
 <button type="button" data-size="1.125rem" aria-pressed="true">中</button>
-<button type="button" data-size="1.3rem" aria-pressed="false">大</button>
-<button type="button" class="theme" aria-pressed="false">夜间</button>
+<button type="button" data-size="1.26rem" aria-pressed="false">大</button>
 </div>
+<button type="button" class="sync-btn" data-sync-open aria-label="云端同步设置">
+<span class="sync-dot" aria-hidden="true"></span>
+<span data-sync-label>云同步</span>
+</button>
+<button type="button" class="theme-btn" aria-pressed="false" aria-label="切换夜间或暖纸模式">
+<span class="theme-label">夜间</span>
+</button>
 </div>
-<article class="prose"><h1 id="第-9-周-两家模型-api">第 9 周：两家模型 API</h1>
+</header>
+<main class="sheet">
+<article class="prose overview-prose"><h1 id="第-9-周-两家模型-api" class="page-title">第 9 周：两家模型 API</h1>
 <p>计划日期：2027-01-11 到 2027-01-17。</p>
 <p>同一套代码分别接两家 OpenAI 兼容供应商，只改配置。对话历史由你保存。换供应商之后，已经说过的话还在。鉴权失败、超时、限流都有上限和中文说明。</p>
-<p>调用形状以 <a href="method.html">现行学法</a> 为准，日期看那一页。2026-11-17 的核对结果写在下面。</p><p class="read-note">点开一章：先合上写一句规则和一个自己的例子，再对照全文。错的留在那一章，第 1、3、7、14 天再做。</p><nav class="chapter-index" aria-label="各章"><p>各章</p><a href="a09--2026-11-17-两套都要认识.html"><b>01</b><span><strong>2026-11-17 两套都要认识</strong><small>两家互换的作业用 Chat Completions：messages、t…</small></span></a><a href="a09--网页产品和-api.html"><b>02</b><span><strong>网页产品和 API</strong><small>网页聊天的历史存在厂商那边。API 每次都是新请求，厂商不记得上一次。你…</small></span></a><a href="a09--历史要自己存.html"><b>03</b><span><strong>历史要自己存</strong><small>complete 里面才是真正的 HTTP 调用。先问「我叫王敏」，再问…</small></span></a><a href="a09--流式.html"><b>04</b><span><strong>流式</strong><small>流式时正文在增量里，不在最终的 message.content。Chat…</small></span></a><a href="a09--失败.html"><b>05</b><span><strong>失败</strong><small>重试次数写在配置里。最后一次仍失败，抛出一个你自己的错误，消息是中文，里…</small></span></a><a href="a09--这一周自己写.html"><b>06</b><span><strong>这一周自己写</strong><small>一个命令行对话：</small></span></a></nav><p class="read-note">分开学过几章之后，把它们混进同一道新题，先判断该用哪一种做法。</p><nav class="pager" aria-label="前后篇"><a class="prev" href="a08.html"><small>上一篇</small>第 8 周</a><a class="next" href="a10.html"><small>下一篇</small>第 10 周</a></nav></article>
-<footer>
-<p>写程序仍在电脑上。新开对话只发：先读 主文件.md，从书签继续。</p>
+<p>调用形状以 <a href="method.html">现行学法</a> 为准，日期看那一页。2026-11-17 的核对结果写在下面。</p><nav class="chapter-index" aria-label="各章目录"><div class="chapter-index-head"><span>各章目录</span><span class="chapter-count" data-week-progress="a09">共 6 章</span></div><div class="chapter-list"><a class="chapter-row" data-chapter-card="a09--2026-11-17-两套都要认识" href="a09--2026-11-17-两套都要认识.html"><b class="ch-num">01</b><span class="ch-main"><span class="ch-head"><strong>2026-11-17 两套都要认识</strong><span class="ch-badges" data-badges-for="a09--2026-11-17-两套都要认识"></span></span><small>两家互换的作业用 Chat Completions：messages、tools、s…</small></span><span class="ch-arrow" aria-hidden="true">→</span></a><a class="chapter-row" data-chapter-card="a09--网页产品和-api" href="a09--网页产品和-api.html"><b class="ch-num">02</b><span class="ch-main"><span class="ch-head"><strong>网页产品和 API</strong><span class="ch-badges" data-badges-for="a09--网页产品和-api"></span></span><small>网页聊天的历史存在厂商那边。API 每次都是新请求，厂商不记得上一次。你要把之前的…</small></span><span class="ch-arrow" aria-hidden="true">→</span></a><a class="chapter-row" data-chapter-card="a09--历史要自己存" href="a09--历史要自己存.html"><b class="ch-num">03</b><span class="ch-main"><span class="ch-head"><strong>历史要自己存</strong><span class="ch-badges" data-badges-for="a09--历史要自己存"></span></span><small>complete 里面才是真正的 HTTP 调用。先问「我叫王敏」，再问「我刚才说我…</small></span><span class="ch-arrow" aria-hidden="true">→</span></a><a class="chapter-row" data-chapter-card="a09--流式" href="a09--流式.html"><b class="ch-num">04</b><span class="ch-main"><span class="ch-head"><strong>流式</strong><span class="ch-badges" data-badges-for="a09--流式"></span></span><small>流式时正文在增量里，不在最终的 message.content。Chat Compl…</small></span><span class="ch-arrow" aria-hidden="true">→</span></a><a class="chapter-row" data-chapter-card="a09--失败" href="a09--失败.html"><b class="ch-num">05</b><span class="ch-main"><span class="ch-head"><strong>失败</strong><span class="ch-badges" data-badges-for="a09--失败"></span></span><small>重试次数写在配置里。最后一次仍失败，抛出一个你自己的错误，消息是中文，里面没有密钥…</small></span><span class="ch-arrow" aria-hidden="true">→</span></a><a class="chapter-row" data-chapter-card="a09--这一周自己写" href="a09--这一周自己写.html"><b class="ch-num">06</b><span class="ch-main"><span class="ch-head"><strong>这一周自己写</strong><span class="ch-badges" data-badges-for="a09--这一周自己写"></span></span><small>一个命令行对话：</small></span><span class="ch-arrow" aria-hidden="true">→</span></a></div></nav><nav class="pager" aria-label="前后篇"><a class="pager-card prev" href="a08.html"><small>← 上一篇</small><strong>第 8 周</strong></a><a class="pager-card next" href="a10.html"><small>下一篇 →</small><strong>第 10 周</strong></a></nav></article>
+</main>
+<footer class="site-footer">
+<p>电脑与手机打开同一线上网址即可通过「云同步」互通进度与代码。新开对话发：<code>先读 主文件.md，从书签继续</code></p>
 </footer>
 </div>
 
 </div>
-<script src="../assets/site.js?v=5"></script>
+<div class="sync-modal" id="syncModal" hidden role="dialog" aria-modal="true" aria-label="云同步设置">
+<div class="sync-card">
+<div class="sync-card-head"><strong>跨设备云同步（GitHub 私有存档）</strong><button type="button" class="sync-close" data-sync-close aria-label="关闭">✕</button></div>
+<p class="sync-desc">在手机和电脑各自粘贴一次你的 GitHub Token（仅需勾选 <code>gist</code> 权限），做题进度、代码与错题会自动加密同步到你的私有 Gist，无需电脑一直开机。Token 仅保存在当前浏览器本地。</p>
+<label class="sync-field"><span>GitHub Personal Access Token（含 gist 权限）</span><input type="password" data-sync-token placeholder="ghp_... 或 github_pat_..." autocomplete="off"></label>
+<p class="sync-status-line" data-sync-status></p>
+<div class="sync-actions">
+<div class="sync-actions-left">
+<button type="button" class="sync-save-btn" data-sync-save>保存并立即同步</button>
+<button type="button" class="sync-sub-btn" data-sync-now>手动同步</button>
+</div>
+<button type="button" class="sync-sub-btn" data-sync-clear>断开</button>
+</div>
+</div>
+</div>
+<script src="../assets/site.js?v=12"></script>
+<script src="../assets/labs.js?v=12"></script>
+<script src="../assets/workbench.js?v=12"></script>
 </body>
 </html>

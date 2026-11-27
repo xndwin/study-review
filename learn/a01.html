@@ -1,15 +1,20 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-page-slug="a01" data-in-learn="1">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#f4f1eb">
-<title>第 1 周 布尔、字符串、条件、循环</title>
-<link rel="stylesheet" href="../assets/site.css?v=5">
+<meta name="theme-color" content="#edf1ec" id="metaThemeColor">
+<title>第 1 周 布尔、字符串、条件、循环 · AI 应用开发读本</title>
+<link rel="stylesheet" href="../assets/site.css?v=12">
+<link rel="stylesheet" href="../assets/workbench.css?v=12">
 <script>
 try {
   var theme = localStorage.getItem("study-theme");
-  if (theme === "night") document.documentElement.setAttribute("data-theme", "night");
+  if (theme === "night") {
+    document.documentElement.setAttribute("data-theme", "night");
+    var m = document.getElementById("metaThemeColor");
+    if (m) m.setAttribute("content", "#0e1512");
+  }
   var size = localStorage.getItem("study-read-size");
   if (size) document.documentElement.style.setProperty("--read", size);
 } catch (e) {}
@@ -19,28 +24,57 @@ try {
 <div class="progress" aria-hidden="true"></div>
 <button class="scrim" type="button" aria-label="关闭目录" hidden></button>
 <div class="shell">
-<aside class="rail" id="rail"><a class="mark" href="../index.html">开始</a><p class="rail-kicker">今天</p><a class="rail-link today-card" href="a01--第-1-天-比较和布尔.html"><span>第 1 天：比较和布尔</span><small>布尔与比较</small></a><p class="rail-kicker">第 1 周：布尔、字符串、条件、循环</p><a class="rail-link chapter" href="a01--程序怎么往下走.html">程序怎么往下走</a><a class="rail-link chapter" href="a01--第-1-天-比较和布尔.html">第 1 天：比较和布尔</a><a class="rail-link chapter" href="a01--第-2-天-输入和字符串.html">第 2 天：输入和字符串</a><a class="rail-link chapter" href="a01--第-3-天-分支.html">第 3 天：分支</a><a class="rail-link chapter" href="a01--第-4-天-for-和统计变量.html">第 4 天：for 和统计变量</a><a class="rail-link chapter" href="a01--第-5-天-while-退出和跳过.html">第 5 天：while、退出和跳过</a><a class="rail-link chapter" href="a01--第-6-天-合成这个工具.html">第 6 天：合成这个工具</a><a class="rail-link chapter" href="a01--第-7-天-改一条规则.html">第 7 天：改一条规则</a><a class="rail-link" href="../index.html">回开始页</a></aside>
-<div class="sheet">
-<div class="topbar">
-<button class="menu" type="button" aria-expanded="false" aria-controls="rail">这一周</button>
-<a class="crumb" href="../index.html">课文</a>
-<div class="tools">
+<aside class="rail" id="rail" aria-label="章节导航"><div class="rail-top"><a class="brand-home" href="../index.html"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg><span>回到开始页</span></a><button type="button" class="rail-close" data-rail-close aria-label="关闭目录">收起 ✕</button></div><div class="rail-section"><p class="rail-kicker">今日主线</p><a class="rail-today" href="a01--第-1-天-比较和布尔.html"><span class="rail-today-tag">a01-d01</span><strong>第 1 天：比较和布尔</strong><small>布尔与比较</small></a></div><div class="rail-section rail-chapters"><div class="rail-group-head"><a href="a01.html" class="rail-group-title">第 1 周 · 布尔、字符串、条件、循环</a></div><div class="rail-list"><a class="rail-link chapter" data-rail-slug="a01--程序怎么往下走" href="a01--程序怎么往下走.html"><b class="rail-num">01</b><span class="rail-title">程序怎么往下走</span><i class="rail-dot" data-dot-for="a01--程序怎么往下走"></i></a><a class="rail-link chapter" data-rail-slug="a01--第-1-天-比较和布尔" href="a01--第-1-天-比较和布尔.html"><b class="rail-num">02</b><span class="rail-title">第 1 天：比较和布尔</span><i class="rail-dot" data-dot-for="a01--第-1-天-比较和布尔"></i></a><a class="rail-link chapter" data-rail-slug="a01--第-2-天-输入和字符串" href="a01--第-2-天-输入和字符串.html"><b class="rail-num">03</b><span class="rail-title">第 2 天：输入和字符串</span><i class="rail-dot" data-dot-for="a01--第-2-天-输入和字符串"></i></a><a class="rail-link chapter" data-rail-slug="a01--第-3-天-分支" href="a01--第-3-天-分支.html"><b class="rail-num">04</b><span class="rail-title">第 3 天：分支</span><i class="rail-dot" data-dot-for="a01--第-3-天-分支"></i></a><a class="rail-link chapter" data-rail-slug="a01--第-4-天-for-和统计变量" href="a01--第-4-天-for-和统计变量.html"><b class="rail-num">05</b><span class="rail-title">第 4 天：for 和统计变量</span><i class="rail-dot" data-dot-for="a01--第-4-天-for-和统计变量"></i></a><a class="rail-link chapter" data-rail-slug="a01--第-5-天-while-退出和跳过" href="a01--第-5-天-while-退出和跳过.html"><b class="rail-num">06</b><span class="rail-title">第 5 天：while、退出和跳过</span><i class="rail-dot" data-dot-for="a01--第-5-天-while-退出和跳过"></i></a><a class="rail-link chapter" data-rail-slug="a01--第-6-天-合成这个工具" href="a01--第-6-天-合成这个工具.html"><b class="rail-num">07</b><span class="rail-title">第 6 天：合成这个工具</span><i class="rail-dot" data-dot-for="a01--第-6-天-合成这个工具"></i></a><a class="rail-link chapter" data-rail-slug="a01--第-7-天-改一条规则" href="a01--第-7-天-改一条规则.html"><b class="rail-num">08</b><span class="rail-title">第 7 天：改一条规则</span><i class="rail-dot" data-dot-for="a01--第-7-天-改一条规则"></i></a></div></div></aside>
+<div class="sheet-wrap">
+<header class="topbar">
+<div class="topbar-left">
+<button class="menu-btn" type="button" aria-expanded="false" aria-controls="rail"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h11"/></svg><span>本章目录</span></button>
+<nav class="crumbs" aria-label="位置"><a class="crumb" href="../index.html">开始页</a><span class="crumb-sep" aria-hidden="true">/</span><a class="crumb crumb-current" href="a01.html">第 1 周 · 布尔、字符串、条件、循环</a></nav>
+</div>
+<div class="tools" role="toolbar" aria-label="阅读设置">
+<div class="size-group" role="group" aria-label="字号">
 <button type="button" data-size="1rem" aria-pressed="false">小</button>
 <button type="button" data-size="1.125rem" aria-pressed="true">中</button>
-<button type="button" data-size="1.3rem" aria-pressed="false">大</button>
-<button type="button" class="theme" aria-pressed="false">夜间</button>
+<button type="button" data-size="1.26rem" aria-pressed="false">大</button>
 </div>
+<button type="button" class="sync-btn" data-sync-open aria-label="云端同步设置">
+<span class="sync-dot" aria-hidden="true"></span>
+<span data-sync-label>云同步</span>
+</button>
+<button type="button" class="theme-btn" aria-pressed="false" aria-label="切换夜间或暖纸模式">
+<span class="theme-label">夜间</span>
+</button>
 </div>
-<article class="prose"><h1 id="第-1-周-布尔-字符串-条件-循环">第 1 周：布尔、字符串、条件、循环</h1>
-<p>日期：2026-11-16 到 2026-11-22。大约 20 小时。</p>
-<p>这一周结束，你要能独立写出一个成绩录入：持续读入，<code>q</code> 退出，非法输入跳过，退出时给出有效个数、及格个数、不及格个数和平均分。这一页讲规则和最小例子。完整程序由你在电脑上写，不在这里给整份答案。</p>
-<p>原课文对应 <code>w01-1</code> 到 <code>w01-6</code> 的一部分。<code>is</code>、切片、<code>enumerate</code> 留到第 2 周，不删。</p><p class="read-note">点开一章：先合上写一句规则和一个自己的例子，再对照全文。错的留在那一章，第 1、3、7、14 天再做。</p><nav class="chapter-index" aria-label="各章"><p>各章</p><a href="a01--程序怎么往下走.html"><b>01</b><span><strong>程序怎么往下走</strong><small>Python 从第一行执行到最后一行。print(...) 把结果打到屏…</small></span></a><a class="today" href="a01--第-1-天-比较和布尔.html"><b>02</b><span><strong>第 1 天：比较和布尔</strong><small>六个比较：==、!=、&gt;、&lt;、&gt;=、&lt;=。</small><em>今天</em></span></a><a href="a01--第-2-天-输入和字符串.html"><b>03</b><span><strong>第 2 天：输入和字符串</strong><small>input(&quot;提示:&quot;) 返回的永远是字符串。用户输入 60，你得到的是…</small></span></a><a href="a01--第-3-天-分支.html"><b>04</b><span><strong>第 3 天：分支</strong><small>if / elif / else 从上到下，只走第一条成立的分支。缩进…</small></span></a><a href="a01--第-4-天-for-和统计变量.html"><b>05</b><span><strong>第 4 天：for 和统计变量</strong><small>range(start, stop) 含起点，不含终点。range(1,…</small></span></a><a href="a01--第-5-天-while-退出和跳过.html"><b>06</b><span><strong>第 5 天：while、退出和跳过</strong><small>次数事先不知道，用 while。break 离开整个循环。continu…</small></span></a><a href="a01--第-6-天-合成这个工具.html"><b>07</b><span><strong>第 6 天：合成这个工具</strong><small>文件名 scorecli.py。规则：</small></span></a><a href="a01--第-7-天-改一条规则.html"><b>08</b><span><strong>第 7 天：改一条规则</strong><small>把及格线放进变量，先设成 70。输入 69 → 70 → q，结果是有效…</small></span></a></nav><p class="read-note">分开学过几章之后，把它们混进同一道新题，先判断该用哪一种做法。</p><nav class="pager" aria-label="前后篇"><span></span><a class="next" href="a02.html"><small>下一篇</small>第 2 周</a></nav></article>
-<footer>
-<p>写程序仍在电脑上。新开对话只发：先读 主文件.md，从书签继续。</p>
+</header>
+<main class="sheet">
+<article class="prose overview-prose"><h1 id="第-1-周-布尔-字符串-条件-循环" class="page-title">第 1 周：布尔、字符串、条件、循环</h1>
+<p>2026-11-16 — 2026-11-22（约 20 小时）。</p>
+<p><strong>本周目标</strong>：独立写出成绩录入程序——持续读入成绩，<code>q</code> 退出，非法输入报错跳过，退出时输出有效个数、及格数、不及格数和平均分。（原教材的 <code>is</code>、切片、<code>enumerate</code> 放在第 2 周讲，不删减。）</p>
+<hr><nav class="chapter-index" aria-label="各章目录"><div class="chapter-index-head"><span>各章目录</span><span class="chapter-count" data-week-progress="a01">共 8 章</span></div><div class="chapter-list"><a class="chapter-row" data-chapter-card="a01--程序怎么往下走" href="a01--程序怎么往下走.html"><b class="ch-num">01</b><span class="ch-main"><span class="ch-head"><strong>程序怎么往下走</strong><span class="ch-badges" data-badges-for="a01--程序怎么往下走"></span></span><small>Python 从第 1 行按顺序一行行往下执行：</small></span><span class="ch-arrow" aria-hidden="true">→</span></a><a class="chapter-row today" data-chapter-card="a01--第-1-天-比较和布尔" href="a01--第-1-天-比较和布尔.html"><b class="ch-num">02</b><span class="ch-main"><span class="ch-head"><strong>第 1 天：比较和布尔</strong><em class="pill-today">今天</em><span class="ch-badges" data-badges-for="a01--第-1-天-比较和布尔"></span></span><small>布尔值（bool）只有两个：True（真） 和 False（假）。注意在代码里首字母…</small></span><span class="ch-arrow" aria-hidden="true">→</span></a><a class="chapter-row" data-chapter-card="a01--第-2-天-输入和字符串" href="a01--第-2-天-输入和字符串.html"><b class="ch-num">03</b><span class="ch-main"><span class="ch-head"><strong>第 2 天：输入和字符串</strong><span class="ch-badges" data-badges-for="a01--第-2-天-输入和字符串"></span></span><small>哪怕用户在键盘敲数字 60，input() 拿到的也是字符串 &quot;60&quot;，不能直接和整…</small></span><span class="ch-arrow" aria-hidden="true">→</span></a><a class="chapter-row" data-chapter-card="a01--第-3-天-分支" href="a01--第-3-天-分支.html"><b class="ch-num">04</b><span class="ch-main"><span class="ch-head"><strong>第 3 天：分支</strong><span class="ch-badges" data-badges-for="a01--第-3-天-分支"></span></span><small>if / elif / else 语法三条规矩：</small></span><span class="ch-arrow" aria-hidden="true">→</span></a><a class="chapter-row" data-chapter-card="a01--第-4-天-for-和统计变量" href="a01--第-4-天-for-和统计变量.html"><b class="ch-num">05</b><span class="ch-main"><span class="ch-head"><strong>第 4 天：for 和统计变量</strong><span class="ch-badges" data-badges-for="a01--第-4-天-for-和统计变量"></span></span><small>total = total + n（可简写为 total += n）表示：先算旧 t…</small></span><span class="ch-arrow" aria-hidden="true">→</span></a><a class="chapter-row" data-chapter-card="a01--第-5-天-while-退出和跳过" href="a01--第-5-天-while-退出和跳过.html"><b class="ch-num">06</b><span class="ch-main"><span class="ch-head"><strong>第 5 天：while、退出和跳过</strong><span class="ch-badges" data-badges-for="a01--第-5-天-while-退出和跳过"></span></span><small>事先不知道要循环多少次时，用 while True: 搭配两个跳转词：</small></span><span class="ch-arrow" aria-hidden="true">→</span></a><a class="chapter-row" data-chapter-card="a01--第-6-天-合成这个工具" href="a01--第-6-天-合成这个工具.html"><b class="ch-num">07</b><span class="ch-main"><span class="ch-head"><strong>第 6 天：合成这个工具</strong><span class="ch-badges" data-badges-for="a01--第-6-天-合成这个工具"></span></span><small>把前 5 天合成为 scorecli.py：</small></span><span class="ch-arrow" aria-hidden="true">→</span></a><a class="chapter-row" data-chapter-card="a01--第-7-天-改一条规则" href="a01--第-7-天-改一条规则.html"><b class="ch-num">08</b><span class="ch-main"><span class="ch-head"><strong>第 7 天：改一条规则</strong><span class="ch-badges" data-badges-for="a01--第-7-天-改一条规则"></span></span><small>把固定数字抽成顶部配置变量 passline = 70，判断及格改写为 if sco…</small></span><span class="ch-arrow" aria-hidden="true">→</span></a></div></nav><nav class="pager" aria-label="前后篇"><span class="pager-empty"></span><a class="pager-card next" href="a02.html"><small>下一篇 →</small><strong>第 2 周</strong></a></nav></article>
+</main>
+<footer class="site-footer">
+<p>电脑与手机打开同一线上网址即可通过「云同步」互通进度与代码。新开对话发：<code>先读 主文件.md，从书签继续</code></p>
 </footer>
 </div>
 
 </div>
-<script src="../assets/site.js?v=5"></script>
+<div class="sync-modal" id="syncModal" hidden role="dialog" aria-modal="true" aria-label="云同步设置">
+<div class="sync-card">
+<div class="sync-card-head"><strong>跨设备云同步（GitHub 私有存档）</strong><button type="button" class="sync-close" data-sync-close aria-label="关闭">✕</button></div>
+<p class="sync-desc">在手机和电脑各自粘贴一次你的 GitHub Token（仅需勾选 <code>gist</code> 权限），做题进度、代码与错题会自动加密同步到你的私有 Gist，无需电脑一直开机。Token 仅保存在当前浏览器本地。</p>
+<label class="sync-field"><span>GitHub Personal Access Token（含 gist 权限）</span><input type="password" data-sync-token placeholder="ghp_... 或 github_pat_..." autocomplete="off"></label>
+<p class="sync-status-line" data-sync-status></p>
+<div class="sync-actions">
+<div class="sync-actions-left">
+<button type="button" class="sync-save-btn" data-sync-save>保存并立即同步</button>
+<button type="button" class="sync-sub-btn" data-sync-now>手动同步</button>
+</div>
+<button type="button" class="sync-sub-btn" data-sync-clear>断开</button>
+</div>
+</div>
+</div>
+<script src="../assets/site.js?v=12"></script>
+<script src="../assets/labs.js?v=12"></script>
+<script src="../assets/workbench.js?v=12"></script>
 </body>
 </html>

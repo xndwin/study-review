@@ -1,15 +1,20 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-page-slug="lecture-commands--第-2-周" data-in-learn="1">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#f4f1eb">
-<title>第 2 周</title>
-<link rel="stylesheet" href="../assets/site.css?v=5">
+<meta name="theme-color" content="#edf1ec" id="metaThemeColor">
+<title>第 2 周 · AI 应用开发读本</title>
+<link rel="stylesheet" href="../assets/site.css?v=12">
+<link rel="stylesheet" href="../assets/workbench.css?v=12">
 <script>
 try {
   var theme = localStorage.getItem("study-theme");
-  if (theme === "night") document.documentElement.setAttribute("data-theme", "night");
+  if (theme === "night") {
+    document.documentElement.setAttribute("data-theme", "night");
+    var m = document.getElementById("metaThemeColor");
+    if (m) m.setAttribute("content", "#0e1512");
+  }
   var size = localStorage.getItem("study-read-size");
   if (size) document.documentElement.style.setProperty("--read", size);
 } catch (e) {}
@@ -18,36 +23,65 @@ try {
 <body>
 <div class="progress" aria-hidden="true"></div>
 <button class="scrim" type="button" aria-label="关闭目录" hidden></button>
-<div class="shell has-toc">
-<aside class="rail" id="rail"><a class="mark" href="../index.html">开始</a><p class="rail-kicker">今天</p><a class="rail-link today-card" href="a01--第-1-天-比较和布尔.html"><span>第 1 天：比较和布尔</span><small>布尔与比较</small></a><p class="rail-kicker">电脑上的运行命令</p><a class="rail-link chapter" href="lecture-commands--第-0-1-周.html">第 0–1 周</a><a class="rail-link here chapter" href="lecture-commands--第-2-周.html">第 2 周</a><a class="rail-link chapter" href="lecture-commands--第-3-4-周.html">第 3–4 周</a><a class="rail-link chapter" href="lecture-commands--第-5-8-周与作品.html">第 5–8 周与作品</a><a class="rail-link" href="../index.html">回开始页</a></aside>
-<div class="sheet">
-<div class="topbar">
-<button class="menu" type="button" aria-expanded="false" aria-controls="rail">这一周</button>
-<a class="crumb" href="../index.html">课文</a>
-<div class="tools">
+<div class="shell">
+<aside class="rail" id="rail" aria-label="章节导航"><div class="rail-top"><a class="brand-home" href="../index.html"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg><span>回到开始页</span></a><button type="button" class="rail-close" data-rail-close aria-label="关闭目录">收起 ✕</button></div><div class="rail-section"><p class="rail-kicker">今日主线</p><a class="rail-today" href="a01--第-1-天-比较和布尔.html"><span class="rail-today-tag">a01-d01</span><strong>第 1 天：比较和布尔</strong><small>布尔与比较</small></a></div><div class="rail-section rail-chapters"><div class="rail-group-head"><a href="lecture-commands.html" class="rail-group-title">电脑上的运行命令</a></div><div class="rail-list"><a class="rail-link chapter" data-rail-slug="lecture-commands--第-0-1-周" href="lecture-commands--第-0-1-周.html"><b class="rail-num">01</b><span class="rail-title">第 0–1 周</span><i class="rail-dot" data-dot-for="lecture-commands--第-0-1-周"></i></a><a class="rail-link here chapter" data-rail-slug="lecture-commands--第-2-周" href="lecture-commands--第-2-周.html"><b class="rail-num">02</b><span class="rail-title">第 2 周</span><i class="rail-dot" data-dot-for="lecture-commands--第-2-周"></i></a><a class="rail-link chapter" data-rail-slug="lecture-commands--第-3-4-周" href="lecture-commands--第-3-4-周.html"><b class="rail-num">03</b><span class="rail-title">第 3–4 周</span><i class="rail-dot" data-dot-for="lecture-commands--第-3-4-周"></i></a><a class="rail-link chapter" data-rail-slug="lecture-commands--第-5-8-周与作品" href="lecture-commands--第-5-8-周与作品.html"><b class="rail-num">04</b><span class="rail-title">第 5–8 周与作品</span><i class="rail-dot" data-dot-for="lecture-commands--第-5-8-周与作品"></i></a></div></div></aside>
+<div class="sheet-wrap">
+<header class="topbar">
+<div class="topbar-left">
+<button class="menu-btn" type="button" aria-expanded="false" aria-controls="rail"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h11"/></svg><span>本章目录</span></button>
+<nav class="crumbs" aria-label="位置"><a class="crumb" href="../index.html">开始页</a><span class="crumb-sep" aria-hidden="true">/</span><a class="crumb crumb-current" href="lecture-commands.html">电脑上的运行命令</a></nav>
+</div>
+<div class="tools" role="toolbar" aria-label="阅读设置">
+<div class="size-group" role="group" aria-label="字号">
 <button type="button" data-size="1rem" aria-pressed="false">小</button>
 <button type="button" data-size="1.125rem" aria-pressed="true">中</button>
-<button type="button" data-size="1.3rem" aria-pressed="false">大</button>
-<button type="button" class="theme" aria-pressed="false">夜间</button>
+<button type="button" data-size="1.26rem" aria-pressed="false">大</button>
 </div>
+<button type="button" class="sync-btn" data-sync-open aria-label="云端同步设置">
+<span class="sync-dot" aria-hidden="true"></span>
+<span data-sync-label>云同步</span>
+</button>
+<button type="button" class="theme-btn" aria-pressed="false" aria-label="切换夜间或暖纸模式">
+<span class="theme-label">夜间</span>
+</button>
 </div>
-<article class="prose"><p class="kicker"><a href="lecture-commands.html">电脑上的运行命令</a> · 02 / 04</p><section class="study" data-study><p class="kicker">先做再看</p><p class="study-title">这一章只做一件事</p><p>合上这一页，写出「第 2 周」里的一句规则，并举一个自己的例子。写完再往下对照课文。</p><ol><li>先写，不往下翻。</li><li>对照下面的课文，只补写错的那一处，再独立写一次。</li><li>用白话讲清为什么。</li><li>把卡住的地方写成一道题，留在下面。</li><li>第 1、3、7、14 天不看课文再做一小题。做对就把间隔拉长。</li></ol><label>卡住的题<textarea data-note="gap" rows="3" placeholder="写成一道能闭卷做的小题"></textarea></label><div class="reviews" data-reviews><p>从你第一次打开这一章算起</p></div></section><details class="toc-mobile"><summary>本页目录</summary><a class="toc-h2" href="#第-2-周">第 2 周</a></details><h2 id="第-2-周">第 2 周</h2>
-<figure class="code"><figcaption>bash</figcaption><pre class="lang-bash"><code>python3 code/test/w02_1_venv.py
-python3 code/test/w02_2_files.py
-python3 code/test/w02_3_json.py
-python3 code/test/w02_4_errors.py
-python3 code/test/w02_5_defaults.py
-python3 code/test/w02_6_class.py
-python3 code/test/w02_7_module.py
-python3 code/test/w02_8_http.py
-python3 code/test/w02_ex_wordcount.py
-python3 code/test/w02_ex_config.py</code></pre></figure><nav class="pager" aria-label="前后篇"><a class="prev" href="lecture-commands--第-0-1-周.html"><small>上一篇</small>第 0–1 周</a><a class="next" href="lecture-commands--第-3-4-周.html"><small>下一篇</small>第 3–4 周</a></nav></article>
-<footer>
-<p>写程序仍在电脑上。新开对话只发：先读 主文件.md，从书签继续。</p>
+</header>
+<main class="sheet">
+<article class="prose chapter-prose"><div class="chapter-kicker"><div class="kicker-left"><a href="lecture-commands.html">← 电脑上的运行命令</a><span class="chapter-step-no">· 02 / 04</span></div><div class="kicker-right"><button type="button" class="curtain-btn" data-curtain-toggle aria-pressed="false">遮住课文</button><button type="button" class="done-btn" data-done-toggle aria-pressed="false">标记已学</button></div></div><h1 id="第-2-周" class="page-title">第 2 周</h1><div class="prose-stage" data-prose-stage><div class="curtain-overlay" data-curtain-overlay hidden><div class="curtain-dialog"><p>课文已遮住 · 先回想重点再核对</p><button type="button" class="reveal-cta" data-curtain-reveal>揭开课文</button></div></div><div class="prose-body" data-prose-body>
+<figure class="code"><figcaption><span class="code-lang">Shell</span><button type="button" class="copy-btn" data-copy>复制</button></figcaption><pre class="lang-bash"><code><span class="tok-kw">python3</span> code/test/w02_1_venv.py
+<span class="tok-kw">python3</span> code/test/w02_2_files.py
+<span class="tok-kw">python3</span> code/test/w02_3_json.py
+<span class="tok-kw">python3</span> code/test/w02_4_errors.py
+<span class="tok-kw">python3</span> code/test/w02_5_defaults.py
+<span class="tok-kw">python3</span> code/test/w02_6_class.py
+<span class="tok-kw">python3</span> code/test/w02_7_module.py
+<span class="tok-kw">python3</span> code/test/w02_8_http.py
+<span class="tok-kw">python3</span> code/test/w02_ex_wordcount.py
+<span class="tok-kw">python3</span> code/test/w02_ex_config.py</code></pre></figure></div></div><details class="review-drawer" data-study data-slug="lecture-commands--第-2-周"><summary><span>笔记与复习打卡（+1 / +3 / +7 / +14 天）</span><span class="drawer-chevron" aria-hidden="true">▾</span></summary><div class="review-drawer-body"><div class="study-inputs"><label class="study-field"><span>一句话总结 / 自拟例子</span><textarea data-note="draft" rows="2" placeholder="用自己的话记一句重点…"></textarea></label><label class="study-field"><span>卡住的题（同步到首页错题本）</span><textarea data-note="gap" rows="2" placeholder="记成一道小问题，下次复习自测…"></textarea></label></div><div class="reviews-bar" data-reviews><span class="reviews-label" data-seen-label>复习打卡：</span></div><label class="auto-curtain-opt"><input type="checkbox" data-auto-curtain><span>进入章节时默认先遮住课文（二刷复习时可勾选）</span></label></div></details><nav class="pager" aria-label="前后篇"><a class="pager-card prev" href="lecture-commands--第-0-1-周.html"><small>← 上一篇</small><strong>第 0–1 周</strong></a><a class="pager-card next" href="lecture-commands--第-3-4-周.html"><small>下一篇 →</small><strong>第 3–4 周</strong></a></nav></article>
+</main>
+<footer class="site-footer">
+<p>电脑与手机打开同一线上网址即可通过「云同步」互通进度与代码。新开对话发：<code>先读 主文件.md，从书签继续</code></p>
 </footer>
 </div>
-<nav class="toc" aria-label="本页目录"><p>本页</p><a class="toc-h2" href="#第-2-周">第 2 周</a></nav>
+
 </div>
-<script src="../assets/site.js?v=5"></script>
+<div class="sync-modal" id="syncModal" hidden role="dialog" aria-modal="true" aria-label="云同步设置">
+<div class="sync-card">
+<div class="sync-card-head"><strong>跨设备云同步（GitHub 私有存档）</strong><button type="button" class="sync-close" data-sync-close aria-label="关闭">✕</button></div>
+<p class="sync-desc">在手机和电脑各自粘贴一次你的 GitHub Token（仅需勾选 <code>gist</code> 权限），做题进度、代码与错题会自动加密同步到你的私有 Gist，无需电脑一直开机。Token 仅保存在当前浏览器本地。</p>
+<label class="sync-field"><span>GitHub Personal Access Token（含 gist 权限）</span><input type="password" data-sync-token placeholder="ghp_... 或 github_pat_..." autocomplete="off"></label>
+<p class="sync-status-line" data-sync-status></p>
+<div class="sync-actions">
+<div class="sync-actions-left">
+<button type="button" class="sync-save-btn" data-sync-save>保存并立即同步</button>
+<button type="button" class="sync-sub-btn" data-sync-now>手动同步</button>
+</div>
+<button type="button" class="sync-sub-btn" data-sync-clear>断开</button>
+</div>
+</div>
+</div>
+<script src="../assets/site.js?v=12"></script>
+<script src="../assets/labs.js?v=12"></script>
+<script src="../assets/workbench.js?v=12"></script>
 </body>
 </html>

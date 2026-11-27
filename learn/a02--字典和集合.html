@@ -1,15 +1,20 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-page-slug="a02--字典和集合" data-in-learn="1">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#f4f1eb">
-<title>字典和集合</title>
-<link rel="stylesheet" href="../assets/site.css?v=5">
+<meta name="theme-color" content="#edf1ec" id="metaThemeColor">
+<title>字典和集合 · AI 应用开发读本</title>
+<link rel="stylesheet" href="../assets/site.css?v=12">
+<link rel="stylesheet" href="../assets/workbench.css?v=12">
 <script>
 try {
   var theme = localStorage.getItem("study-theme");
-  if (theme === "night") document.documentElement.setAttribute("data-theme", "night");
+  if (theme === "night") {
+    document.documentElement.setAttribute("data-theme", "night");
+    var m = document.getElementById("metaThemeColor");
+    if (m) m.setAttribute("content", "#0e1512");
+  }
   var size = localStorage.getItem("study-read-size");
   if (size) document.documentElement.style.setProperty("--read", size);
 } catch (e) {}
@@ -19,39 +24,72 @@ try {
 <div class="progress" aria-hidden="true"></div>
 <button class="scrim" type="button" aria-label="关闭目录" hidden></button>
 <div class="shell has-toc">
-<aside class="rail" id="rail"><a class="mark" href="../index.html">开始</a><p class="rail-kicker">今天</p><a class="rail-link today-card" href="a01--第-1-天-比较和布尔.html"><span>第 1 天：比较和布尔</span><small>布尔与比较</small></a><p class="rail-kicker">第 2 周：列表、字典、函数</p><a class="rail-link chapter" href="a02--列表.html">列表</a><a class="rail-link chapter" href="a02--第-1-周留下的字符串.html">第 1 周留下的字符串</a><a class="rail-link here chapter" href="a02--字典和集合.html">字典和集合</a><a class="rail-link chapter" href="a02--循环的另外三种写法.html">循环的另外三种写法</a><a class="rail-link chapter" href="a02--函数.html">函数</a><a class="rail-link chapter" href="a02--推导式.html">推导式</a><a class="rail-link chapter" href="a02--这一周自己写.html">这一周自己写</a><a class="rail-link" href="../index.html">回开始页</a></aside>
-<div class="sheet">
-<div class="topbar">
-<button class="menu" type="button" aria-expanded="false" aria-controls="rail">这一周</button>
-<a class="crumb" href="../index.html">课文</a>
-<div class="tools">
+<aside class="rail" id="rail" aria-label="章节导航"><div class="rail-top"><a class="brand-home" href="../index.html"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg><span>回到开始页</span></a><button type="button" class="rail-close" data-rail-close aria-label="关闭目录">收起 ✕</button></div><div class="rail-section"><p class="rail-kicker">今日主线</p><a class="rail-today" href="a01--第-1-天-比较和布尔.html"><span class="rail-today-tag">a01-d01</span><strong>第 1 天：比较和布尔</strong><small>布尔与比较</small></a></div><div class="rail-section rail-chapters"><div class="rail-group-head"><a href="a02.html" class="rail-group-title">第 2 周 · 列表、字典、函数</a></div><div class="rail-list"><a class="rail-link chapter" data-rail-slug="a02--列表" href="a02--列表.html"><b class="rail-num">01</b><span class="rail-title">列表</span><i class="rail-dot" data-dot-for="a02--列表"></i></a><a class="rail-link chapter" data-rail-slug="a02--第-1-周留下的字符串" href="a02--第-1-周留下的字符串.html"><b class="rail-num">02</b><span class="rail-title">第 1 周留下的字符串</span><i class="rail-dot" data-dot-for="a02--第-1-周留下的字符串"></i></a><a class="rail-link here chapter" data-rail-slug="a02--字典和集合" href="a02--字典和集合.html"><b class="rail-num">03</b><span class="rail-title">字典和集合</span><i class="rail-dot" data-dot-for="a02--字典和集合"></i></a><a class="rail-link chapter" data-rail-slug="a02--循环的另外三种写法" href="a02--循环的另外三种写法.html"><b class="rail-num">04</b><span class="rail-title">循环的另外三种写法</span><i class="rail-dot" data-dot-for="a02--循环的另外三种写法"></i></a><a class="rail-link chapter" data-rail-slug="a02--函数" href="a02--函数.html"><b class="rail-num">05</b><span class="rail-title">函数</span><i class="rail-dot" data-dot-for="a02--函数"></i></a><a class="rail-link chapter" data-rail-slug="a02--推导式" href="a02--推导式.html"><b class="rail-num">06</b><span class="rail-title">推导式</span><i class="rail-dot" data-dot-for="a02--推导式"></i></a><a class="rail-link chapter" data-rail-slug="a02--这一周自己写" href="a02--这一周自己写.html"><b class="rail-num">07</b><span class="rail-title">这一周自己写</span><i class="rail-dot" data-dot-for="a02--这一周自己写"></i></a></div></div></aside>
+<div class="sheet-wrap">
+<header class="topbar">
+<div class="topbar-left">
+<button class="menu-btn" type="button" aria-expanded="false" aria-controls="rail"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h11"/></svg><span>本章目录</span></button>
+<nav class="crumbs" aria-label="位置"><a class="crumb" href="../index.html">开始页</a><span class="crumb-sep" aria-hidden="true">/</span><a class="crumb crumb-current" href="a02.html">第 2 周 · 列表、字典、函数</a></nav>
+</div>
+<div class="tools" role="toolbar" aria-label="阅读设置">
+<div class="size-group" role="group" aria-label="字号">
 <button type="button" data-size="1rem" aria-pressed="false">小</button>
 <button type="button" data-size="1.125rem" aria-pressed="true">中</button>
-<button type="button" data-size="1.3rem" aria-pressed="false">大</button>
-<button type="button" class="theme" aria-pressed="false">夜间</button>
+<button type="button" data-size="1.26rem" aria-pressed="false">大</button>
 </div>
+<button type="button" class="sync-btn" data-sync-open aria-label="云端同步设置">
+<span class="sync-dot" aria-hidden="true"></span>
+<span data-sync-label>云同步</span>
+</button>
+<button type="button" class="theme-btn" aria-pressed="false" aria-label="切换夜间或暖纸模式">
+<span class="theme-label">夜间</span>
+</button>
 </div>
-<article class="prose"><p class="kicker"><a href="a02.html">第 2 周 列表、字典、函数</a> · 03 / 07</p><section class="study" data-study><p class="kicker">先做再看</p><p class="study-title">这一章只做一件事</p><p>合上这一页，写出「字典和集合」里的一句规则，并举一个自己的例子。写完再往下对照课文。</p><ol><li>先写，不往下翻。</li><li>对照下面的课文，只补写错的那一处，再独立写一次。</li><li>用白话讲清为什么。</li><li>把卡住的地方写成一道题，留在下面。</li><li>第 1、3、7、14 天不看课文再做一小题。做对就把间隔拉长。</li></ol><label>卡住的题<textarea data-note="gap" rows="3" placeholder="写成一道能闭卷做的小题"></textarea></label><div class="reviews" data-reviews><p>从你第一次打开这一章算起</p></div></section><details class="toc-mobile"><summary>本页目录</summary><a class="toc-h2" href="#字典和集合">字典和集合</a></details><h2 id="字典和集合">字典和集合</h2>
-<p>字典用键取值。键不存在时，<code>person[&quot;email&quot;]</code> 抛 <code>KeyError</code>。<code>person.get(&quot;email&quot;, &quot;(无)&quot;)</code> 给出默认值。</p>
-<figure class="code"><figcaption>python</figcaption><pre class="lang-python"><code>person = {&quot;name&quot;: &quot;王敏&quot;, &quot;score&quot;: 90}
-print(person[&quot;name&quot;])
-print(person.get(&quot;email&quot;, &quot;(无)&quot;))
-person[&quot;score&quot;] = 91
-
-seen = set()
-for word in [&quot;rag&quot;, &quot;sql&quot;, &quot;rag&quot;]:
+</header>
+<main class="sheet">
+<article class="prose chapter-prose"><div class="chapter-kicker"><div class="kicker-left"><a href="a02.html">← 第 2 周 列表、字典、函数</a><span class="chapter-step-no">· 03 / 07</span></div><div class="kicker-right"><a href="#workbench" class="jump-lab-link">跳到练习 ↓</a><button type="button" class="curtain-btn" data-curtain-toggle aria-pressed="false">遮住课文</button><button type="button" class="done-btn" data-done-toggle aria-pressed="false">标记已学</button></div></div><h1 id="字典和集合" class="page-title">字典和集合</h1><div class="prose-stage" data-prose-stage><div class="curtain-overlay" data-curtain-overlay hidden><div class="curtain-dialog"><p>课文已遮住 · 先回想重点再核对</p><button type="button" class="reveal-cta" data-curtain-reveal>揭开课文</button></div></div><div class="prose-body" data-prose-body><details class="toc-mobile"><summary>本页小节导航（2）</summary><div class="toc-mobile-list"><a class="toc-h3" href="#字典-键-值">字典 <code>{&quot;键&quot;: 值}</code></a><a class="toc-h3" href="#集合-set">集合 <code>set</code></a></div></details>
+<h3 id="字典-键-值">字典 <code>{&quot;键&quot;: 值}</code></h3>
+<p>按名字标签查找数据。键可能不存在时用 <strong><code>.get(键, 默认值)</code></strong>，避免直接写 <code>d[&quot;键&quot;]</code> 抛 <code>KeyError</code> 崩溃：</p>
+<figure class="code"><figcaption><span class="code-lang">Python</span><button type="button" class="copy-btn" data-copy>复制</button></figcaption><pre class="lang-python"><code>person = {&quot;name<span class="tok-str">&quot;: &quot;</span>王敏<span class="tok-str">&quot;, &quot;</span>score&quot;: <span class="tok-num">90</span>}
+<span class="tok-bi">print</span>(person[&quot;name&quot;])                  <span class="tok-cmt"># 王敏</span>
+<span class="tok-bi">print</span>(person.get(&quot;email<span class="tok-str">&quot;, &quot;</span>(无)&quot;))     <span class="tok-cmt"># (无)</span>
+person[&quot;score&quot;] = <span class="tok-num">91</span>                   <span class="tok-cmt"># 改值或新增键值</span></code></pre></figure>
+<p>层层取嵌套数据（如大模型接口返回结果）从左往右剥：<code>resp[&quot;choices&quot;][0][&quot;message&quot;][&quot;content&quot;]</code>。</p>
+<h3 id="集合-set">集合 <code>set</code></h3>
+<p>自动去重、无固定顺序。注意<strong>空集合必须写 <code>set()</code></strong>（<code>{}</code> 是空字典）：</p>
+<figure class="code"><figcaption><span class="code-lang">Python</span><button type="button" class="copy-btn" data-copy>复制</button></figcaption><pre class="lang-python"><code>seen = <span class="tok-bi">set</span>()
+<span class="tok-kw">for</span> word <span class="tok-kw">in</span> [&quot;rag<span class="tok-str">&quot;, &quot;</span>sql<span class="tok-str">&quot;, &quot;</span>rag&quot;]:
     seen.add(word)
-print(sorted(seen))</code></pre></figure>
-<p><code>sorted(seen)</code> 是 <code>[&#x27;rag&#x27;, &#x27;sql&#x27;]</code>。集合自动去重，不保证顺序。空集合写成 <code>set()</code>。<code>{}</code> 是空字典，不是空集合。</p>
-<p>模型返回的 JSON 变成字典之后，正文在：</p>
-<figure class="code"><figcaption>python</figcaption><pre class="lang-python"><code>text = resp[&quot;choices&quot;][0][&quot;message&quot;][&quot;content&quot;]</code></pre></figure>
-<p>先确认每一层都在，再取下一层。</p><nav class="pager" aria-label="前后篇"><a class="prev" href="a02--第-1-周留下的字符串.html"><small>上一篇</small>第 1 周留下的字符串</a><a class="next" href="a02--循环的另外三种写法.html"><small>下一篇</small>循环的另外三种写法</a></nav></article>
-<footer>
-<p>写程序仍在电脑上。新开对话只发：先读 主文件.md，从书签继续。</p>
+<span class="tok-bi">print</span>(<span class="tok-bi">sorted</span>(seen))                    <span class="tok-cmt"># [&#x27;rag&#x27;, &#x27;sql&#x27;]</span></code></pre></figure>
+<hr></div></div><section id="workbench" class="workbench" data-workbench data-slug="a02--字典和集合" data-default-code="person = {&quot;name&quot;: &quot;王敏&quot;, &quot;score&quot;: 90}
+print(person[&quot;name&quot;])                  # 王敏
+print(person.get(&quot;email&quot;, &quot;(无)&quot;))     # (无)
+person[&quot;score&quot;] = 91                   # 改值或新增键值
+"></section><details class="review-drawer" data-study data-slug="a02--字典和集合"><summary><span>笔记与复习打卡（+1 / +3 / +7 / +14 天）</span><span class="drawer-chevron" aria-hidden="true">▾</span></summary><div class="review-drawer-body"><div class="study-inputs"><label class="study-field"><span>一句话总结 / 自拟例子</span><textarea data-note="draft" rows="2" placeholder="用自己的话记一句重点…"></textarea></label><label class="study-field"><span>卡住的题（同步到首页错题本）</span><textarea data-note="gap" rows="2" placeholder="记成一道小问题，下次复习自测…"></textarea></label></div><div class="reviews-bar" data-reviews><span class="reviews-label" data-seen-label>复习打卡：</span></div><label class="auto-curtain-opt"><input type="checkbox" data-auto-curtain><span>进入章节时默认先遮住课文（二刷复习时可勾选）</span></label></div></details><nav class="pager" aria-label="前后篇"><a class="pager-card prev" href="a02--第-1-周留下的字符串.html"><small>← 上一篇</small><strong>第 1 周留下的字符串</strong></a><a class="pager-card next" href="a02--循环的另外三种写法.html"><small>下一篇 →</small><strong>循环的另外三种写法</strong></a></nav></article>
+</main>
+<footer class="site-footer">
+<p>电脑与手机打开同一线上网址即可通过「云同步」互通进度与代码。新开对话发：<code>先读 主文件.md，从书签继续</code></p>
 </footer>
 </div>
-<nav class="toc" aria-label="本页目录"><p>本页</p><a class="toc-h2" href="#字典和集合">字典和集合</a></nav>
+<nav class="toc" aria-label="本页目录"><p class="toc-title">本页目录</p><a class="toc-h3" href="#字典-键-值">字典 <code>{&quot;键&quot;: 值}</code></a><a class="toc-h3" href="#集合-set">集合 <code>set</code></a></nav>
 </div>
-<script src="../assets/site.js?v=5"></script>
+<div class="sync-modal" id="syncModal" hidden role="dialog" aria-modal="true" aria-label="云同步设置">
+<div class="sync-card">
+<div class="sync-card-head"><strong>跨设备云同步（GitHub 私有存档）</strong><button type="button" class="sync-close" data-sync-close aria-label="关闭">✕</button></div>
+<p class="sync-desc">在手机和电脑各自粘贴一次你的 GitHub Token（仅需勾选 <code>gist</code> 权限），做题进度、代码与错题会自动加密同步到你的私有 Gist，无需电脑一直开机。Token 仅保存在当前浏览器本地。</p>
+<label class="sync-field"><span>GitHub Personal Access Token（含 gist 权限）</span><input type="password" data-sync-token placeholder="ghp_... 或 github_pat_..." autocomplete="off"></label>
+<p class="sync-status-line" data-sync-status></p>
+<div class="sync-actions">
+<div class="sync-actions-left">
+<button type="button" class="sync-save-btn" data-sync-save>保存并立即同步</button>
+<button type="button" class="sync-sub-btn" data-sync-now>手动同步</button>
+</div>
+<button type="button" class="sync-sub-btn" data-sync-clear>断开</button>
+</div>
+</div>
+</div>
+<script src="../assets/site.js?v=12"></script>
+<script src="../assets/labs.js?v=12"></script>
+<script src="../assets/workbench.js?v=12"></script>
 </body>
 </html>

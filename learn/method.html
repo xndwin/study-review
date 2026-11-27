@@ -1,15 +1,20 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-page-slug="method" data-in-learn="1">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#f4f1eb">
-<title>现行学法</title>
-<link rel="stylesheet" href="../assets/site.css?v=5">
+<meta name="theme-color" content="#edf1ec" id="metaThemeColor">
+<title>现行学法 · AI 应用开发读本</title>
+<link rel="stylesheet" href="../assets/site.css?v=12">
+<link rel="stylesheet" href="../assets/workbench.css?v=12">
 <script>
 try {
   var theme = localStorage.getItem("study-theme");
-  if (theme === "night") document.documentElement.setAttribute("data-theme", "night");
+  if (theme === "night") {
+    document.documentElement.setAttribute("data-theme", "night");
+    var m = document.getElementById("metaThemeColor");
+    if (m) m.setAttribute("content", "#0e1512");
+  }
   var size = localStorage.getItem("study-read-size");
   if (size) document.documentElement.style.setProperty("--read", size);
 } catch (e) {}
@@ -19,29 +24,57 @@ try {
 <div class="progress" aria-hidden="true"></div>
 <button class="scrim" type="button" aria-label="关闭目录" hidden></button>
 <div class="shell">
-<aside class="rail" id="rail"><a class="mark" href="../index.html">开始</a><p class="rail-kicker">今天</p><a class="rail-link today-card" href="a01--第-1-天-比较和布尔.html"><span>第 1 天：比较和布尔</span><small>布尔与比较</small></a><p class="rail-kicker">现行学法</p><a class="rail-link chapter" href="method--现在写哪套接口.html">现在写哪套接口</a><a class="rail-link chapter" href="method--模型名和地址.html">模型名和地址</a><a class="rail-link chapter" href="method--结构化输出.html">结构化输出</a><a class="rail-link chapter" href="method--检索.html">检索</a><a class="rail-link chapter" href="method--工具和人工确认.html">工具和人工确认</a><a class="rail-link" href="../index.html">回开始页</a></aside>
-<div class="sheet">
-<div class="topbar">
-<button class="menu" type="button" aria-expanded="false" aria-controls="rail">这一周</button>
-<a class="crumb" href="../index.html">课文</a>
-<div class="tools">
+<aside class="rail" id="rail" aria-label="章节导航"><div class="rail-top"><a class="brand-home" href="../index.html"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg><span>回到开始页</span></a><button type="button" class="rail-close" data-rail-close aria-label="关闭目录">收起 ✕</button></div><div class="rail-section"><p class="rail-kicker">今日主线</p><a class="rail-today" href="a01--第-1-天-比较和布尔.html"><span class="rail-today-tag">a01-d01</span><strong>第 1 天：比较和布尔</strong><small>布尔与比较</small></a></div><div class="rail-section rail-chapters"><div class="rail-group-head"><a href="method.html" class="rail-group-title">现行学法</a></div><div class="rail-list"><a class="rail-link chapter" data-rail-slug="method--现在写哪套接口" href="method--现在写哪套接口.html"><b class="rail-num">01</b><span class="rail-title">现在写哪套接口</span><i class="rail-dot" data-dot-for="method--现在写哪套接口"></i></a><a class="rail-link chapter" data-rail-slug="method--模型名和地址" href="method--模型名和地址.html"><b class="rail-num">02</b><span class="rail-title">模型名和地址</span><i class="rail-dot" data-dot-for="method--模型名和地址"></i></a><a class="rail-link chapter" data-rail-slug="method--上下文管理-省钱与防错" href="method--上下文管理-省钱与防错.html"><b class="rail-num">03</b><span class="rail-title">上下文管理（省钱与防错）</span><i class="rail-dot" data-dot-for="method--上下文管理-省钱与防错"></i></a><a class="rail-link chapter" data-rail-slug="method--结构化输出" href="method--结构化输出.html"><b class="rail-num">04</b><span class="rail-title">结构化输出</span><i class="rail-dot" data-dot-for="method--结构化输出"></i></a><a class="rail-link chapter" data-rail-slug="method--检索-知识库-rag" href="method--检索-知识库-rag.html"><b class="rail-num">05</b><span class="rail-title">检索（知识库 RAG）</span><i class="rail-dot" data-dot-for="method--检索-知识库-rag"></i></a><a class="rail-link chapter" data-rail-slug="method--工具和人工确认" href="method--工具和人工确认.html"><b class="rail-num">06</b><span class="rail-title">工具和人工确认</span><i class="rail-dot" data-dot-for="method--工具和人工确认"></i></a><a class="rail-link chapter" data-rail-slug="method--评测与错误归因" href="method--评测与错误归因.html"><b class="rail-num">07</b><span class="rail-title">评测与错误归因</span><i class="rail-dot" data-dot-for="method--评测与错误归因"></i></a></div></div></aside>
+<div class="sheet-wrap">
+<header class="topbar">
+<div class="topbar-left">
+<button class="menu-btn" type="button" aria-expanded="false" aria-controls="rail"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h11"/></svg><span>本章目录</span></button>
+<nav class="crumbs" aria-label="位置"><a class="crumb" href="../index.html">开始页</a><span class="crumb-sep" aria-hidden="true">/</span><a class="crumb crumb-current" href="method.html">现行学法</a></nav>
+</div>
+<div class="tools" role="toolbar" aria-label="阅读设置">
+<div class="size-group" role="group" aria-label="字号">
 <button type="button" data-size="1rem" aria-pressed="false">小</button>
 <button type="button" data-size="1.125rem" aria-pressed="true">中</button>
-<button type="button" data-size="1.3rem" aria-pressed="false">大</button>
-<button type="button" class="theme" aria-pressed="false">夜间</button>
+<button type="button" data-size="1.26rem" aria-pressed="false">大</button>
 </div>
+<button type="button" class="sync-btn" data-sync-open aria-label="云端同步设置">
+<span class="sync-dot" aria-hidden="true"></span>
+<span data-sync-label>云同步</span>
+</button>
+<button type="button" class="theme-btn" aria-pressed="false" aria-label="切换夜间或暖纸模式">
+<span class="theme-label">夜间</span>
+</button>
 </div>
-<article class="prose"><h1 id="现行学法-2026-11-17">现行学法（2026-11-17）</h1>
-<p>课文 <code>lessons/</code> 不删。学到调用模型、结构化输出、RAG 和工具时，以这一页和供应商当天的文档为准。模型名、域名、价格和某个参数是否支持都会变，写进代码前打开官方页核对。</p>
-<p>这一页只记录应用开发还在用的接口。预训练、推理引擎和多 Agent 平台仍不作为这半年的主线。</p>
-<p>2026-11-17 核对过的来源：</p>
-<ul><li><a href="https://developers.openai.com/api/docs/guides/migrate-to-responses">Migrate to the Responses API</a>：OpenAI 新项目用 Responses。Chat Completions 仍可用。Assistants API 已于 2026-08-26 停用。</li><li><a href="https://developers.openai.com/api/reference/resources/chat">Chat Completions</a>：页面写明新项目去看 Responses。</li><li><a href="https://api-docs.deepseek.com/">DeepSeek 第一次调用</a>：同时给出 OpenAI 兼容和 Anthropic 兼容。当天示例模型是 <code>deepseek-flash</code>。</li><li><a href="https://api-docs.deepseek.com/guides/build_a_chatbot/">DeepSeek 聊天机器人</a>：Messages、Responses、Chat Completions 三条路径都列着。</li><li><a href="https://api-docs.deepseek.com/guides/tool_calls.md">DeepSeek 工具调用</a>：工具仍由调用方执行；思考模式和普通模式的限制不同。</li><li><a href="https://help.aliyun.com/zh/model-studio/qwen-api-via-openai-chat-completions">通义 OpenAI 兼容 Chat</a>：当天仍用 Chat Completions。<code>base_url</code> 带业务空间，按账号地域从帮助页抄。</li><li><a href="https://help.aliyun.com/zh/model-studio/multi-round-conversation">通义多轮对话</a>：Chat Completions 的历史要自己拼；Responses 被标成另一条更省事的多轮路径。</li><li><a href="https://docs.langchain.com/oss/python/langgraph/interrupts">LangGraph interrupts</a>、<a href="https://docs.langchain.com/oss/python/langgraph/checkpointers">checkpointers</a>。</li></ul><p class="read-note">点开一章：先合上写一句规则和一个自己的例子，再对照全文。错的留在那一章，第 1、3、7、14 天再做。</p><nav class="chapter-index" aria-label="各章"><p>各章</p><a href="method--现在写哪套接口.html"><b>01</b><span><strong>现在写哪套接口</strong><small>两家都要能跑的作业，用 Chat Completions：message…</small></span></a><a href="method--模型名和地址.html"><b>02</b><span><strong>模型名和地址</strong><small>模型名从控制台或当天模型列表抄进环境变量，不写死在业务代码里。2026-…</small></span></a><a href="method--结构化输出.html"><b>03</b><span><strong>结构化输出</strong></span></a><a href="method--检索.html"><b>04</b><span><strong>检索</strong><small>项目一保持固定顺序：切块、召回、再生成。厂商自带的网页搜索是另一项能力…</small></span></a><a href="method--工具和人工确认.html"><b>05</b><span><strong>工具和人工确认</strong><small>工具由你声明 JSON Schema，模型只返回想调用的名字和参数。真正…</small></span></a></nav><p class="read-note">分开学过几章之后，把它们混进同一道新题，先判断该用哪一种做法。</p><nav class="pager" aria-label="前后篇"><a class="prev" href="lecture-roadmap.html"><small>上一篇</small>路线图</a><a class="next" href="outline.html"><small>下一篇</small>知识点总表</a></nav></article>
-<footer>
-<p>写程序仍在电脑上。新开对话只发：先读 主文件.md，从书签继续。</p>
+</header>
+<main class="sheet">
+<article class="prose overview-prose"><h1 id="现行学法-2026-11-27-精炼版" class="page-title">现行学法（2026-11-27 精炼版）</h1>
+<p>课文 <code>lessons/</code> 原文保留不删。学到第 9 周后（模型接口、结构化输出、RAG、工具调用），以本页和厂商当天文档为准。</p>
+<p>2026-11-17 核对来源：</p>
+<ul><li><a href="https://developers.openai.com/api/docs/guides/migrate-to-responses" target="_blank" rel="noopener noreferrer">Migrate to Responses</a> · <a href="https://developers.openai.com/api/reference/resources/chat" target="_blank" rel="noopener noreferrer">Chat Completions</a>（Assistants API 已于 2026-08-26 停用）</li><li><a href="https://api-docs.deepseek.com/" target="_blank" rel="noopener noreferrer">DeepSeek 文档</a> · <a href="https://api-docs.deepseek.com/guides/build_a_chatbot/" target="_blank" rel="noopener noreferrer">聊天指南</a> · <a href="https://api-docs.deepseek.com/guides/tool_calls.md" target="_blank" rel="noopener noreferrer">工具调用</a></li><li><a href="https://help.aliyun.com/zh/model-studio/qwen-api-via-openai-chat-completions" target="_blank" rel="noopener noreferrer">通义兼容接口</a> · <a href="https://help.aliyun.com/zh/model-studio/multi-round-conversation" target="_blank" rel="noopener noreferrer">多轮对话</a></li><li><a href="https://docs.langchain.com/oss/python/langgraph/interrupts" target="_blank" rel="noopener noreferrer">LangGraph interrupts</a> · <a href="https://docs.langchain.com/oss/python/langgraph/checkpointers" target="_blank" rel="noopener noreferrer">checkpointers</a></li></ul><nav class="chapter-index" aria-label="各章目录"><div class="chapter-index-head"><span>各章目录</span><span class="chapter-count" data-week-progress="method">共 7 章</span></div><div class="chapter-list"><a class="chapter-row" data-chapter-card="method--现在写哪套接口" href="method--现在写哪套接口.html"><b class="ch-num">01</b><span class="ch-main"><span class="ch-head"><strong>现在写哪套接口</strong><span class="ch-badges" data-badges-for="method--现在写哪套接口"></span></span><small>避坑：不学已停用的 Assistants / Threads；工具调用统一用 too…</small></span><span class="ch-arrow" aria-hidden="true">→</span></a><a class="chapter-row" data-chapter-card="method--模型名和地址" href="method--模型名和地址.html"><b class="ch-num">02</b><span class="ch-main"><span class="ch-head"><strong>模型名和地址</strong><span class="ch-badges" data-badges-for="method--模型名和地址"></span></span><small>模型名与 baseurl 统一放 .env 环境变量，不写死在代码里（例如 deep…</small></span><span class="ch-arrow" aria-hidden="true">→</span></a><a class="chapter-row" data-chapter-card="method--上下文管理-省钱与防错" href="method--上下文管理-省钱与防错.html"><b class="ch-num">03</b><span class="ch-main"><span class="ch-head"><strong>上下文管理（省钱与防错）</strong><span class="ch-badges" data-badges-for="method--上下文管理-省钱与防错"></span></span></span><span class="ch-arrow" aria-hidden="true">→</span></a><a class="chapter-row" data-chapter-card="method--结构化输出" href="method--结构化输出.html"><b class="ch-num">04</b><span class="ch-main"><span class="ch-head"><strong>结构化输出</strong><span class="ch-badges" data-badges-for="method--结构化输出"></span></span></span><span class="ch-arrow" aria-hidden="true">→</span></a><a class="chapter-row" data-chapter-card="method--检索-知识库-rag" href="method--检索-知识库-rag.html"><b class="ch-num">05</b><span class="ch-main"><span class="ch-head"><strong>检索（知识库 RAG）</strong><span class="ch-badges" data-badges-for="method--检索-知识库-rag"></span></span><small>固定流程：切块 → 召回 → 生成（厂商自带联网搜索只查公开网页，不能替代私有文档与…</small></span><span class="ch-arrow" aria-hidden="true">→</span></a><a class="chapter-row" data-chapter-card="method--工具和人工确认" href="method--工具和人工确认.html"><b class="ch-num">06</b><span class="ch-main"><span class="ch-head"><strong>工具和人工确认</strong><span class="ch-badges" data-badges-for="method--工具和人工确认"></span></span><small>模型只返回“想调哪个函数及参数”，真正执行函数的是你的 Python 白名单代码。</small></span><span class="ch-arrow" aria-hidden="true">→</span></a><a class="chapter-row" data-chapter-card="method--评测与错误归因" href="method--评测与错误归因.html"><b class="ch-num">07</b><span class="ch-main"><span class="ch-head"><strong>评测与错误归因</strong><span class="ch-badges" data-badges-for="method--评测与错误归因"></span></span></span><span class="ch-arrow" aria-hidden="true">→</span></a></div></nav><nav class="pager" aria-label="前后篇"><a class="pager-card prev" href="lecture-roadmap.html"><small>← 上一篇</small><strong>路线图</strong></a><a class="pager-card next" href="outline.html"><small>下一篇 →</small><strong>知识点总表</strong></a></nav></article>
+</main>
+<footer class="site-footer">
+<p>电脑与手机打开同一线上网址即可通过「云同步」互通进度与代码。新开对话发：<code>先读 主文件.md，从书签继续</code></p>
 </footer>
 </div>
 
 </div>
-<script src="../assets/site.js?v=5"></script>
+<div class="sync-modal" id="syncModal" hidden role="dialog" aria-modal="true" aria-label="云同步设置">
+<div class="sync-card">
+<div class="sync-card-head"><strong>跨设备云同步（GitHub 私有存档）</strong><button type="button" class="sync-close" data-sync-close aria-label="关闭">✕</button></div>
+<p class="sync-desc">在手机和电脑各自粘贴一次你的 GitHub Token（仅需勾选 <code>gist</code> 权限），做题进度、代码与错题会自动加密同步到你的私有 Gist，无需电脑一直开机。Token 仅保存在当前浏览器本地。</p>
+<label class="sync-field"><span>GitHub Personal Access Token（含 gist 权限）</span><input type="password" data-sync-token placeholder="ghp_... 或 github_pat_..." autocomplete="off"></label>
+<p class="sync-status-line" data-sync-status></p>
+<div class="sync-actions">
+<div class="sync-actions-left">
+<button type="button" class="sync-save-btn" data-sync-save>保存并立即同步</button>
+<button type="button" class="sync-sub-btn" data-sync-now>手动同步</button>
+</div>
+<button type="button" class="sync-sub-btn" data-sync-clear>断开</button>
+</div>
+</div>
+</div>
+<script src="../assets/site.js?v=12"></script>
+<script src="../assets/labs.js?v=12"></script>
+<script src="../assets/workbench.js?v=12"></script>
 </body>
 </html>

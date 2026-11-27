@@ -283,7 +283,17 @@
     .catch(function () {
       localServerAvailable = false;
       runtimePill.className = "wb-pill";
-      runtimePill.textContent = "○ 网页 Python";
+      runtimePill.textContent = (window.studyHasRepoSync && window.studyHasRepoSync())
+        ? "● 网页 Python · 直连 GitHub 仓库"
+        : "○ 网页 Python";
+      if (lab.target_file && window.studyLoadRepoFile && window.studyHasRepoSync && window.studyHasRepoSync()) {
+        window.studyLoadRepoFile(lab.target_file).then(function (repoCode) {
+          if (repoCode && repoCode.trim() && !localDraft) {
+            editor.value = repoCode;
+            saveStatus.textContent = "已加载 GitHub 仓库作业";
+          }
+        });
+      }
     });
 
   editor.addEventListener("input", function () {
@@ -446,13 +456,6 @@
     if (withGrade && res.allPassed) {
       passBanner.hidden = false;
       if (saveStatus && res.savedTo) saveStatus.textContent = "已存盘";
-      if (lab.target_file) {
-        lsSet("study-v2:passed-file:" + lab.target_file, JSON.stringify({
-          code: editor.value,
-          taskCode: lab.task_code || slug,
-          updatedAt: new Date().toISOString()
-        }));
-      }
 
       var doneBtn = document.querySelector("[data-done-toggle]");
       if (doneBtn && doneBtn.getAttribute("aria-pressed") !== "true") {
@@ -464,24 +467,42 @@
       var firstStr = (savedFirst && savedFirst.completed)
         ? "首次测验 " + savedFirst.score + "/" + savedFirst.total
         : "实训通过";
-      var saveNote = res.savedTo ? "，已存 " + res.savedTo : "";
-      var syncCmd = "完成：" + (lab.task_code || slug) + "（" + firstStr + "，代码检查通过" + saveNote + "）";
 
-      passBanner.innerHTML =
-        '<span><strong>✓ 全部通过</strong>' +
-        (res.savedTo ? ' · 已保存至 <code>' + esc(res.savedTo) + '</code>' : '') +
-        '</span>' +
-        '<button type="button" class="wb-btn-primary" data-copy-sync>复制完成口令</button>';
+      function showBanner(savedPathText) {
+        var saveNote = savedPathText ? "，已存 " + savedPathText : "";
+        var syncCmd = "完成：" + (lab.task_code || slug) + "（" + firstStr + "，代码检查通过" + saveNote + "）";
+        passBanner.innerHTML =
+          '<span><strong>✓ 全部通过</strong>' +
+          (savedPathText ? ' · 已自动写入 <code>' + esc(savedPathText) + '</code>' : '') +
+          '</span>' +
+          '<button type="button" class="wb-btn-primary" data-copy-sync>复制完成口令</button>';
 
-      var copySyncBtn = passBanner.querySelector("[data-copy-sync]");
-      if (copySyncBtn) {
-        copySyncBtn.addEventListener("click", function () {
-          if (!navigator.clipboard) return;
-          navigator.clipboard.writeText(syncCmd).then(function () {
-            copySyncBtn.textContent = "已复制 ✓";
-            setTimeout(function () { copySyncBtn.textContent = "复制完成口令"; }, 1800);
+        var copySyncBtn = passBanner.querySelector("[data-copy-sync]");
+        if (copySyncBtn) {
+          copySyncBtn.addEventListener("click", function () {
+            if (!navigator.clipboard) return;
+            navigator.clipboard.writeText(syncCmd).then(function () {
+              copySyncBtn.textContent = "已复制 ✓";
+              setTimeout(function () { copySyncBtn.textContent = "复制完成口令"; }, 1800);
+            });
           });
-        });
+        }
+      }
+
+      if (res.savedTo) {
+        showBanner(res.savedTo);
+      } else if (lab.target_file && window.studySaveRepoFile && window.studyHasRepoSync && window.studyHasRepoSync()) {
+        showBanner("正在提交到 GitHub 仓库…");
+        window.studySaveRepoFile(lab.target_file, editor.value, lab.task_code || slug)
+          .then(function (repoPath) {
+            if (saveStatus && repoPath) saveStatus.textContent = "已提交仓库";
+            showBanner(repoPath ? ("GitHub:" + repoPath) : "");
+          })
+          .catch(function () {
+            showBanner("");
+          });
+      } else {
+        showBanner("");
       }
     } else {
       passBanner.hidden = true;

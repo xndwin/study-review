@@ -1874,7 +1874,7 @@ summary:focus-visible {
 }
 
 
-/* ================= CLOUD SYNC BUTTON & DIALOG ================= */
+/* ================= GITHUB REPO DIRECT SYNC ================= */
 .sync-btn {
   display: inline-flex;
   align-items: center;
@@ -1942,7 +1942,7 @@ summary:focus-visible {
 }
 
 .sync-card {
-  width: min(100%, 26rem);
+  width: min(100%, 27rem);
   background: var(--bg-sheet);
   border: 1px solid var(--line-strong);
   border-radius: var(--r-lg);
@@ -1955,7 +1955,7 @@ summary:focus-visible {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 0.65rem;
+  margin-bottom: 0.6rem;
 }
 
 .sync-card-head strong {
@@ -1972,7 +1972,7 @@ summary:focus-visible {
 }
 
 .sync-desc {
-  margin: 0 0 0.8rem;
+  margin: 0 0 0.75rem;
   color: var(--muted);
   font-size: 0.8rem;
   line-height: 1.55;
@@ -1980,13 +1980,14 @@ summary:focus-visible {
 
 .sync-desc a {
   color: var(--accent);
+  font-weight: 600;
 }
 
 .sync-field {
   display: flex;
   flex-direction: column;
   gap: 0.28rem;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.7rem;
   font-size: 0.78rem;
   color: var(--ink-soft);
 }

@@ -1,33 +1,44 @@
 
 (function () {
-  var FILE_NAME = "study-review-sync.json";
+  var REPO = "xndwin/ai-app-study";
+  var BRANCH = "main";
+  var SYNC_PATH = "data/study-sync.json";
   var TOKEN_KEY = "study-sync:token";
-  var GIST_KEY = "study-sync:gist-id";
   var META_KEY = "study-sync:meta-ts";
 
   function lsGet(k) {
     try { return localStorage.getItem(k); } catch (e) { return null; }
   }
-  function lsSet(k, v) {
+  function lsSetRaw(k, v) {
     try { localStorage.setItem(k, v); } catch (e) {}
   }
   function lsRemove(k) {
     try { localStorage.removeItem(k); } catch (e) {}
   }
 
+  function utf8ToB64(str) {
+    var bytes = new TextEncoder().encode(str);
+    var bin = "";
+    for (var i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
+    return btoa(bin);
+  }
+
+  function b64ToUtf8(b64) {
+    var bin = atob(String(b64 || "").replace(/\s+/g, ""));
+    var bytes = new Uint8Array(bin.length);
+    for (var i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+    return new TextDecoder("utf-8").decode(bytes);
+  }
+
   function readMeta() {
-    try {
-      return JSON.parse(lsGet(META_KEY) || "{}") || {};
-    } catch (e) {
-      return {};
-    }
+    try { return JSON.parse(lsGet(META_KEY) || "{}") || {}; } catch (e) { return {}; }
   }
   function writeMeta(m) {
-    lsSet(META_KEY, JSON.stringify(m));
+    lsSetRaw(META_KEY, JSON.stringify(m));
   }
 
   function isSyncableKey(k) {
-    return k && k.indexOf("study-v2:") === 0;
+    return k && k.indexOf("study-v2:") === 0 && k.indexOf("study-v2:passed-file:") !== 0;
   }
 
   function collectLocalSnapshot() {
@@ -47,22 +58,8 @@
     return items;
   }
 
-  var btn = document.querySelector("[data-sync-open]");
-  var modal = document.getElementById("syncModal");
-  if (!btn || !modal) return;
-
-  var labelEl = btn.querySelector("[data-sync-label]");
-  var tokenInput = modal.querySelector("[data-sync-token]");
-  var statusLine = modal.querySelector("[data-sync-status]");
-  var saveBtn = modal.querySelector("[data-sync-save]");
-  var nowBtn = modal.querySelector("[data-sync-now]");
-  var clearBtn = modal.querySelector("[data-sync-clear]");
-  var closeBtn = modal.querySelector("[data-sync-close]");
-
-  function setUiState(kind, text, detail) {
-    btn.className = "sync-btn" + (kind ? " " + kind : "");
-    if (labelEl) labelEl.textContent = text;
-    if (statusLine && detail !== undefined) statusLine.textContent = detail;
+  function getToken() {
+    return (lsGet(TOKEN_KEY) || "").trim();
   }
 
   function apiHeaders(token) {
@@ -73,88 +70,103 @@
     };
   }
 
-  function findOrCreateGist(token) {
-    var savedId = lsGet(GIST_KEY);
-    if (savedId) {
-      return fetch("https://api.github.com/gists/" + encodeURIComponent(savedId), {
-        headers: apiHeaders(token),
-        cache: "no-store"
-      }).then(function (r) {
-        if (r.ok) return r.json();
-        lsRemove(GIST_KEY);
-        return findOrCreateGist(token);
-      });
-    }
-
-    return fetch("https://api.github.com/gists?per_page=50", {
-      headers: apiHeaders(token),
-      cache: "no-store"
-    })
-      .then(function (r) {
-        if (!r.ok) throw new Error("Token 验证失败（HTTP " + r.status + "），请确认勾选了 gist 权限");
-        return r.json();
-      })
-      .then(function (list) {
-        var found = null;
-        if (Array.isArray(list)) {
-          for (var i = 0; i < list.length; i++) {
-            if (list[i] && list[i].files && list[i].files[FILE_NAME]) {
-              found = list[i];
-              break;
-            }
-          }
-        }
-        if (found) {
-          lsSet(GIST_KEY, found.id);
-          return fetch("https://api.github.com/gists/" + found.id, {
-            headers: apiHeaders(token),
-            cache: "no-store"
-          }).then(function (r) { return r.json(); });
-        }
-        var initPayload = {
-          description: "AI 应用开发读本 · 跨设备学习进度与作业同步存档（私有）",
-          public: false,
-          files: {}
-        };
-        initPayload.files[FILE_NAME] = {
-          content: JSON.stringify({ version: 1, updatedAt: new Date().toISOString(), items: collectLocalSnapshot() }, null, 2)
-        };
-        return fetch("https://api.github.com/gists", {
-          method: "POST",
-          headers: Object.assign({ "Content-Type": "application/json" }, apiHeaders(token)),
-          body: JSON.stringify(initPayload)
-        }).then(function (r) {
-          if (!r.ok) throw new Error("创建私有存档失败（HTTP " + r.status + "）");
-          return r.json();
-        }).then(function (created) {
-          lsSet(GIST_KEY, created.id);
-          return created;
-        });
-      });
+  function encodeRepoPath(path) {
+    return path.split("/").map(encodeURIComponent).join("/");
   }
 
-  var syncing = false;
-  var pendingPush = false;
+  function fetchRepoFile(token, path) {
+    var url = "https://api.github.com/repos/" + REPO + "/contents/" + encodeRepoPath(path) + "?ref=" + BRANCH + "&_t=" + Date.now();
+    return fetch(url, { headers: apiHeaders(token), cache: "no-store" }).then(function (r) {
+      if (r.status === 404) return null;
+      if (!r.ok) throw new Error("GitHub 访问失败（HTTP " + r.status + "），请确认 Token 对 " + REPO + " 有 Contents 读写权限");
+      return r.json().then(function (data) {
+        return { sha: data.sha, text: b64ToUtf8(data.content || "") };
+      });
+    });
+  }
 
-  function syncWithCloud(pushChanges) {
-    var token = (lsGet(TOKEN_KEY) || "").trim();
+  function putRepoFileOnce(token, path, contentStr, message, knownSha) {
+    var getSha = knownSha !== undefined
+      ? Promise.resolve(knownSha)
+      : fetchRepoFile(token, path).then(function (existing) { return existing ? existing.sha : null; });
+
+    return getSha.then(function (sha) {
+      var payload = {
+        message: message,
+        content: utf8ToB64(contentStr),
+        branch: BRANCH
+      };
+      if (sha) payload.sha = sha;
+      var url = "https://api.github.com/repos/" + REPO + "/contents/" + encodeRepoPath(path);
+      return fetch(url, {
+        method: "PUT",
+        headers: Object.assign({ "Content-Type": "application/json" }, apiHeaders(token)),
+        body: JSON.stringify(payload)
+      });
+    });
+  }
+
+  // Sequential queue for all GitHub repo writes so concurrent commits never hit 409 Conflict
+  var writeChain = Promise.resolve();
+  function enqueueRepoWrite(fn) {
+    var next = writeChain.then(fn, fn);
+    writeChain = next.catch(function () {});
+    return next;
+  }
+
+  function putRepoFileSafe(token, path, contentStr, message) {
+    return enqueueRepoWrite(function () {
+      return fetchRepoFile(token, path).then(function (existing) {
+        if (existing && existing.text === contentStr) {
+          return { unchanged: true };
+        }
+        var sha = existing ? existing.sha : null;
+        return putRepoFileOnce(token, path, contentStr, message, sha).then(function (r) {
+          if (r.status === 409) {
+            // Re-fetch latest SHA once and retry cleanly
+            return fetchRepoFile(token, path).then(function (latest) {
+              return putRepoFileOnce(token, path, contentStr, message, latest ? latest.sha : null);
+            }).then(function (r2) {
+              if (!r2.ok) throw new Error("提交冲突重试失败（HTTP " + r2.status + "）");
+              return r2.json();
+            });
+          }
+          if (!r.ok) throw new Error("写入仓库失败（HTTP " + r.status + "）");
+          return r.json();
+        });
+      });
+    });
+  }
+
+  var btn = document.querySelector("[data-sync-open]");
+  var modal = document.getElementById("syncModal");
+  var labelEl = btn && btn.querySelector("[data-sync-label]");
+  var tokenInput = modal && modal.querySelector("[data-sync-token]");
+  var statusLine = modal && modal.querySelector("[data-sync-status]");
+  var saveBtn = modal && modal.querySelector("[data-sync-save]");
+  var nowBtn = modal && modal.querySelector("[data-sync-now]");
+  var clearBtn = modal && modal.querySelector("[data-sync-clear]");
+  var closeBtn = modal && modal.querySelector("[data-sync-close]");
+
+  function setUiState(kind, text, detail) {
+    if (btn) btn.className = "sync-btn" + (kind ? " " + kind : "");
+    if (labelEl) labelEl.textContent = text;
+    if (statusLine && detail !== undefined) statusLine.textContent = detail;
+  }
+
+  function syncStateJson(pushChanges) {
+    var token = getToken();
     if (!token) {
-      setUiState("", "云同步", "尚未配置同步口令。");
+      setUiState("", "连接仓库", "尚未绑定 GitHub 仓库 Token。");
       return Promise.resolve(false);
     }
-    if (syncing) {
-      if (pushChanges) pendingPush = true;
-      return Promise.resolve(false);
-    }
-    syncing = true;
-    setUiState("ok", "同步中…", "正在与 GitHub 私有存档同步…");
+    setUiState("ok", "同步中…", "正在与私有仓库 " + REPO + " 同步…");
 
-    return findOrCreateGist(token)
-      .then(function (gist) {
-        var fileObj = gist.files && gist.files[FILE_NAME];
+    return enqueueRepoWrite(function () {
+      return fetchRepoFile(token, SYNC_PATH).then(function (existing) {
         var remoteData = { items: {} };
-        if (fileObj && fileObj.content) {
-          try { remoteData = JSON.parse(fileObj.content) || { items: {} }; } catch (e) {}
+        if (existing && existing.text) {
+          try { remoteData = JSON.parse(existing.text) || { items: {} }; } catch (e) {}
         }
         var remoteItems = remoteData.items || {};
         var localItems = collectLocalSnapshot();
@@ -172,7 +184,7 @@
           var r = remoteItems[k];
           var l = localItems[k];
           if (r && !l) {
-            lsSet(k, r.value);
+            lsSetRaw(k, r.value);
             meta[k] = r.ts || Date.now();
             merged[k] = r;
             localChanged = true;
@@ -183,7 +195,7 @@
             var rTs = Number(r.ts || 0);
             var lTs = Number(l.ts || 0);
             if (rTs > lTs && r.value !== l.value) {
-              lsSet(k, r.value);
+              lsSetRaw(k, r.value);
               meta[k] = rTs;
               merged[k] = r;
               localChanged = true;
@@ -202,107 +214,129 @@
         }
 
         if (pushChanges || remoteNeedsUpdate) {
-          var body = { files: {} };
-          body.files[FILE_NAME] = {
-            content: JSON.stringify({
-              version: 1,
-              updatedAt: new Date().toISOString(),
-              items: merged
-            }, null, 2)
-          };
-          return fetch("https://api.github.com/gists/" + gist.id, {
-            method: "PATCH",
-            headers: Object.assign({ "Content-Type": "application/json" }, apiHeaders(token)),
-            body: JSON.stringify(body)
-          }).then(function (r) {
-            if (!r.ok) throw new Error("上传存档失败（HTTP " + r.status + "）");
-            return localChanged;
+          var nextJson = JSON.stringify({
+            version: 2,
+            repo: REPO,
+            updatedAt: new Date().toISOString(),
+            items: merged
+          }, null, 2) + "\n";
+
+          if (existing && existing.text === nextJson) {
+            return true;
+          }
+          return putRepoFileOnce(
+            token,
+            SYNC_PATH,
+            nextJson,
+            "chore(sync): update study progress",
+            existing ? existing.sha : null
+          ).then(function (r) {
+            if (!r.ok) throw new Error("更新进度失败（HTTP " + r.status + "）");
+            return true;
           });
         }
-        return localChanged;
-      })
+        return true;
+      });
+    })
       .then(function () {
         var nowStr = new Date().toTimeString().slice(0, 5);
-        setUiState("ok", "已同步", "上次同步：" + nowStr + "（私有 Gist 加密存储）");
+        setUiState("ok", "已连仓库", "已连接私有仓库 " + REPO + " · 上次同步 " + nowStr);
+        return true;
       })
       .catch(function (err) {
-        setUiState("err", "同步失败", err && err.message ? err.message : "网络或口令异常");
-      })
-      .finally(function () {
-        syncing = false;
-        if (pendingPush) {
-          pendingPush = false;
-          syncWithCloud(true);
-        }
+        setUiState("err", "同步异常", err && err.message ? err.message : "连接失败");
+        return false;
       });
   }
 
-  // Record timestamp & debounce push whenever any study-v2 key changes
+  // Expose direct homework file load/save for workbench.js
+  window.studyHasRepoSync = function () {
+    return Boolean(getToken());
+  };
+
+  window.studyLoadRepoFile = function (relHomeworkPath) {
+    var token = getToken();
+    if (!token || !relHomeworkPath) return Promise.resolve(null);
+    var fullPath = "code/test/ai-app-26w/" + relHomeworkPath.replace(/^\/+/, "");
+    return fetchRepoFile(token, fullPath).then(function (res) {
+      return res ? res.text : null;
+    }).catch(function () {
+      return null;
+    });
+  };
+
+  window.studySaveRepoFile = function (relHomeworkPath, codeStr, taskCode) {
+    var token = getToken();
+    if (!token || !relHomeworkPath) return Promise.resolve(null);
+    var cleanRel = relHomeworkPath.replace(/^\/+/, "");
+    var fullPath = "code/test/ai-app-26w/" + cleanRel;
+    var msg = "feat(homework): pass " + (taskCode || cleanRel);
+    return putRepoFileSafe(token, fullPath, codeStr, msg).then(function () {
+      var nowStr = new Date().toTimeString().slice(0, 5);
+      setUiState("ok", "已连仓库", "已提交 " + cleanRel + " · " + nowStr);
+      return fullPath;
+    });
+  };
+
   var pushTimer = null;
   window.studyWriteSync = function (key, val) {
-    lsSet(key, val);
+    lsSetRaw(key, val);
     if (isSyncableKey(key)) {
       var meta = readMeta();
       meta[key] = Date.now();
       writeMeta(meta);
-      if (lsGet(TOKEN_KEY)) {
+      if (getToken()) {
         clearTimeout(pushTimer);
         pushTimer = setTimeout(function () {
-          syncWithCloud(true);
-        }, 1200);
+          syncStateJson(true);
+        }, 1500);
       }
     }
   };
 
-  btn.addEventListener("click", function () {
-    tokenInput.value = lsGet(TOKEN_KEY) || "";
-    modal.hidden = false;
-  });
-
-  if (closeBtn) closeBtn.addEventListener("click", function () { modal.hidden = true; });
-  modal.addEventListener("click", function (e) {
-    if (e.target === modal) modal.hidden = true;
-  });
-
-  if (saveBtn) {
-    saveBtn.addEventListener("click", function () {
-      var t = tokenInput.value.trim();
-      if (!t) {
-        statusLine.textContent = "请先粘贴包含 gist 权限的 GitHub Token。";
-        return;
-      }
-      lsSet(TOKEN_KEY, t);
-      lsRemove(GIST_KEY);
-      syncWithCloud(true).then(function () {
-        if (!btn.classList.contains("err")) {
-          setTimeout(function () { modal.hidden = true; }, 500);
+  if (btn && modal) {
+    btn.addEventListener("click", function () {
+      tokenInput.value = getToken();
+      modal.hidden = false;
+    });
+    if (closeBtn) closeBtn.addEventListener("click", function () { modal.hidden = true; });
+    modal.addEventListener("click", function (e) {
+      if (e.target === modal) modal.hidden = true;
+    });
+    if (saveBtn) {
+      saveBtn.addEventListener("click", function () {
+        var t = tokenInput.value.trim();
+        if (!t) {
+          statusLine.textContent = "请先粘贴 GitHub Token。";
+          return;
         }
+        lsSetRaw(TOKEN_KEY, t);
+        syncStateJson(true).then(function (ok) {
+          if (ok) setTimeout(function () { modal.hidden = true; }, 450);
+        });
       });
-    });
+    }
+    if (nowBtn) {
+      nowBtn.addEventListener("click", function () { syncStateJson(true); });
+    }
+    if (clearBtn) {
+      clearBtn.addEventListener("click", function () {
+        lsRemove(TOKEN_KEY);
+        tokenInput.value = "";
+        setUiState("", "连接仓库", "已断开当前浏览器的仓库连接。");
+      });
+    }
   }
 
-  if (nowBtn) {
-    nowBtn.addEventListener("click", function () {
-      syncWithCloud(true);
-    });
+  if (getToken()) {
+    syncStateJson(false);
+  } else {
+    setUiState("", "连接仓库", "");
   }
 
-  if (clearBtn) {
-    clearBtn.addEventListener("click", function () {
-      lsRemove(TOKEN_KEY);
-      lsRemove(GIST_KEY);
-      tokenInput.value = "";
-      setUiState("", "云同步", "已断开当前浏览器的云同步连接。");
-    });
-  }
-
-  // Auto-sync on page open & when switching back to tab on phone/PC
-  if (lsGet(TOKEN_KEY)) {
-    syncWithCloud(false);
-  }
   document.addEventListener("visibilitychange", function () {
-    if (document.visibilityState === "visible" && lsGet(TOKEN_KEY)) {
-      syncWithCloud(false);
+    if (document.visibilityState === "visible" && getToken()) {
+      syncStateJson(false);
     }
   });
 })();

@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#edf1ec" id="metaThemeColor">
 <title>w01-5 条件 · AI 应用开发读本</title>
-<link rel="stylesheet" href="../assets/site.css?v=12">
-<link rel="stylesheet" href="../assets/workbench.css?v=12">
+<link rel="stylesheet" href="../assets/site.css?v=13">
+<link rel="stylesheet" href="../assets/workbench.css?v=13">
 <script>
 try {
   var theme = localStorage.getItem("study-theme");
@@ -37,9 +37,9 @@ try {
 <button type="button" data-size="1.125rem" aria-pressed="true">中</button>
 <button type="button" data-size="1.26rem" aria-pressed="false">大</button>
 </div>
-<button type="button" class="sync-btn" data-sync-open aria-label="云端同步设置">
+<button type="button" class="sync-btn" data-sync-open aria-label="连接 GitHub 仓库">
 <span class="sync-dot" aria-hidden="true"></span>
-<span data-sync-label>云同步</span>
+<span data-sync-label>连接仓库</span>
 </button>
 <button type="button" class="theme-btn" aria-pressed="false" aria-label="切换夜间或暖纸模式">
 <span class="theme-label">夜间</span>
@@ -75,23 +75,23 @@ else:
 </div>
 
 </div>
-<div class="sync-modal" id="syncModal" hidden role="dialog" aria-modal="true" aria-label="云同步设置">
+<div class="sync-modal" id="syncModal" hidden role="dialog" aria-modal="true" aria-label="连接私有仓库">
 <div class="sync-card">
-<div class="sync-card-head"><strong>跨设备云同步（GitHub 私有存档）</strong><button type="button" class="sync-close" data-sync-close aria-label="关闭">✕</button></div>
-<p class="sync-desc">在手机和电脑各自粘贴一次你的 GitHub Token（仅需勾选 <code>gist</code> 权限），做题进度、代码与错题会自动加密同步到你的私有 Gist，无需电脑一直开机。Token 仅保存在当前浏览器本地。</p>
-<label class="sync-field"><span>GitHub Personal Access Token（含 gist 权限）</span><input type="password" data-sync-token placeholder="ghp_... 或 github_pat_..." autocomplete="off"></label>
+<div class="sync-card-head"><strong>直连 GitHub 私有仓库（ai-app-study）</strong><button type="button" class="sync-close" data-sync-close aria-label="关闭">✕</button></div>
+<p class="sync-desc">点此 <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener noreferrer">新建 Fine-grained Token</a>：Repository 仅选 <code>ai-app-study</code>，Permissions 勾选 <code>Contents: Read and write</code>。粘贴一次后，网页通过的 <code>.py</code> 作业和进度会自动提交进仓库（Token 仅存本浏览器）。</p>
+<label class="sync-field"><span>GitHub Token</span><input type="password" data-sync-token placeholder="github_pat_... 或 ghp_..." autocomplete="off"></label>
 <p class="sync-status-line" data-sync-status></p>
 <div class="sync-actions">
 <div class="sync-actions-left">
-<button type="button" class="sync-save-btn" data-sync-save>保存并立即同步</button>
-<button type="button" class="sync-sub-btn" data-sync-now>手动同步</button>
+<button type="button" class="sync-save-btn" data-sync-save>连接并同步</button>
+<button type="button" class="sync-sub-btn" data-sync-now>立即同步</button>
 </div>
 <button type="button" class="sync-sub-btn" data-sync-clear>断开</button>
 </div>
 </div>
 </div>
-<script src="../assets/site.js?v=12"></script>
-<script src="../assets/labs.js?v=12"></script>
-<script src="../assets/workbench.js?v=12"></script>
+<script src="../assets/site.js?v=13"></script>
+<script src="../assets/labs.js?v=13"></script>
+<script src="../assets/workbench.js?v=13"></script>
 </body>
 </html>
